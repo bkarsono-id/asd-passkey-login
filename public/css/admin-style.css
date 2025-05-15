@@ -1,0 +1,145 @@
+body {
+    background-color: #f0f0f1;
+}
+.standard {
+    background-color: #ffffff;
+    border: 1px solid rgb(188, 187, 187);
+}
+.choose {
+    background-color: #e7f4ff;
+    border: 3px solid rgb(142, 192, 247);
+}
+.existing {
+    background-color: #fffef5;
+    border: 1px solid rgb(227, 213, 4);
+    color: #212529;
+}
+.recommended-badge {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgb(102, 171, 246);
+    color: #000000;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 45px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+}
+
+.col-lg-3,
+.col-md-6 {
+    position: relative; /* Agar badge mengikuti posisi kolom */
+}
+
+.navbar {
+    position: absolute;
+    padding-top: 10px;
+    z-index: 10;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Menambahkan box shadow pada navbar */
+}
+
+.navbar .nav-link:focus {
+    box-shadow: none;
+}
+
+.login-container a:hover {
+    text-decoration: underline;
+}
+
+.small-option-text label.form-check-label {
+    font-size: 0.85rem;
+    color: #555;
+    line-height: 1.4; /* sedikit lebih tinggi */
+    display: flex;
+    align-items: center;
+}
+
+.small-option-text .form-check-input {
+    margin-top: 0; /* hapus default offset dari Bootstrap */
+    margin-right: 8px; /* spasi antara radio dan teks */
+    vertical-align: middle;
+}
+.form-check-inline {
+    display: flex;
+    align-items: center;
+    gap: 3px; /* Jarak antara radio button dan label */
+}
+.form-check-wrapper {
+    display: inline-flex;
+    align-items: center;
+    gap: 20px; /* Jarak antar opsi */
+}
+.settings-heading {
+    font-size: 1rem;
+    color: #333;
+    margin-top: 2rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #ccc;
+}
+.settings-heading.pro {
+    margin-top: 3rem;
+    color: #0073aa; /* Warna biru khas WordPress */
+    border-color: #0073aa;
+}
+body.folded .asd-navbar-brand {
+    padding-left: 5% !important; /* Atur padding saat sidebar collapse */
+    transition: padding-left 0.3s ease; /* Animasi saat transisi */
+}
+
+.asd-navbar-brand {
+    padding-left: 12%;
+    transition: padding-left 0.3s ease;
+}
+/* Untuk Handphone Portrait */
+@media (min-width: 0px) and (max-width: 782px) {
+    .navbar {
+        padding-top: 10px;
+        margin-top: 45px;
+    }
+    .asd-navbar-brand {
+        padding-left: 3%;
+    }
+}
+
+/* Untuk Tablet (Portrait dan Landscape) */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .navbar {
+        padding-top: 10px;
+        margin-top: 0px;
+    }
+    .asd-navbar-brand {
+        padding-left: 3%;
+    }
+}
+
+/* Untuk Handphone Landscape */
+@media (max-width: 782px) and (orientation: landscape) {
+    .navbar {
+        padding-top: 8px; /* Adjust padding jika diperlukan */
+        margin-top: 0px; /* Pastikan navbar tetap berada di atas */
+    }
+    .asd-navbar-brand {
+        padding-left: 3%;
+    }
+}
+/* Menggunakan Flexbox untuk card */
+.d-flex {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+}
+
+.card {
+    margin: 10px;
+}
+
+@media (max-width: 768px) {
+    .card {
+        width: 100%; /* Card akan menggunakan 100% dari lebar layar di perangkat kecil */
+        max-width: none; /* Menghapus batasan max-width di perangkat kecil */
+    }
+}

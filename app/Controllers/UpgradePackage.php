@@ -1,0 +1,32 @@
+<?php
+
+namespace Asd\Controllers;
+
+if (!defined('ABSPATH')) exit;
+
+if (!class_exists(UpgradePackage::class)) {
+    class UpgradePackage extends BaseController
+    {
+
+        public function index()
+        {
+            $paket = get_option('asd_membership') ?? '';
+            if ($paket === 'freemium') {
+                $existing = 1;
+                $choose = 3;
+            } else if ($paket === 'starter') {
+                $existing = 2;
+                $choose = 4;
+            } else if ($paket === 'growth') {
+                $existing = 3;
+                $choose = 4;
+            } else if ($paket === 'scale') {
+                $existing = 4;
+                $choose = 5;
+            }
+            $data["existing"] = $existing;
+            $data["choose"] = $choose;
+            view("asd-upgrade-package", $data);
+        }
+    }
+}
