@@ -36,10 +36,10 @@ Automatic installation is the easiest option as WordPress handles the file trans
 In the search field type “ASD Passkey Login” and click Search Plugins. Once you’ve found this plugin you can view details about it such as the point release, rating and description. Most importantly of course, you can install it by simply clicking “Install Now”.
 
 = Where can I report bugs or contribute to the project? =
-Bugs should be reported in the [ASD Passkey Login GitHub repository](https://https://github.com/token-beat/asd-passkey-login/).
+Bugs should be reported in the [ASD Passkey Login GitHub repository](https://https://github.com/bkarsono-id/asd-passkey-login/).
 
 = This is awesome! Can I contribute? =
-Yes you can! Join in on our [GitHub repository](https://github.com/token-beat/asd-passkey-login/)
+Yes you can! Join in on our [GitHub repository](https://github.com/bkarsono-id/asd-passkey-login/)
 
 == Privacy ==
 
