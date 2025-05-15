@@ -35,7 +35,7 @@ if (!class_exists(LoginWoocommerce::class)) {
             if (is_setting_valid("asd_woo_idp_provider", "google")) {
                 $clientId = get_option("asd_google_client_id");
                 echo '<div id="g_id_onload"
-                        data-client_id="' . $clientId . '"
+                        data-client_id="' . esc_attr($clientId) . '"
                         data-auto_prompt="true">
                       </div>';
             }

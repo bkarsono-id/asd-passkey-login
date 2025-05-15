@@ -202,7 +202,7 @@
                                         class="form-control"
                                         id="asd_google_client_id"
                                         name="asd_google_client_id"
-                                        value="<?php echo get_option('asd_google_client_id'); ?>"
+                                        value="<?php echo esc_attr(get_option('asd_google_client_id')); ?>"
                                         placeholder="YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com">
                                 </div>
                             </div>

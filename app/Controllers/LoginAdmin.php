@@ -31,7 +31,7 @@ if (!class_exists(LoginAdmin::class)) {
             }
             if ($form_style === "passkey_only" || $form_style === "form_and_passkey") {
                 $rowhide = $form_style === "form_and_passkey" ? "asd-passkey-login-wrapper-hybrid" : "";
-                echo '<div class="asd-passkey-login-wrapper ' . $rowhide . '" id="asd-passkey-login-wrapper" style="display: none;">
+                echo '<div class="asd-passkey-login-wrapper ' . esc_attr($rowhide) . '" id="asd-passkey-login-wrapper" style="display: none;">
                 <div id="infoMessage" class="notice notice-info" style="display: none;"></div>
                 <div id="errorMessage" class="notice notice-error" style="display: none;"></div>
                 <div id="successMessage" class="notice notice-success" style="display: none;"></div>
