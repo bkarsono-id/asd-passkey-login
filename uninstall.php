@@ -30,12 +30,9 @@ foreach ($defaultOptions as $value) {
 }
 
 global $wpdb;
-$table_name = $wpdb->prefix . 'passkey_data';
-
 // phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery
 // phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching
 // phpcs:disable WordPress.DB.DirectDatabaseQuery.SchemaChange
-
-$wpdb->query("DROP TABLE IF EXISTS {$table_name}");
+$wpdb->query("DROP TABLE IF EXISTS " . $wpdb->prefix . "passkey_data");
 
 // phpcs:enable

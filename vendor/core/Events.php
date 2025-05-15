@@ -24,21 +24,6 @@ if (!class_exists(Events::class)) {
             } else {
                 asdlog('[ASD onActivation] Failed to create table');
             }
-
-
-            // $page_check = get_page_by_path('passkey-login');
-            // if (!$page_check) {
-            //     $page_data = [
-            //         'post_title'   => 'ASD Passkey Login',
-            //         'post_content' => '',
-            //         'post_status'  => 'publish',
-            //         'post_type'    => 'page',
-            //         'post_name'    => 'passkey-login',
-            //     ];
-            //     wp_insert_post($page_data);
-            // }
-
-
             $data = [
                 'domain' => get_bloginfo('url'),
                 'wpinfo' => get_bloginfo('name'),
@@ -78,6 +63,7 @@ if (!class_exists(Events::class)) {
                 add_option('asd_fedcm_url', $data['fedcm_url']);
             }
             add_option('asd_passkey_activation_notice', 1);
+            flush_rewrite_rules();
             asdlog('[ASD onActivation] Activation completed.');
         }
 

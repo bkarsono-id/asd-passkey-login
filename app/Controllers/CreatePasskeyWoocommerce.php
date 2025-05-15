@@ -13,7 +13,7 @@ if (!class_exists(CreatePasskeyWoocommerce::class)) {
         {
             add_action('wp_ajax_asd_woo_passkey_register', [$this, 'handleRegister']);
             add_action('wp_ajax_asd_woo_passkey_flagging', [$this, 'handleFlagging']);
-            add_filter('woocommerce_account_menu_items', [$this, 'asdAddEegisterPasskeyMenu']);
+            add_filter('woocommerce_account_menu_items', [$this, 'asdAddRegisterPasskeyMenu']);
             add_action('init', [$this, 'asdRegisterPasskeyEndpoint']);
             add_action('woocommerce_account_register-passkey_endpoint', [$this, 'asdRegisterPasskeyContent']);
         }
@@ -110,7 +110,7 @@ if (!class_exists(CreatePasskeyWoocommerce::class)) {
                 wp_send_json_error(['message' => "Something wrong with token."]);
             }
         }
-        public function asdAddEegisterPasskeyMenu($items)
+        public function asdAddRegisterPasskeyMenu($items)
         {
             $new_items = [];
             foreach ($items as $key => $value) {
