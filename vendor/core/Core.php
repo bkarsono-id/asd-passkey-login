@@ -19,9 +19,9 @@ if (!class_exists(Core::class)) {
 
         public static function onPluginReady()
         {
-            $classNames = ['LoginAdmin', 'PasskeySettings', 'CreatePasskeyAdmin'];
+            $classNames = ['LoginAdmin', 'PasskeySettings', 'CreatePasskeyAdmin', 'SendNotificationAdmin'];
             if (class_exists('WooCommerce')) {
-                $classNames = array_merge($classNames, ['LoginWoocommerce', 'CreatePasskeyWoocommerce']);
+                $classNames = array_merge($classNames, ['LoginWoocommerce', 'CreatePasskeyWoocommerce', 'PushNotification']);
             }
             $nameSpace = 'Asd\\Controllers\\';
             foreach ($classNames as $className) {

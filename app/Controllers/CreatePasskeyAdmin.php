@@ -13,6 +13,7 @@ if (!class_exists(CreatePasskeyAdmin::class)) {
         {
             add_action('wp_ajax_asd_passkey_register', [$this, 'handleRegister']);
             add_action('wp_ajax_asd_passkey_flagging', [$this, 'handleFlagging']);
+            clean_notices_admin("asd-create-passkey-admin");
         }
         public function index()
         {

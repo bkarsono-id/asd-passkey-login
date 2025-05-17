@@ -14,7 +14,8 @@ if (!class_exists(Menu::class)) {
         private $allowed_hooks = [
             'asd-create-passkey-admin',
             'asd-passkey-settings',
-            'asd-upgrade-package'
+            'asd-upgrade-package',
+            'asd-send-notification-admin'
         ];
         public function __construct()
         {
@@ -32,12 +33,14 @@ if (!class_exists(Menu::class)) {
             add_action('wp_enqueue_scripts', [$this, 'asdEnqueueLoginScript']);
             add_filter('script_loader_tag',  [$this, 'addAsyncDefer'], 10, 2);
             add_action('wp_enqueue_scripts', [$this, 'asdEnqueueWooRegisterScript']);
+            add_action('wp_enqueue_scripts', [$this, 'asdWebPushRegistration']);
         }
         public function asdNavbarShortcode()
         {
             if (isset($_GET['page']) && in_array($_GET['page'], $this->allowed_hooks, true) && current_user_can('administrator')) {
                 $settings_url = admin_url('admin.php?page=asd-passkey-settings');
                 $create_passkey_url = admin_url('admin.php?page=asd-create-passkey-admin');
+                $send_notification_url = admin_url('admin.php?page=asd-send-notification-admin');
                 $docs_url = 'https://passwordless.alciasolusidigital.com';
                 $upgrade_url = admin_url('admin.php?page=asd-upgrade-package');
                 $navbarHtml = '
@@ -55,8 +58,11 @@ if (!class_exists(Menu::class)) {
                                 <li class="nav-item">
                                     <a class="nav-link" href="' . esc_url($create_passkey_url) . '">Create Passkey</a>
                                 </li>
+                                 <li class="nav-item">
+                                    <a class="nav-link" href="' . esc_url($send_notification_url) . '">Send Notification</a>
+                                </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="' . esc_url($upgrade_url) . '" style="color:blue;">Upgrade (Pricing)</a>
+                                    <a class="nav-link" href="' . esc_url($upgrade_url) . '" style="color:blue;">Pricing</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" target="_blank" href="' . esc_url($docs_url) . '">About Passwordless</a>
@@ -118,6 +124,14 @@ if (!class_exists(Menu::class)) {
                 'read',
                 'asd-create-passkey-admin',
                 [new \Asd\Controllers\CreatePasskeyAdmin(), 'index']
+            );
+            add_submenu_page(
+                $this->menu_slug,
+                __('ASD Passkey For Wordpress', ASD_PLUGIN_NAME),
+                __('Send Notification', ASD_PLUGIN_NAME),
+                'read',
+                'asd-send-notification-admin',
+                [new \Asd\Controllers\SendNotificationAdmin(), 'index']
             );
             add_submenu_page(
                 $this->menu_slug,
@@ -195,6 +209,27 @@ if (!class_exists(Menu::class)) {
                             'ajax_sync_nonce' => wp_create_nonce('asd_sync_package_nonce'),
                             'ajax_smtp_nonce' => wp_create_nonce('asd_smtp_settings_nonce'),
                             'ajax_smtp_test_nonce' => wp_create_nonce('asd_smtp_test_nonce'),
+                            'ajax_webpush_nonce' => wp_create_nonce('asd_webpush_nonce'),
+                            'ajax_webpush_publickey_nonce' => wp_create_nonce('asd_webpush_publickey_nonce'),
+                        ]
+                    );
+                }
+                if ($page === 'asd-send-notification-admin') {
+                    wp_enqueue_script(
+                        'asd-admin-send-notification-script',
+                        ASD_PUBLICURL . 'js/admin-send-notification.js',
+                        [],
+                        ASD_VERSION,
+                        true
+                    );
+                    wp_localize_script(
+                        'asd-admin-send-notification-script',
+                        'asd_ajax',
+                        [
+                            'ajax_url' => admin_url('admin-ajax.php'),
+                            'ajax_nonce' => wp_create_nonce('asd_send_notification'),
+                            'ajax_nonce_product' => wp_create_nonce('asd_product_nonce'),
+
                         ]
                     );
                 }
@@ -204,7 +239,7 @@ if (!class_exists(Menu::class)) {
         {
 
             if (is_account_page() && is_user_logged_in() && strpos($_SERVER['REQUEST_URI'], 'register-passkey') !== false) {
-                wp_enqueue_script('sweetalert-js', ASD_PUBLICURL . 'vendor/sweetalert2/sweetalert2.min.js', array('jquery'), ASD_VERSION, true);
+                wp_enqueue_script('sweetalert-js', ASD_PUBLICURL . 'vendor/sweetalert2/sweetalert2.min.js', array('jquery'), [], true);
                 wp_enqueue_script('asd-passwordless-js', ASD_PUBLICURL . 'js/asd-passwordless.js', ['jquery'], ASD_VERSION, true);
 
                 $EAuthUrl = get_option("asd_eauth_url");
@@ -255,6 +290,8 @@ if (!class_exists(Menu::class)) {
         {
 
             if ($this->is_login_page()) {
+                $custom_logo_id = get_theme_mod('custom_logo');
+                $logo_url = wp_get_attachment_image_url($custom_logo_id, 'full');
                 wp_enqueue_style(
                     'asd-login-style',
                     ASD_PUBLICURL . 'css/login-style.css',
@@ -309,7 +346,7 @@ if (!class_exists(Menu::class)) {
                             'google_client_id' => $gclientId,
                             'api_key' => get_option('asd_key1'),
                             'api_url' => get_option('asd_api_server'),
-
+                            'logo' => $logo_url
                         ]
                     );
                 } else {
@@ -341,6 +378,38 @@ if (!class_exists(Menu::class)) {
             }
         }
 
+        public function asdWebPushRegistration()
+        {
+            // if (is_woocommerce()) {
+            if (is_setting_valid("asd_push_notification", "Y") && is_scale_license() === true) {
+                wp_enqueue_style(
+                    'animate-alert-css',
+                    'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css',
+                    [],
+                    time()
+                );
+                wp_enqueue_script('sweetalert-js', ASD_PUBLICURL . 'vendor/sweetalert2/sweetalert2.min.js', array('jquery'), [], true);
+                wp_enqueue_script(
+                    'asd-push-notification-script',
+                    ASD_PUBLICURL . 'js/asd-notification-service.js',
+                    [],
+                    time(),
+                    true
+                );
+                wp_localize_script(
+                    'asd-push-notification-script',
+                    'webpush',
+                    [
+                        'ajax_url' => admin_url('admin-ajax.php'),
+                        'ajax_nonce' => wp_create_nonce('asd_save_subscriber'),
+                        'ajax_public_url' => ASD_PUBLICURL,
+                        'icon' => get_site_icon_url(),
+                        'public_key' => get_option('asd_webpush_public_key'),
+                    ]
+                );
+            }
+            // }
+        }
         public function is_login_page()
         {
             return basename($_SERVER['PHP_SELF']) === 'wp-login.php' ||  (function_exists('is_account_page') && is_account_page() && !is_user_logged_in());

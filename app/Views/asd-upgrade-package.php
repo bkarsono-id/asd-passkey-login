@@ -11,7 +11,7 @@
                         <div class="card-body">
                             <h3>Freemium</h3>
                             <h4>$0</h4>
-                            <p>Free<br /><span>per month/domain</span></p>
+                            <p><span>Free</span></p>
                             <ul class="list-unstyled text-start">
                                 <li><i class="dashicons dashicons-yes text-success"></i> Up to 5 Users</li>
                                 <li><i class="dashicons dashicons-yes text-success"></i> Unlimited Login</li>
@@ -22,6 +22,7 @@
                                 <li><i class="dashicons dashicons-no text-danger"></i> WooCommerce Plugin</li>
                                 <li><i class="dashicons dashicons-no text-danger"></i> Custom SMTP</li>
                                 <li><i class="dashicons dashicons-no text-danger"></i> Custom Email Notification</li>
+                                <li><i class="dashicons dashicons-no text-danger"></i> Web Push Notification</li>
                             </ul>
                             <?php echo get_option('asd_membership') === "freemium" ? '<a href="#"  class="btn btn-sm btn-light  mt-3 w-100">Current Package</a>
                        ' : ""; ?>
@@ -33,8 +34,8 @@
                     <div class="card text-center h-100 <?php echo ($existing === 2 ? 'existing' :  'standard') ?>  m-1 p-2 ">
                         <div class="card-body">
                             <h3>Starter</h3>
-                            <h4>$25</h4>
-                            <p>(425Rb)<br /><span>per month/domain</span></p>
+                            <h4>$3</h4>
+                            <p><span>per month/domain</span></p>
                             <ul class="list-unstyled text-start">
                                 <li><i class="dashicons dashicons-yes text-success"></i> Up to 1,000 Users</li>
                                 <li><i class="dashicons dashicons-yes text-success"></i> Unlimited Login</li>
@@ -45,6 +46,7 @@
                                 <li><i class="dashicons dashicons-yes text-success"></i> WooCommerce Plugin</li>
                                 <li><i class="dashicons dashicons-no text-danger"></i> Custom SMTP</li>
                                 <li><i class="dashicons dashicons-no text-danger"></i> Custom Email Notification</li>
+                                <li><i class="dashicons dashicons-no text-danger"></i> Web Push Notification</li>
                             </ul>
                             <?php
                             if ($existing <= 2) {
@@ -62,8 +64,8 @@
                     <div class="card text-center h-100 m-1 p-2 <?php echo ($existing === 3 ? 'existing' : 'standard') ?> <?php echo ($choose === 3 ? 'choose' :  '') ?> ">
                         <div class="card-body">
                             <h3>Growth</h3>
-                            <h4>$49</h4>
-                            <p>(833Rb)<br /><span>per month/domain</span></p>
+                            <h4>$6</h4>
+                            <p><span>per month/domain</span></p>
                             <ul class="list-unstyled text-start">
                                 <li><i class="dashicons dashicons-yes text-success"></i> Up to <b>5,000</b> Users</li>
                                 <li><i class="dashicons dashicons-yes text-success"></i> Unlimited Login</li>
@@ -74,6 +76,7 @@
                                 <li><i class="dashicons dashicons-yes text-success"></i> WooCommerce Plugin</li>
                                 <li><i class="dashicons dashicons-yes text-success"></i> Custom SMTP</li>
                                 <li><i class="dashicons dashicons-yes text-success"></i> Custom Email Notification</li>
+                                <li><i class="dashicons dashicons-no text-danger"></i> Web Push Notification</li>
                             </ul>
                             <?php
                             if ($existing <= 3) {
@@ -89,8 +92,8 @@
                     <div class="card text-center h-100 m-1 p-2 <?php echo ($existing === 4 ? 'existing' : 'standard') ?> <?php echo ($choose === 4 ? 'choose' :  '') ?>">
                         <div class="card-body">
                             <h3>Scale</h3>
-                            <h4>$150</h4>
-                            <p>(2.55Jt)<br /><span>per month/domain</span></p>
+                            <h4>$15</h4>
+                            <p><span>per month/domain</span></p>
                             <ul class="list-unstyled text-start">
                                 <li><i class="dashicons dashicons-yes text-success"></i> <b>Unlimited Users</b></li>
                                 <li><i class="dashicons dashicons-yes text-success"></i> Unlimited Login</li>
@@ -101,12 +104,24 @@
                                 <li><i class="dashicons dashicons-yes text-success"></i> WooCommerce Plugin</li>
                                 <li><i class="dashicons dashicons-yes text-success"></i> Custom SMTP</li>
                                 <li><i class="dashicons dashicons-yes text-success"></i> Custom Email Notification</li>
+                                <li><i class="dashicons dashicons-yes text-success"></i> Web Push Notification</li>
                             </ul>
                             <?php echo get_option('asd_membership') === "scale" ? '<a href="#"  class="btn btn-sm btn-light  mt-3 w-100">Current Package</a>
                        ' : '<a href="https://passwordless.alciasolusidigital.com/upgrade/wp?package=scale" target="_blank" class="btn btn-primary mt-3 w-100">Get Scale</a>'; ?>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12 col-md-12 mb-4">
+        <div class="card text-center mx-auto">
+            <div class="card-body">
+                <h3>Custom Solution</h3>
+                <p style="font-size:16px;">
+                    For large scale, dedicated server, on-premise server, or custom integration. Contact us for custom solutions tailored specifically to your business requirements, providing flexibility and personalized support to achieve your goals.
+                </p>
+                <a class="btn btn-primary mt-3" target="_blank" href="https://api.whatsapp.com/send?phone=+6281310778810&amp;text=Good day,i want custom authentication solution.">Contact Us</a>
             </div>
         </div>
     </div>
