@@ -27,28 +27,19 @@ abstract class BaseController
         'asd_smtp_port' => '465',
         'asd_smtp_user' => 'default',
         'asd_smtp_password' => 'default',
+        /* push notification */
+        'asd_push_notification' => 'N',
+        'asd_webpush_public_key' => ''
     ];
-    private $adminlinks = [
-        'asd-create-passkey-admin',
-        'asd-passkey-settings',
-        'asd-upgrade-package'
-    ];
+
     public function __construct()
     {
         if (!defined('ASD_PLUGIN_NAME') || !ASD_PLUGIN_NAME) {
             defined('ASD_PLUGIN_NAME') || define('ASD_PLUGIN_NAME', 'asd-passkey-login');
         }
-        add_action('admin_init', [$this, 'removeNotices']);
         add_action('admin_notices', [self::class, 'showActivatedMessage']);
     }
-    public function removeNotices()
-    {
-        $current_screen = get_current_screen();
-        if (isset($current_screen->id) && in_array($current_screen->id, $this->adminlinks)) {
-            remove_all_actions('admin_notices');
-            remove_all_actions('all_admin_notices');
-        }
-    }
+
     public function initDefaultOptions()
     {
         foreach ($this->defaultOptions as $key => $value) {

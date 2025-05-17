@@ -7,6 +7,10 @@ if (!defined('ABSPATH')) exit;
 if (!class_exists(UpgradePackage::class)) {
     class UpgradePackage extends BaseController
     {
+        public function __construct()
+        {
+            add_action('admin_notices', [self::class, 'showActivatedMessage']);
+        }
 
         public function index()
         {

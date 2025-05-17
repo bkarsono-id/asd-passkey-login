@@ -1,7 +1,7 @@
 <?php if (! defined('ABSPATH')) exit; ?>
 <div class="wrap">
     <div class="d-flex justify-content-center" style="min-height: 100vh; align-items: flex-start; padding-top: 65px;">
-        <div class="card shadow-lg p-3" style="width: 100%; max-width: 600px;">
+        <div class="card shadow-lg p-3" style="width: 100%; max-width: 900px;">
             <div class="d-flex align-items-center mb-3">
                 <?php  // phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
                 ?>

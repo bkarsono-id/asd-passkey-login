@@ -16,6 +16,9 @@
                     <a class="nav-link" id="smtp-settings-tab" data-bs-toggle="tab" href="#smtp-settings" role="tab" aria-controls="smtp-settings" aria-selected="false">SMTP</a>
                 </li>
                 <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="push-notification-tab" data-bs-toggle="tab" href="#push-notification" role="tab" aria-controls="push-notification" aria-selected="false">Push Notification</a>
+                </li>
+                <li class="nav-item" role="presentation">
                     <a class="nav-link" id="template-settings-tab" data-bs-toggle="tab" href="#template-settings" role="tab" aria-controls="template-settings" aria-selected="false">Email Template</a>
                 </li>
             </ul>
@@ -282,7 +285,77 @@
                         </div>
                     </form>
                 </div>
-
+                <!-- Push Notification Tab -->
+                <div class="tab-pane fade" id="push-notification" role="tabpanel" aria-labelledby="push-notification-tab">
+                    <form id="passkeyWebPushForm">
+                        <?php if ($smtpread == 'readonly'): ?>
+                            <div class="mb-3 small-option-text">
+                                <div class="form-text text-muted">
+                                    <i>Upgrade your plan to enable access to and configure your web push notification.</i>
+                                    <a href="<?php echo esc_url(admin_url('admin.php?page=asd-upgrade-package')); ?>">Upgrade now</a>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                        <div class="mb-3 small-option-text mt-4">
+                            <label class="form-label fw-bold">Enable Web Push Notification?</label>
+                            <div class="form-text text-muted mt-0 pt-0">
+                                <i>Allows websites or web applications to send messages directly to a user's device, even when the user is not actively on the website or has closed their browser. These notifications are highly effective for real-time updates, promotions, and engaging users.</i>
+                            </div>
+                            <div class="form-check-wrapper mt-3">
+                                <div class="form-check  form-check-inline">
+                                    <input
+                                        <?php echo is_scale_license() === true ? '' : 'disabled' ?>
+                                        class="form-check-input"
+                                        type="radio"
+                                        name="asd_push_notification"
+                                        id="asd_push_notification-n"
+                                        value="N"
+                                        <?php checked(get_option('asd_push_notification'), 'N'); ?>>
+                                    <label class="form-check-label" for="asd_push_notification-n">
+                                        No
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input
+                                        <?php echo is_scale_license() === true ? '' : 'disabled' ?>
+                                        class="form-check-input"
+                                        type="radio"
+                                        name="asd_push_notification"
+                                        id="asd_push_notification-y"
+                                        value="Y"
+                                        <?php checked(get_option('asd_push_notification'), 'Y'); ?>>
+                                    <label class="form-check-label" for="asd_push_notification-y">
+                                        Yes
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <?php
+                        if (is_setting_valid("asd_webpush_public_key", '')):
+                        ?>
+                            <div class="mb-3 small-option-text">
+                                <label class="form-label fw-bold">Public Key</label>
+                                <div id="usernameTextbox" class="mb-3 d-flex align-items-center justify-content-between">
+                                    <div class="d-flex align-items-center" style="flex-grow: 1;">
+                                        <input
+                                            readonly
+                                            type="text"
+                                            class="form-control"
+                                            id="asd_webpush_public_key"
+                                            name="asd_webpush_public_key"
+                                            value="<?php echo esc_attr(get_option('asd_webpush_public_key', '')); ?>">
+                                    </div>
+                                    <button type="button" id="btnCreatePublicKey" class="button button-secondary ms-1" <?php echo is_scale_license() === true ? '' : 'disabled' ?>>Create Public Key</button>
+                                </div>
+                            </div>
+                        <?php
+                        endif;
+                        ?>
+                        <div class="text-end">
+                            <button type="submit" id="save-web-push" class="button button-primary" <?php echo is_scale_license() === true ? '' : 'disabled' ?>>Save Settings</button>
+                        </div>
+                    </form>
+                </div>
                 <!-- Template Settings Tab -->
                 <div class="tab-pane fade" id="template-settings" role="tabpanel" aria-labelledby="template-settings-tab">
                     <?php  // phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage

@@ -125,7 +125,25 @@ if (! function_exists('is_pro_license')) {
         return true;
     }
 }
-
+if (! function_exists('is_scale_license')) {
+    /**
+     * Returns the base URL as defined by the App config.
+     * Base URLs are trimmed site URLs without the index page.
+     *
+     * @param array|string $relativePath URI string or array of URI segments.
+     * @param string|null  $scheme       URI scheme. E.g., http, ftp. If empty
+     *                                   string '' is set, a protocol-relative
+     *                                   link is returned.
+     */
+    function is_scale_license(): bool
+    {
+        $license =  get_option('asd_membership');
+        if ($license === "scale") {
+            return true;
+        }
+        return false;
+    }
+}
 if (! function_exists('is_setting_valid')) {
     /**
      * Returns the base URL as defined by the App config.
@@ -144,5 +162,28 @@ if (! function_exists('is_setting_valid')) {
         }
         if ($callbackvalue !== null) return $callbackvalue;
         return true;
+    }
+}
+
+if (! function_exists('clean_notices_admin')) {
+    /**
+     * Returns the base URL as defined by the App config.
+     * Base URLs are trimmed site URLs without the index page.
+     *
+     * @param array|string $relativePath URI string or array of URI segments.
+     * @param string|null  $scheme       URI scheme. E.g., http, ftp. If empty
+     *                                   string '' is set, a protocol-relative
+     *                                   link is returned.
+     */
+    function clean_notices_admin($slug)
+    {
+        add_action('admin_notices', function () use ($slug) {
+            $current_screen = get_current_screen();
+            if ($current_screen->id === $slug) {
+                echo '<div class="notice notice-success is-dismissible"><p>Your notification here.</p></div>';
+            } else {
+                remove_all_actions('admin_notices');
+            }
+        }, 1);
     }
 }
