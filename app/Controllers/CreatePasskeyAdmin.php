@@ -2,6 +2,7 @@
 
 /*** TEST AUTO DEPLOY TO STAGING */
 /*** TEST AUTO DEPLOY TO STAGING 2*/
+/*** TEST AUTO DEPLOY TO STAGING 3*/
 
 namespace Asd\Controllers;
 
