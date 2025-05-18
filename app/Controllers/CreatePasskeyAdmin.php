@@ -1,6 +1,7 @@
 <?php
 
 /*** TEST AUTO DEPLOY TO STAGING */
+/*** TEST AUTO DEPLOY TO STAGING 2*/
 
 namespace Asd\Controllers;
 
