@@ -1,0 +1,28 @@
+name: CI
+on:
+  pull_request:
+    branches: [ "staging" ]
+jobs:
+  readytoreview:
+    name: Auto Deploy Staging
+    runs-on: ubuntu-latest
+    steps:
+    - name: Get Latest Code
+      uses: actions/checkout@v4
+    
+    - name: Sync to staging
+      uses: burnett01/rsync-deployments@7.0.2
+      with:
+        switches: -avzr --delete --exclude=".git" --include=".github" --filter=""
+        path: /
+        remote_path: /var/www/html/shop/wp-content/plugins/asd-passkey-login
+        remote_host: shop.fedcm.id
+        remote_user: root
+        remote_key: ${{ secrets.DEPLOY_KEY }}
+      
+        # remote_path: ${{ secrets.STAGING_PATH }}
+        # remote_host: ${{ secrets.STAGING_HOST }}
+        # remote_port: ${{ secrets.STAGING_PORT }}
+        # remote_user: ${{ secrets.STAGING_USER }}
+        # remote_key: ${{ secrets.DEPLOY_KEY }}
+      
