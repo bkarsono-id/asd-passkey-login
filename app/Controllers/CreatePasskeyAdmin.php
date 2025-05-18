@@ -1,10 +1,5 @@
 <?php
 
-/*** TEST AUTO DEPLOY TO STAGING */
-/*** TEST AUTO DEPLOY TO STAGING 2*/
-/*** TEST AUTO DEPLOY TO STAGING 3*/
-/*** TEST AUTO DEPLOY TO STAGING 4*/
-
 namespace Asd\Controllers;
 
 use Asd\Models\GeneralModel;
