@@ -13,7 +13,7 @@ jobs:
     - name: Deploy to Staging
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
-        server: 103.146.203.92
+        server: 202.10.44.62
         username: staging
         password: ${{ secrets.FTP_PASSWORD }}
         port: 22
