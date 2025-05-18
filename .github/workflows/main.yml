@@ -1,7 +1,7 @@
 name: CI
 on:
-  pull_request:
-    branches: [ "staging" ]
+  push:
+    branches: [ "test" ]
 jobs:
   readytoreview:
     name: Auto Deploy Staging
