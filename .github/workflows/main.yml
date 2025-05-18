@@ -24,6 +24,7 @@ jobs:
             **/.git*
             **/.git*/**
             **/node_modules/**
+            **/lost+found*
         security: strict
         
           
