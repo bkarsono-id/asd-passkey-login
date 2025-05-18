@@ -18,7 +18,7 @@ jobs:
         password: ${{ secrets.FTP_PASSWORD }}
         port: 22
         protocol: ftps
-        local-dir: /
+        local-dir: .
         server-dir: /var/www/html/shop/wp-content/plugins/asd-passkey-login/
         exclude: |
             **/.git*
