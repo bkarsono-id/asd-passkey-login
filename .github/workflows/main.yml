@@ -25,7 +25,7 @@ jobs:
             **/.git*/**
             **/node_modules/**
             **/lost+found*
-        security: strict
+        
         
           
     # - name: Sync to staging
