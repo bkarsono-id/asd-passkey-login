@@ -9,22 +9,33 @@ jobs:
     steps:
     - name: Get Latest Code
       uses: actions/checkout@v4
-                
-    - name: Deploy to Staging
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+    
+    - name: Deploy to staging
+      uses: wlixcc/SFTP-Deploy-Action@v1.2.6
       with:
-        server: 202.10.44.62
         username: staging
-        password: ${{ secrets.FTP_PASSWORD }}
+        server: 202.10.44.62
         port: 22
-        protocol: ftps
-        local-dir: ./
-        server-dir: /var/www/html/shop/wp-content/plugins/asd-passkey-login/
-        exclude: |
-            **/.git*
-            **/.git*/**
-            **/node_modules/**
-            **/lost+found*
+        ssh_private_key: ${{ secrets.SECRET_KEY }}
+        local_path: ./*
+        remote_path: /var/www/html/shop/wp-content/plugins/asd-passkey-login/
+
+           
+    # - name: Deploy to Staging
+    #   uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+    #   with:
+    #     server: 202.10.44.62
+    #     username: staging
+    #     password: ${{ secrets.FTP_PASSWORD }}
+    #     port: 22
+    #     protocol: ftps
+    #     local-dir: ./
+    #     server-dir: /var/www/html/shop/wp-content/plugins/asd-passkey-login/
+    #     exclude: |
+    #         **/.git*
+    #         **/.git*/**
+    #         **/node_modules/**
+    #         **/lost+found*
         
         
           
