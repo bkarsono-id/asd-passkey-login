@@ -10,17 +10,18 @@ jobs:
     - name: Get Latest Code
       uses: actions/checkout@v4
     
-    - name: Deploy to staging
-      uses: wlixcc/SFTP-Deploy-Action@v1.2.6
+    - name: web deploy anything
+      uses: SamKirkland/web-deploy@v1
       with:
-        username: staging
-        server: 202.10.44.62
-        port: 22
-        ssh_private_key: ${{ secrets.SECRET_KEY }}
-        local_path: ./*
-        remote_path: /var/www/html/shop/wp-content/plugins/asd-passkey-login/
-
-           
+        target-server: 202.10.44.62
+        remote-user: staging
+        private-ssh-key: ${{ secrets.SECRET_KEY }}
+        source-path: ./
+        destination-path: /var/www/html/shop/wp-content/plugins/asd-passkey-login/
+        ssh-port: 22
+        rsync-options: --dry-run --archive --verbose --compress --human-readable --progress --delete-after --exclude=.git* --exclude=.git/ --exclude=README.md --exclude=readme.md --exclude=.gitignore
+          
+             
     # - name: Deploy to Staging
     #   uses: SamKirkland/FTP-Deploy-Action@v4.3.5
     #   with:
