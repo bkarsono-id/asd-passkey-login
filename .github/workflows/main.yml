@@ -9,16 +9,33 @@ jobs:
     steps:
     - name: Get Latest Code
       uses: actions/checkout@v4
-    
-    - name: Sync to staging
-      uses: burnett01/rsync-deployments@7.0.2
+                
+    - name: Deploy to Staging
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
-        switches: -avzr --delete --exclude=".git" --include=".github" --filter=""
-        path: /
-        remote_path: /var/www/html/shop/wp-content/plugins/asd-passkey-login
-        remote_host: shop.fedcm.id
-        remote_user: root
-        remote_key: ${{ secrets.DEPLOY_KEY }}
+        server: 103.146.203.92
+        username: staging
+        password: ${{ secrets.FTP_PASSWORD }}
+        port: 22
+        protocol: ftps
+        local-dir: /
+        server-dir: /var/www/html/shop/wp-content/plugins/asd-passkey-login
+        exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+        security: strict
+        
+          
+    # - name: Sync to staging
+    #   uses: burnett01/rsync-deployments@7.0.2
+    #   with:
+    #     switches: -avzr --delete --exclude=".git" --include=".github" --filter=""
+    #     path: /
+    #     remote_path: /var/www/html/shop/wp-content/plugins/asd-passkey-login
+    #     remote_host: shop.fedcm.id
+    #     remote_user: root
+    #     remote_key: ${{ secrets.DEPLOY_KEY }}
       
         # remote_path: ${{ secrets.STAGING_PATH }}
         # remote_host: ${{ secrets.STAGING_HOST }}
