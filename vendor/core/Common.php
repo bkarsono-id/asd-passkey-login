@@ -11,7 +11,7 @@ if (!function_exists('ASD_P4SSK3Y_view')) {
      */
     function ASD_P4SSK3Y_view(string $name, array $data = [], array $options = [])
     {
-        $viewPath = defined('ASD_VIEWSPATH') ? ASD_VIEWSPATH : __DIR__ . '/views/';
+        $viewPath = defined('ASD_P4SSK3Y_VIEWSPATH') ? ASD_P4SSK3Y_VIEWSPATH : __DIR__ . '/views/';
         $templatePath = rtrim($viewPath, '/') . '/' . str_replace('.', '/', $name) . '.php';
 
         if (!file_exists($templatePath)) {

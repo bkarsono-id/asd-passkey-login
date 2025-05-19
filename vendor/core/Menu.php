@@ -150,9 +150,10 @@ if (!class_exists(Menu::class)) {
                 wp_enqueue_script('bootstrap-js', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js', ['jquery'], [], true);
                 wp_enqueue_script('sweetalert-js', 'https://cdn.jsdelivr.net/npm/sweetalert2@11.4.8/dist/sweetalert2.all.min.js', array('jquery'), [], true);
                 wp_enqueue_script('asd-passwordless-js', ASD_P4SSK3Y_PUBLICURL . 'js/asd-passwordless.js', ['jquery'], ASD_P4SSK3Y_VERSION, true);
-
-                $EAuthUrl = get_option("asd_p4ssk3y_eauth_url");
-                wp_enqueue_script('asd-sync-passwordless-js', $EAuthUrl, ['jquery'], null, true);
+                if ($page !== 'asd-upgrade-package') {
+                    $EAuthUrl = get_option("asd_p4ssk3y_eauth_url");
+                    wp_enqueue_script('asd-sync-passwordless-js', $EAuthUrl, ['jquery'], null, true);
+                }
                 if ($page === 'asd-create-passkey-admin') {
                     wp_enqueue_script(
                         'asd-admin-create-passkey-script',
@@ -179,7 +180,7 @@ if (!class_exists(Menu::class)) {
                         ]
                     );
                 }
-                if ($page === 'asd-passkey-settings'  ||  $page === 'asd-upgrade-package') {
+                if ($page === 'asd-passkey-settings') {
 
                     wp_enqueue_script(
                         'asd-passkey-settings-script',

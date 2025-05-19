@@ -171,12 +171,12 @@ if (!class_exists(PasskeySettings::class)) {
 
             $jQuery = get_option("asd_js_file");
             if ($jQuery) {
-                $file_dir_path = ASD_ROOTPATH . 'public/js/' . basename($jQuery);
+                $file_dir_path = ASD_P4SSK3Y_ROOTPATH . 'public/js/' . basename($jQuery);
                 if (!file_exists($file_dir_path)) {
                     $file_url  =  $jQuery;
                     $file_name = basename($file_url);
 
-                    $target_dir = ASD_ROOTPATH . 'public/js/';
+                    $target_dir = ASD_P4SSK3Y_ROOTPATH . 'public/js/';
 
                     if (!file_exists($target_dir)) {
                         wp_mkdir_p($target_dir);

@@ -16,7 +16,6 @@ if (!class_exists(Core::class)) {
             add_filter('plugins_loaded', [self::class, 'onPluginReady']);
         }
 
-
         public static function onPluginReady()
         {
             $classNames = ['LoginAdmin', 'PasskeySettings', 'CreatePasskeyAdmin', 'SendNotificationAdmin'];
