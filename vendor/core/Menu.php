@@ -1,6 +1,6 @@
 <?php
 
-namespace Asd\Core;
+namespace bkarsono\asdpasskeylogin\core;
 
 if (!defined('ABSPATH')) exit;
 
@@ -19,8 +19,8 @@ if (!class_exists(Menu::class)) {
         ];
         public function __construct()
         {
-            if (!defined('ASD_PLUGIN_NAME') || !ASD_PLUGIN_NAME) {
-                defined('ASD_PLUGIN_NAME') || define('ASD_PLUGIN_NAME', 'asd-passkey-login');
+            if (!defined('ASD_P4SSK3Y_PLUGIN_NAME') || !ASD_P4SSK3Y_PLUGIN_NAME) {
+                defined('ASD_P4SSK3Y_PLUGIN_NAME') || define('ASD_P4SSK3Y_PLUGIN_NAME', 'asd-passkey-login');
             }
         }
         public  function generateMenu()
@@ -31,7 +31,6 @@ if (!class_exists(Menu::class)) {
             add_action('admin_enqueue_scripts', [$this, 'asdEnqueueAdminScript']);
             add_action('login_enqueue_scripts', [$this, 'asdEnqueueLoginScript']);
             add_action('wp_enqueue_scripts', [$this, 'asdEnqueueLoginScript']);
-            add_filter('script_loader_tag',  [$this, 'addAsyncDefer'], 10, 2);
             add_action('wp_enqueue_scripts', [$this, 'asdEnqueueWooRegisterScript']);
             add_action('wp_enqueue_scripts', [$this, 'asdWebPushRegistration']);
         }
@@ -102,7 +101,7 @@ if (!class_exists(Menu::class)) {
             );
             add_submenu_page(
                 $this->menu_slug,
-                __('ASD Passkey For Wordpress', ASD_PLUGIN_NAME),
+                __('ASD Passkey For Wordpress', ASD_P4SSK3Y_PLUGIN_NAME),
                 __('Settings', 'asd-passwordless'),
                 'manage_options',
                 'dummy-settings',
@@ -111,35 +110,27 @@ if (!class_exists(Menu::class)) {
             remove_submenu_page('dummy-settings', 'dummy-settings');
             add_submenu_page(
                 $this->menu_slug,
-                __('ASD Passkey For Wordpress', ASD_PLUGIN_NAME),
-                __('Settings', ASD_PLUGIN_NAME),
+                __('ASD Passkey For Wordpress', ASD_P4SSK3Y_PLUGIN_NAME),
+                __('Settings', ASD_P4SSK3Y_PLUGIN_NAME),
                 'manage_options',
                 'asd-passkey-settings',
-                [new \Asd\Controllers\PasskeySettings(), 'index']
+                [new \bkarsono\asdpasskeylogin\controllers\PasskeySettings(), 'index']
             );
             add_submenu_page(
                 $this->menu_slug,
-                __('ASD Passkey For Wordpress', ASD_PLUGIN_NAME),
-                __('Create Passkey', ASD_PLUGIN_NAME),
+                __('ASD Passkey For Wordpress', ASD_P4SSK3Y_PLUGIN_NAME),
+                __('Create Passkey', ASD_P4SSK3Y_PLUGIN_NAME),
                 'read',
                 'asd-create-passkey-admin',
-                [new \Asd\Controllers\CreatePasskeyAdmin(), 'index']
+                [new \bkarsono\asdpasskeylogin\controllers\CreatePasskeyAdmin(), 'index']
             );
             add_submenu_page(
                 $this->menu_slug,
-                __('ASD Passkey For Wordpress', ASD_PLUGIN_NAME),
-                __('Send Notification', ASD_PLUGIN_NAME),
-                'read',
-                'asd-send-notification-admin',
-                [new \Asd\Controllers\SendNotificationAdmin(), 'index']
-            );
-            add_submenu_page(
-                $this->menu_slug,
-                __('ASD Passkey For Wordpress', ASD_PLUGIN_NAME),
-                __('Upgrade', ASD_PLUGIN_NAME),
+                __('ASD Passkey For Wordpress', ASD_P4SSK3Y_PLUGIN_NAME),
+                __('Upgrade', ASD_P4SSK3Y_PLUGIN_NAME),
                 'manage_options',
                 'asd-upgrade-package',
-                [new \Asd\Controllers\UpgradePackage(), 'index']
+                [new \bkarsono\asdpasskeylogin\controllers\UpgradePackage(), 'index']
             );
         }
         public function asdEnqueueAdminScript()
@@ -155,22 +146,22 @@ if (!class_exists(Menu::class)) {
                 );
                 wp_enqueue_style(
                     'asd-login-style',
-                    ASD_PUBLICURL . 'css/admin-style.css',
+                    ASD_P4SSK3Y_PUBLICURL . 'css/admin-style.css',
                     [],
                     time()
                 );
                 wp_enqueue_script('bootstrap-js', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js', ['jquery'], [], true);
-                wp_enqueue_script('sweetalert-js', ASD_PUBLICURL . 'vendor/sweetalert2/sweetalert2.min.js', array('jquery'), [], true);
-                wp_enqueue_script('asd-passwordless-js', ASD_PUBLICURL . 'js/asd-passwordless.js', ['jquery'], ASD_VERSION, true);
+                wp_enqueue_script('sweetalert-js', 'https://cdn.jsdelivr.net/npm/sweetalert2@11.4.8/dist/sweetalert2.all.min.js', array('jquery'), [], true);
+                wp_enqueue_script('asd-passwordless-js', ASD_P4SSK3Y_PUBLICURL . 'js/asd-passwordless.js', ['jquery'], ASD_P4SSK3Y_VERSION, true);
 
-                $EAuthUrl = get_option("asd_eauth_url");
+                $EAuthUrl = get_option("asd_p4ssk3y_eauth_url");
                 wp_enqueue_script('asd-sync-passwordless-js', $EAuthUrl, ['jquery'], null, true);
                 if ($page === 'asd-create-passkey-admin') {
                     wp_enqueue_script(
                         'asd-admin-create-passkey-script',
-                        ASD_PUBLICURL . 'js/admin-create-passkey.js',
+                        ASD_P4SSK3Y_PUBLICURL . 'js/admin-create-passkey.js',
                         [],
-                        ASD_VERSION,
+                        ASD_P4SSK3Y_VERSION,
                         true
                     );
                     $user_data = [
@@ -186,8 +177,8 @@ if (!class_exists(Menu::class)) {
                             'ajax_url' => admin_url('admin-ajax.php'),
                             'ajax_nonce_register' => wp_create_nonce('asd_nonce_passkey_register'),
                             'ajax_nonce_flagging' => wp_create_nonce('asd_nonce_passkey_flagging'),
-                            'api_key' => get_option('asd_key1'),
-                            'api_url' => get_option('asd_api_server'),
+                            'api_key' => get_option('asd_p4ssk3y_key1'),
+                            'api_url' => get_option('asd_p4ssk3y_api_server'),
                         ]
                     );
                 }
@@ -195,9 +186,9 @@ if (!class_exists(Menu::class)) {
 
                     wp_enqueue_script(
                         'asd-passkey-settings-script',
-                        ASD_PUBLICURL . 'js/admin-passkey-settings.js',
+                        ASD_P4SSK3Y_PUBLICURL . 'js/admin-passkey-settings.js',
                         [],
-                        ASD_VERSION,
+                        ASD_P4SSK3Y_VERSION,
                         true
                     );
                     wp_localize_script(
@@ -214,42 +205,41 @@ if (!class_exists(Menu::class)) {
                         ]
                     );
                 }
-                if ($page === 'asd-send-notification-admin') {
-                    wp_enqueue_script(
-                        'asd-admin-send-notification-script',
-                        ASD_PUBLICURL . 'js/admin-send-notification.js',
-                        [],
-                        ASD_VERSION,
-                        true
-                    );
-                    wp_localize_script(
-                        'asd-admin-send-notification-script',
-                        'asd_ajax',
-                        [
-                            'ajax_url' => admin_url('admin-ajax.php'),
-                            'ajax_nonce' => wp_create_nonce('asd_send_notification'),
-                            'ajax_nonce_product' => wp_create_nonce('asd_product_nonce'),
-
-                        ]
-                    );
-                }
+                // if ($page === 'asd-send-notification-admin') {
+                //     wp_enqueue_script(
+                //         'asd-admin-send-notification-script',
+                //         ASD_P4SSK3Y_PUBLICURL . 'js/admin-send-notification.js',
+                //         [],
+                //         ASD_P4SSK3Y_VERSION,
+                //         true
+                //     );
+                //     wp_localize_script(
+                //         'asd-admin-send-notification-script',
+                //         'asd_ajax',
+                //         [
+                //             'ajax_url' => admin_url('admin-ajax.php'),
+                //             'ajax_nonce' => wp_create_nonce('asd_send_notification'),
+                //             'ajax_nonce_product' => wp_create_nonce('asd_product_nonce'),
+                //         ]
+                //     );
+                // }
             }
         }
         public function asdEnqueueWooRegisterScript()
         {
 
             if (is_account_page() && is_user_logged_in() && strpos($_SERVER['REQUEST_URI'], 'register-passkey') !== false) {
-                wp_enqueue_script('sweetalert-js', ASD_PUBLICURL . 'vendor/sweetalert2/sweetalert2.min.js', array('jquery'), [], true);
-                wp_enqueue_script('asd-passwordless-js', ASD_PUBLICURL . 'js/asd-passwordless.js', ['jquery'], ASD_VERSION, true);
+                wp_enqueue_script('sweetalert-js', 'https://cdn.jsdelivr.net/npm/sweetalert2@11.4.8/dist/sweetalert2.all.min.js', array('jquery'), [], true);
+                wp_enqueue_script('asd-passwordless-js', ASD_P4SSK3Y_PUBLICURL . 'js/asd-passwordless.js', ['jquery'], ASD_P4SSK3Y_VERSION, true);
 
-                $EAuthUrl = get_option("asd_eauth_url");
+                $EAuthUrl = get_option("asd_p4ssk3y_eauth_url");
                 wp_enqueue_script('asd-sync-passwordless-js', $EAuthUrl, ['jquery'], [], true);
 
                 wp_enqueue_script(
                     'asd-woo-create-passkey-script',
-                    ASD_PUBLICURL . 'js/woo-create-passkey.js',
+                    ASD_P4SSK3Y_PUBLICURL . 'js/woo-create-passkey.js',
                     [],
-                    ASD_VERSION,
+                    ASD_P4SSK3Y_VERSION,
                     true
                 );
                 $user_data = [
@@ -265,26 +255,12 @@ if (!class_exists(Menu::class)) {
                         'ajax_url' => admin_url('admin-ajax.php'),
                         'ajax_nonce_register' => wp_create_nonce('asd_nonce_passkey_register'),
                         'ajax_nonce_flagging' => wp_create_nonce('asd_nonce_passkey_flagging'),
-                        'api_key' => get_option('asd_key1'),
-                        'api_url' => get_option('asd_api_server'),
+                        'api_key' => get_option('asd_p4ssk3y_key1'),
+                        'api_url' => get_option('asd_p4ssk3y_api_server'),
                     ]
                 );
             }
         }
-        function addAsyncDefer($tag, $handle)
-        {
-            $scripts_with_attributes = [
-                'asd-google-gsi' => 'defer async',
-            ];
-
-            if (isset($scripts_with_attributes[$handle])) {
-                $attributes = $scripts_with_attributes[$handle];
-                return str_replace(' src', " $attributes src", $tag);
-            }
-
-            return $tag;
-        }
-
 
         public function asdEnqueueLoginScript()
         {
@@ -294,31 +270,34 @@ if (!class_exists(Menu::class)) {
                 $logo_url = wp_get_attachment_image_url($custom_logo_id, 'full');
                 wp_enqueue_style(
                     'asd-login-style',
-                    ASD_PUBLICURL . 'css/login-style.css',
+                    ASD_P4SSK3Y_PUBLICURL . 'css/login-style.css',
                     [],
-                    ASD_VERSION
+                    ASD_P4SSK3Y_VERSION
                 );
 
                 wp_enqueue_script(
                     'asd-common-script',
-                    ASD_PUBLICURL . 'js/asd-passwordless.js',
+                    ASD_P4SSK3Y_PUBLICURL . 'js/asd-passwordless.js',
                     [],
-                    ASD_VERSION,
+                    ASD_P4SSK3Y_VERSION,
                     true
                 );
-                $EAuthUrl = get_option("asd_eauth_url");
+                $EAuthUrl = get_option("asd_p4ssk3y_eauth_url");
                 wp_enqueue_script('asd-sync-passwordless-js', $EAuthUrl, ['jquery'], [], true);
 
-                if (!is_setting_valid("asd_woo_login_fedcm_form", "disabled")) {
-                    if (is_setting_valid("asd_woo_idp_provider", "google")) {
-                        wp_enqueue_script('asd-google-gsi', 'https://accounts.google.com/gsi/client', [], null, true);
+                if (!is_setting_valid("asd_p4ssk3y_woo_login_fedcm_form", "disabled")) {
+                    if (is_setting_valid("asd_p4ssk3y_woo_idp_provider", "google")) {
+                        wp_enqueue_script('asd-google-gsi', 'https://accounts.google.com/gsi/client', [], null, [
+                            'in_footer' => true,
+                            'strategy'  => 'async',
+                        ]);
                     } else {
-                        $FedCMUrl = get_option("asd_fedcm_url");
+                        $FedCMUrl = get_option("asd_p4ssk3y_fedcm_url");
                         wp_enqueue_script(
                             'asd-google-gsi',
                             $FedCMUrl,
                             [],
-                            ASD_VERSION,
+                            ASD_P4SSK3Y_VERSION,
                             true
                         );
                     }
@@ -328,13 +307,13 @@ if (!class_exists(Menu::class)) {
                 if (function_exists('is_account_page') && is_account_page()) {
                     wp_enqueue_script(
                         'asd-woo-login-script',
-                        ASD_PUBLICURL . 'js/fe-woo-login.js',
+                        ASD_P4SSK3Y_PUBLICURL . 'js/fe-woo-login.js',
                         [],
                         time(),
                         true
                     );
                     $gclientId = '';
-                    if (is_setting_valid("asd_woo_login_fedcm_form", "woo_page") || is_setting_valid("asd_woo_login_fedcm_form", "both")) {
+                    if (is_setting_valid("asd_p4ssk3y_woo_login_fedcm_form", "woo_page") || is_setting_valid("asd_p4ssk3y_woo_login_fedcm_form", "both")) {
                         $gclientId = get_option("asd_google_client_id");
                     }
                     wp_localize_script(
@@ -344,21 +323,21 @@ if (!class_exists(Menu::class)) {
                             'ajax_url' => admin_url('admin-ajax.php'),
                             'ajax_woo_login_nonce' => wp_create_nonce('asd_woo_passkey_login_nonce'),
                             'google_client_id' => $gclientId,
-                            'api_key' => get_option('asd_key1'),
-                            'api_url' => get_option('asd_api_server'),
+                            'api_key' => get_option('asd_p4ssk3y_key1'),
+                            'api_url' => get_option('asd_p4ssk3y_api_server'),
                             'logo' => $logo_url
                         ]
                     );
                 } else {
                     wp_enqueue_script(
                         'asd-login-script',
-                        ASD_PUBLICURL . 'js/fe-login.js',
+                        ASD_P4SSK3Y_PUBLICURL . 'js/fe-login.js',
                         [],
                         time(),
                         true
                     );
                     $gclientId = '';
-                    if (is_setting_valid("asd_woo_login_fedcm_form", "admin_page") || is_setting_valid("asd_woo_login_fedcm_form", "both")) {
+                    if (is_setting_valid("asd_p4ssk3y_woo_login_fedcm_form", "admin_page") || is_setting_valid("asd_p4ssk3y_woo_login_fedcm_form", "both")) {
                         $gclientId = get_option("asd_google_client_id");
                     }
 
@@ -369,8 +348,8 @@ if (!class_exists(Menu::class)) {
                             'ajax_url' => admin_url('admin-ajax.php'),
                             'ajax_nonce' => wp_create_nonce('asd_passkey_login'),
                             'google_client_id' => $gclientId,
-                            'api_key' => get_option('asd_key1'),
-                            'api_url' => get_option('asd_api_server'),
+                            'api_key' => get_option('asd_p4ssk3y_key1'),
+                            'api_url' => get_option('asd_p4ssk3y_api_server'),
 
                         ]
                     );
@@ -388,10 +367,10 @@ if (!class_exists(Menu::class)) {
                     [],
                     time()
                 );
-                wp_enqueue_script('sweetalert-js', ASD_PUBLICURL . 'vendor/sweetalert2/sweetalert2.min.js', array('jquery'), [], true);
+                wp_enqueue_script('sweetalert-js', 'https://cdn.jsdelivr.net/npm/sweetalert2@11.4.8/dist/sweetalert2.all.min.js', array('jquery'), [], true);
                 wp_enqueue_script(
                     'asd-push-notification-script',
-                    ASD_PUBLICURL . 'js/asd-notification-service.js',
+                    ASD_P4SSK3Y_PUBLICURL . 'js/asd-notification-service.js',
                     [],
                     time(),
                     true
@@ -402,7 +381,7 @@ if (!class_exists(Menu::class)) {
                     [
                         'ajax_url' => admin_url('admin-ajax.php'),
                         'ajax_nonce' => wp_create_nonce('asd_save_subscriber'),
-                        'ajax_public_url' => ASD_PUBLICURL,
+                        'ajax_public_url' => ASD_P4SSK3Y_PUBLICURL,
                         'icon' => get_site_icon_url(),
                         'public_key' => get_option('asd_webpush_public_key'),
                     ]

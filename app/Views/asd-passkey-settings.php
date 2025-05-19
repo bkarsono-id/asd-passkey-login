@@ -5,7 +5,7 @@
             <div class="d-flex align-items-center mb-3">
                 <?php  // phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage 
                 ?>
-                <img src="<?php echo esc_url(ASD_PUBLICURL . 'img/logo-medium.webp'); ?>" style="max-width: 35%; margin-right: 15px;" alt="LOGO">
+                <img src="<?php echo esc_url(ASD_P4SSK3Y_PUBLICURL . 'img/logo-medium.webp'); ?>" style="max-width: 35%; margin-right: 15px;" alt="LOGO">
             </div>
             <!-- Tab Navigation -->
             <ul class="nav nav-tabs" id="settingsTab" role="tablist">
@@ -40,7 +40,7 @@
                                     class="form-control"
                                     id="asd_package_name"
                                     name="asd_package_name"
-                                    value="<?php echo esc_attr(get_option('asd_membership', '')); ?>">
+                                    value="<?php echo esc_attr(get_option('asd_p4ssk3y_membership', '')); ?>">
                             </div>
                             <button type="button" id="btnSyncPackage" class="button button-secondary ms-1">Sync Package</button>
                         </div>
@@ -54,11 +54,11 @@
                             <div class="form-select-wrapper mt-3">
                                 <select
                                     class="form-select"
-                                    name="asd_admin_login_form_style"
-                                    id="asd_admin_login_form_style">
-                                    <option value="form_only" <?php selected(get_option('asd_admin_login_form_style'), 'form_only'); ?>>Classic Login (Username & Password)</option>
-                                    <option value="passkey_only" <?php selected(get_option('asd_admin_login_form_style'), 'passkey_only'); ?>>Passkey Only</option>
-                                    <option value="form_and_passkey" <?php selected(get_option('asd_admin_login_form_style'), 'form_and_passkey'); ?>>Hybrid Login (Form + Passkey)</option>
+                                    name="asd_p4ssk3y_admin_login_form_style"
+                                    id="asd_p4ssk3y_admin_login_form_style">
+                                    <option value="form_only" <?php selected(get_option('asd_p4ssk3y_admin_login_form_style'), 'form_only'); ?>>Classic Login (Username & Password)</option>
+                                    <option value="passkey_only" <?php selected(get_option('asd_p4ssk3y_admin_login_form_style'), 'passkey_only'); ?>>Passkey Only</option>
+                                    <option value="form_and_passkey" <?php selected(get_option('asd_p4ssk3y_admin_login_form_style'), 'form_and_passkey'); ?>>Hybrid Login (Form + Passkey)</option>
                                 </select>
                             </div>
                         </div>
@@ -73,11 +73,11 @@
                                     <input
                                         class="form-check-input"
                                         type="radio"
-                                        name="asd_admin_password_confirmation"
-                                        id="asd_admin_password_confirmation-n"
+                                        name="asd_p4ssk3y_admin_password_confirmation"
+                                        id="asd_p4ssk3y_admin_password_confirmation-n"
                                         value="N"
-                                        <?php checked(get_option('asd_admin_password_confirmation'), 'N'); ?>>
-                                    <label class="form-check-label" for="asd_admin_password_confirmation-n">
+                                        <?php checked(get_option('asd_p4ssk3y_admin_password_confirmation'), 'N'); ?>>
+                                    <label class="form-check-label" for="asd_p4ssk3y_admin_password_confirmation-n">
                                         No
                                     </label>
                                 </div>
@@ -85,11 +85,11 @@
                                     <input
                                         class="form-check-input"
                                         type="radio"
-                                        name="asd_admin_password_confirmation"
-                                        id="asd_admin_password_confirmation-y"
+                                        name="asd_p4ssk3y_admin_password_confirmation"
+                                        id="asd_p4ssk3y_admin_password_confirmation-y"
                                         value="Y"
-                                        <?php checked(get_option('asd_admin_password_confirmation'), 'Y'); ?>>
-                                    <label class="form-check-label" for="asd_admin_password_confirmation-y">
+                                        <?php checked(get_option('asd_p4ssk3y_admin_password_confirmation'), 'Y'); ?>>
+                                    <label class="form-check-label" for="asd_p4ssk3y_admin_password_confirmation-y">
                                         Yes
                                     </label>
                                 </div>
@@ -117,11 +117,11 @@
                                     <select
                                         <?php echo is_pro_license() === true ? '' : 'disabled' ?>
                                         class="form-select"
-                                        name="asd_woo_login_form_style"
-                                        id="asd_woo_login_form_style">
-                                        <option value="form_only" <?php selected(get_option('asd_woo_login_form_style'), 'form_only'); ?>>Classic Login (Username & Password)</option>
-                                        <option value="passkey_only" <?php selected(get_option('asd_woo_login_form_style'), 'passkey_only'); ?>>Passkey Only</option>
-                                        <option value="form_and_passkey" <?php selected(get_option('asd_woo_login_form_style'), 'form_and_passkey'); ?>>Hybrid Login (Form + Passkey)</option>
+                                        name="asd_p4ssk3y_woo_login_form_style"
+                                        id="asd_p4ssk3y_woo_login_form_style">
+                                        <option value="form_only" <?php selected(get_option('asd_p4ssk3y_woo_login_form_style'), 'form_only'); ?>>Classic Login (Username & Password)</option>
+                                        <option value="passkey_only" <?php selected(get_option('asd_p4ssk3y_woo_login_form_style'), 'passkey_only'); ?>>Passkey Only</option>
+                                        <option value="form_and_passkey" <?php selected(get_option('asd_p4ssk3y_woo_login_form_style'), 'form_and_passkey'); ?>>Hybrid Login (Form + Passkey)</option>
                                     </select>
                                 </div>
                             </div>
@@ -136,11 +136,11 @@
                                             <?php echo is_pro_license() === true ? '' : 'disabled' ?>
                                             class="form-check-input"
                                             type="radio"
-                                            name="asd_woo_password_confirmation"
-                                            id="asd_woo_password_confirmation-n"
+                                            name="asd_p4ssk3y_woo_password_confirmation"
+                                            id="asd_p4ssk3y_woo_password_confirmation-n"
                                             value="N"
-                                            <?php checked(get_option('asd_woo_password_confirmation'), 'N'); ?>>
-                                        <label class="form-check-label" for="asd_woo_password_confirmation-n">
+                                            <?php checked(get_option('asd_p4ssk3y_woo_password_confirmation'), 'N'); ?>>
+                                        <label class="form-check-label" for="asd_p4ssk3y_woo_password_confirmation-n">
                                             No
                                         </label>
                                     </div>
@@ -149,11 +149,11 @@
                                             <?php echo is_pro_license() === true ? '' : 'disabled' ?>
                                             class="form-check-input"
                                             type="radio"
-                                            name="asd_woo_password_confirmation"
-                                            id="asd_woo_password_confirmation-y"
+                                            name="asd_p4ssk3y_woo_password_confirmation"
+                                            id="asd_p4ssk3y_woo_password_confirmation-y"
                                             value="Y"
-                                            <?php checked(get_option('asd_woo_password_confirmation'), 'Y'); ?>>
-                                        <label class="form-check-label" for="asd_woo_password_confirmation-y">
+                                            <?php checked(get_option('asd_p4ssk3y_woo_password_confirmation'), 'Y'); ?>>
+                                        <label class="form-check-label" for="asd_p4ssk3y_woo_password_confirmation-y">
                                             Yes
                                         </label>
                                     </div>
@@ -168,12 +168,12 @@
                                     <select
                                         <?php echo is_pro_license() === true ? '' : 'disabled' ?>
                                         class="form-select"
-                                        name="asd_woo_login_fedcm_form"
-                                        id="asd_woo_login_fedcm_form">
-                                        <option value="disabled" <?php selected(get_option('asd_woo_login_fedcm_form'), 'disabled'); ?>>Disabled</option>
-                                        <option value="admin_page" <?php selected(get_option('asd_woo_login_fedcm_form'), 'admin_page'); ?>>Administrator Login Page</option>
-                                        <option value="woo_page" <?php selected(get_option('asd_woo_login_fedcm_form'), 'woo_page'); ?>>WooCommerce Login Page</option>
-                                        <option value="both" <?php selected(get_option('asd_woo_login_fedcm_form'), 'both'); ?>>Both (Administrator & WooCommerce)</option>
+                                        name="asd_p4ssk3y_woo_login_fedcm_form"
+                                        id="asd_p4ssk3y_woo_login_fedcm_form">
+                                        <option value="disabled" <?php selected(get_option('asd_p4ssk3y_woo_login_fedcm_form'), 'disabled'); ?>>Disabled</option>
+                                        <option value="admin_page" <?php selected(get_option('asd_p4ssk3y_woo_login_fedcm_form'), 'admin_page'); ?>>Administrator Login Page</option>
+                                        <option value="woo_page" <?php selected(get_option('asd_p4ssk3y_woo_login_fedcm_form'), 'woo_page'); ?>>WooCommerce Login Page</option>
+                                        <option value="both" <?php selected(get_option('asd_p4ssk3y_woo_login_fedcm_form'), 'both'); ?>>Both (Administrator & WooCommerce)</option>
                                     </select>
                                 </div>
                             </div>
@@ -186,9 +186,9 @@
                                     <select
                                         <?php echo is_pro_license() === true ? '' : 'disabled' ?>
                                         class="form-select"
-                                        name="asd_woo_idp_provider"
-                                        id="asd_woo_idp_provider">
-                                        <option value="google" <?php selected(get_option('asd_woo_idp_provider'), 'google'); ?>>Google</option>
+                                        name="asd_p4ssk3y_woo_idp_provider"
+                                        id="asd_p4ssk3y_woo_idp_provider">
+                                        <option value="google" <?php selected(get_option('asd_p4ssk3y_woo_idp_provider'), 'google'); ?>>Google</option>
                                     </select>
                                 </div>
                             </div>
@@ -235,9 +235,9 @@
                                 <?php echo esc_attr($smtpread); ?>
                                 type="text"
                                 class="form-control"
-                                id="asd_smtp_host"
-                                name="asd_smtp_host"
-                                value="<?php echo esc_attr(get_option('asd_smtp_host', '')); ?>" />
+                                id="asd_p4ssk3y_smtp_host"
+                                name="asd_p4ssk3y_smtp_host"
+                                value="<?php echo esc_attr(get_option('asd_p4ssk3y_smtp_host', '')); ?>" />
                         </div>
 
                         <div class="mb-3 small-option-text">
@@ -247,9 +247,9 @@
                                     <?php echo esc_attr($smtpread); ?>
                                     type="text"
                                     class="form-control"
-                                    id="asd_smtp_port"
-                                    name="asd_smtp_port"
-                                    value="<?php echo esc_attr(get_option('asd_smtp_port', '')); ?>" />
+                                    id="asd_p4ssk3y_smtp_port"
+                                    name="asd_p4ssk3y_smtp_port"
+                                    value="<?php echo esc_attr(get_option('asd_p4ssk3y_smtp_port', '')); ?>" />
                             </div>
                         </div>
 
@@ -260,9 +260,9 @@
                                     <?php echo esc_attr($smtpread); ?>
                                     type="text"
                                     class="form-control"
-                                    id="asd_smtp_user"
-                                    name="asd_smtp_user"
-                                    value="<?php echo esc_attr(get_option('asd_smtp_user', '')); ?>" />
+                                    id="asd_p4ssk3y_smtp_user"
+                                    name="asd_p4ssk3y_smtp_user"
+                                    value="<?php echo esc_attr(get_option('asd_p4ssk3y_smtp_user', '')); ?>" />
                             </div>
                         </div>
 
@@ -273,9 +273,9 @@
                                     <?php echo esc_attr($smtpread); ?>
                                     type="text"
                                     class="form-control"
-                                    id="asd_smtp_password"
-                                    name="asd_smtp_password"
-                                    value="<?php echo esc_attr(get_option('asd_smtp_password', '')); ?>" />
+                                    id="asd_p4ssk3y_smtp_password"
+                                    name="asd_p4ssk3y_smtp_password"
+                                    value="<?php echo esc_attr(get_option('asd_p4ssk3y_smtp_password', '')); ?>" />
                             </div>
                         </div>
 
@@ -360,7 +360,7 @@
                 <div class="tab-pane fade" id="template-settings" role="tabpanel" aria-labelledby="template-settings-tab">
                     <?php  // phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
                     ?>
-                    <img src="<?php echo esc_url(ASD_PUBLICURL . 'img/template-setting.webp'); ?>" class="card-img-top" alt="Template Setting">
+                    <img src="<?php echo esc_url(ASD_P4SSK3Y_PUBLICURL . 'img/template-setting.webp'); ?>" class="card-img-top" alt="Template Setting">
                     <h5 class="text-center mt-3">Email Template Creation and Modification</h5>
                     <p class="text-center">
                         The creation and modification of email templates can only be done through the website. Users are not allowed to manually alter or create email templates outside the platform. To manage your email templates, simply log in to the website, navigate to the email settings section, and use the provided tools to create or edit templates. This ensures that all templates are consistent, secure, and easy to manage directly from the platform without requiring external interventions.

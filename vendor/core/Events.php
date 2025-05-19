@@ -1,9 +1,9 @@
 <?php
 
-namespace Asd\Core;
+namespace bkarsono\asdpasskeylogin\core;
 
-use Asd\Controllers\BaseController;
-use Asd\Models\GeneralModel;
+use bkarsono\asdpasskeylogin\controllers\BaseController;
+use bkarsono\asdpasskeylogin\models\GeneralModel;
 
 if (!defined('ABSPATH')) exit;
 
@@ -13,16 +13,16 @@ if (!class_exists(Events::class)) {
         public static  function onActivation()
         {
             if (!current_user_can('activate_plugins')) {
-                asdlog('[ASD onActivation] User have not privileges activated plugins.');
+                ASD_P4SSK3Y_asdlog('[ASD onActivation] User have not privileges activated plugins.');
                 return;
             }
 
             $passkeyModel = new GeneralModel("passkey_data");
             $result = $passkeyModel->createTable();
             if ($result) {
-                asdlog('[ASD onActivation] Table created successfully');
+                ASD_P4SSK3Y_asdlog('[ASD onActivation] Table created successfully');
             } else {
-                asdlog('[ASD onActivation] Failed to create table');
+                ASD_P4SSK3Y_asdlog('[ASD onActivation] Failed to create table');
             }
             $data = [
                 'domain' => get_bloginfo('url'),
@@ -32,39 +32,39 @@ if (!class_exists(Events::class)) {
                 'version' => '1.0.0',
             ];
 
-            $response = wp_remote_post(ASD_API_URL . "/wpregister", [
+            $response = wp_remote_post(ASD_P4SSK3Y_API_URL . "/wpregister", [
                 'method'    => 'POST',
                 'body'      => json_encode($data),
                 'headers'   => [
                     'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer ' . ASD_WEBID,
+                    'Authorization' => 'Bearer ' . ASD_P4SSK3Y_WEBID,
                 ],
                 'timeout'   => 60,
             ]);
 
             if (is_wp_error($response)) {
                 $error_message = $response->get_error_message();
-                asdlog("[ASD onActivation] API Error: $error_message");
+                ASD_P4SSK3Y_asdlog("[ASD onActivation] API Error: $error_message");
                 return;
             }
 
             $body = wp_remote_retrieve_body($response);
             $data = json_decode($body, true);
-            asdlog($data);
+            ASD_P4SSK3Y_asdlog($data);
             if (isset($data['serverStatus']) && $data['serverStatus'] === 'error') {
-                asdlog("[ASD onActivation] Server Error: " . esc_html($data['serverMessage']));
+                ASD_P4SSK3Y_asdlog("[ASD onActivation] Server Error: " . esc_html($data['serverMessage']));
             } else {
                 (new self())->initDefaultOptions();
 
-                add_option('asd_key1', $data['key1']);
-                add_option('asd_key2', $data['key2']);
-                add_option('asd_api_server', $data['apiserver']);
-                add_option('asd_eauth_url', $data['eauth_url']);
-                add_option('asd_fedcm_url', $data['fedcm_url']);
+                add_option('asd_p4ssk3y_key1', $data['key1']);
+                add_option('asd_p4ssk3y_key2', $data['key2']);
+                add_option('asd_p4ssk3y_api_server', $data['apiserver']);
+                add_option('asd_p4ssk3y_eauth_url', $data['eauth_url']);
+                add_option('asd_p4ssk3y_fedcm_url', $data['fedcm_url']);
             }
             add_option('asd_passkey_activation_notice', 1);
             flush_rewrite_rules();
-            asdlog('[ASD onActivation] Activation completed.');
+            ASD_P4SSK3Y_asdlog('[ASD onActivation] Activation completed.');
         }
 
 

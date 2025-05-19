@@ -1,20 +1,20 @@
 {
-    "name": "asd/passwordless",
-    "autoload": {
-        "psr-4": {
-            "Asd\\Config\\": "app/Config/",
-            "Asd\\Models\\": "app/Models/",
-            "Asd\\Controllers\\": "app/Controllers/",
-            "Asd\\Classes\\": "vendor/classes/",
-            "Asd\\Core\\": "vendor/core/"
-        }
-    },
-    "authors": [
-        {
-            "name": "AlciaSolusiDigital"
-        }
-    ],
-    "require": {
-        "firebase/php-jwt": "^6.11"
+  "name": "bkarsono/asdpasskeylogin",
+  "autoload": {
+    "psr-4": {
+      "bkarsono\\asdpasskeylogin\\config\\": "app/Config/",
+      "bkarsono\\asdpasskeylogin\\models\\": "app/Models/",
+      "bkarsono\\asdpasskeylogin\\controllers\\": "app/Controllers/",
+      "bkarsono\\asdpasskeylogin\\classes\\": "vendor/classes/",
+      "bkarsono\\asdpasskeylogin\\core\\": "vendor/core/"
     }
+  },
+  "authors": [
+    {
+      "name": "AlciaSolusiDigital"
+    }
+  ],
+  "require": {
+    "firebase/php-jwt": "^6.11"
+  }
 }

@@ -1,9 +1,9 @@
 <?php
 
-namespace Asd\Controllers;
+namespace bkarsono\asdpasskeylogin\controllers;
 
-use Asd\Models\GeneralModel;
-use Asd\Classes\JwtToken;
+use bkarsono\asdpasskeylogin\models\GeneralModel;
+use bkarsono\asdpasskeylogin\classes\JwtToken;
 
 if (!defined('ABSPATH')) exit;
 if (!class_exists(LoginAdmin::class)) {
@@ -19,15 +19,14 @@ if (!class_exists(LoginAdmin::class)) {
         }
         public function addPasskeyLoginLink()
         {
-            $form_style = get_option("asd_admin_login_form_style");
+            $form_style = get_option("asd_p4ssk3y_admin_login_form_style");
             if ($form_style === "passkey_only") {
-                echo '<style>
-                        body.login div#login form#loginform p,
-                        body.login div#login form#loginform div,
-                        body.login div#login form#loginform input {
-                            display: none;
-                        }
-                    </style>';
+                wp_enqueue_style(
+                    'asd-login-admin-condition-style',
+                    ASD_P4SSK3Y_PUBLICURL . 'css/login-admin-condition.css',
+                    [],
+                    time()
+                );
             }
             if ($form_style === "passkey_only" || $form_style === "form_and_passkey") {
                 $rowhide = $form_style === "form_and_passkey" ? "asd-passkey-login-wrapper-hybrid" : "";
@@ -43,7 +42,7 @@ if (!class_exists(LoginAdmin::class)) {
            
             ';
             }
-            // if (is_setting_valid("asd_woo_idp_provider", "google")) {
+            // if (is_setting_valid("asd_p4ssk3y_woo_idp_provider", "google")) {
             //     $clientId = get_option("asd_google_client_id");
             //     echo '<div id="g_id_onload"
             //             data-client_id="' . $clientId . '"

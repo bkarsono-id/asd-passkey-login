@@ -129,13 +129,13 @@ document.addEventListener("DOMContentLoaded", () => {
       if (result.success) {
         document.getElementById("asd_package_name").value = result.data.package;
         /* smtp */
-        document.getElementById("asd_smtp_host").value =
+        document.getElementById("asd_p4ssk3y_smtp_host").value =
           result.data.smtp.smtp_host;
-        document.getElementById("asd_smtp_port").value =
+        document.getElementById("asd_p4ssk3y_smtp_port").value =
           result.data.smtp.smtp_port;
-        document.getElementById("asd_smtp_user").value =
+        document.getElementById("asd_p4ssk3y_smtp_user").value =
           result.data.smtp.smtp_user;
-        document.getElementById("asd_smtp_password").value =
+        document.getElementById("asd_p4ssk3y_smtp_password").value =
           result.data.smtp.smtp_password;
 
         setTimeout(() => {
@@ -163,9 +163,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /** client id */
 
-  const fedcmSelect = document.getElementById("asd_woo_login_fedcm_form");
+  const fedcmSelect = document.getElementById("asd_p4ssk3y_woo_login_fedcm_form");
   const clientId = document.getElementById("asd_google_client_id");
-  const idp = document.getElementById("asd_woo_idp_provider");
+  const idp = document.getElementById("asd_p4ssk3y_woo_idp_provider");
   if (fedcmSelect && clientId) {
     fedcmSelect.addEventListener("change", function (event) {
       const selectedValue = event.target.value;

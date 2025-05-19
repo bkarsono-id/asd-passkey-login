@@ -1,8 +1,8 @@
 <?php
 
-namespace Asd\Core;
+namespace bkarsono\asdpasskeylogin\core;
 
-use Asd\Config\Paths;
+use bkarsono\asdpasskeylogin\config\Paths;
 
 if (!defined('ABSPATH')) exit;
 
@@ -13,7 +13,7 @@ if (!class_exists(BootPlugin::class)) {
         {
             static::loadSystemHelper($paths);
             static::definePathConstants($paths);
-            if (! defined('ASD_VERSION')) {
+            if (! defined('ASD_P4SSK3Y_VERSION')) {
                 static::loadConstants();
             }
             static::loadAutoloader($paths);

@@ -1,6 +1,6 @@
 <?php
 
-namespace Asd\Controllers;
+namespace bkarsono\asdpasskeylogin\controllers;
 
 if (!defined('ABSPATH')) exit;
 
@@ -14,7 +14,7 @@ if (!class_exists(UpgradePackage::class)) {
 
         public function index()
         {
-            $paket = get_option('asd_membership') ?? '';
+            $paket = get_option('asd_p4ssk3y_membership') ?? '';
             if ($paket === 'freemium') {
                 $existing = 1;
                 $choose = 3;
@@ -30,7 +30,7 @@ if (!class_exists(UpgradePackage::class)) {
             }
             $data["existing"] = $existing;
             $data["choose"] = $choose;
-            view("asd-upgrade-package", $data);
+            ASD_P4SSK3Y_view("asd-upgrade-package", $data);
         }
     }
 }

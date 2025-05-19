@@ -1,34 +1,34 @@
 <?php
 
-namespace Asd\Controllers;
+namespace bkarsono\asdpasskeylogin\controllers;
 
 if (!defined('ABSPATH')) exit;
 
 if (!class_exists(PasskeySettings::class)) {
     class PasskeySettings extends BaseController
     {
-        private $settings_group = 'asd_passwordless_settings_group';
+        private $settings_group = 'asd_p4ssk3y_passwordless_settings_group';
         private $options = [
-            'asd_admin_login_form_style',
-            'asd_admin_password_confirmation',
-            'asd_woo_login_form_style',
-            'asd_woo_password_confirmation',
-            'asd_woo_login_fedcm_form',
-            'asd_woo_idp_provider',
+            'asd_p4ssk3y_admin_login_form_style',
+            'asd_p4ssk3y_admin_password_confirmation',
+            'asd_p4ssk3y_woo_login_form_style',
+            'asd_p4ssk3y_woo_password_confirmation',
+            'asd_p4ssk3y_woo_login_fedcm_form',
+            'asd_p4ssk3y_woo_idp_provider',
             'asd_google_client_id'
         ];
-        private $smtp_group = 'asd_passwordless_smtp_group';
+        private $smtp_group = 'asd_p4ssk3y_passwordless_smtp_group';
         private $smtp_options = [
-            'asd_smtp_host',
-            'asd_smtp_port',
-            'asd_smtp_user',
-            'asd_smtp_password'
+            'asd_p4ssk3y_smtp_host',
+            'asd_p4ssk3y_smtp_port',
+            'asd_p4ssk3y_smtp_user',
+            'asd_p4ssk3y_smtp_password'
         ];
 
-        private $webpush_group = 'asd_push_notification_group';
+        private $webpush_group = 'asd_p4ssk3y_push_notification_group';
         private $webpush_options = [
-            'asd_push_notification',
-            'asd_webpush_public_key',
+            'asd_p4ssk3y_push_notification',
+            'asd_p4ssk3y_webpush_public_key',
         ];
 
         public function __construct()
@@ -40,8 +40,8 @@ if (!class_exists(PasskeySettings::class)) {
             add_action('wp_ajax_asd_passkey_smtp_settings', [$this, 'handlePasskeySMTPSettings']);
             add_action('wp_ajax_asd_passkey_smtp_test', [$this, 'handlePasskeySMTPTesting']);
 
-            add_action('wp_ajax_asd_push_notification_settings', [$this, 'handlePushNotificationSettings']);
-            add_action('wp_ajax_asd_push_notification_publickey', [$this, 'handlePushNotificationPublicKey']);
+            add_action('wp_ajax_asd_p4ssk3y_push_notification_settings', [$this, 'handlePushNotificationSettings']);
+            add_action('wp_ajax_asd_p4ssk3y_push_notification_publickey', [$this, 'handlePushNotificationPublicKey']);
             clean_notices_admin("asd-passkey-settings");
         }
 
@@ -53,7 +53,7 @@ if (!class_exists(PasskeySettings::class)) {
                 "smtpread" => $license,
                 "wooaccount" => class_exists('WooCommerce')
             ];
-            view("asd-passkey-settings", $data);
+            ASD_P4SSK3Y_view("asd-passkey-settings", $data);
         }
         public function registerSettings($hook)
         {
@@ -92,9 +92,9 @@ if (!class_exists(PasskeySettings::class)) {
                 wp_send_json_error(['message' => 'Nonce verification failed']);
                 exit;
             }
-            $fedcmactivated = isset($_POST['asd_woo_login_fedcm_form']) ? sanitize_text_field(wp_unslash($_POST['asd_woo_login_fedcm_form'])) : '';
+            $fedcmactivated = isset($_POST['asd_p4ssk3y_woo_login_fedcm_form']) ? sanitize_text_field(wp_unslash($_POST['asd_p4ssk3y_woo_login_fedcm_form'])) : '';
             $fedcmclientid = isset($_POST['asd_google_client_id']) ? sanitize_text_field(wp_unslash($_POST['asd_google_client_id'])) : '';
-            $fedcmidp = isset($_POST['asd_woo_idp_provider']) ? sanitize_text_field(wp_unslash($_POST['asd_woo_idp_provider'])) : '';
+            $fedcmidp = isset($_POST['asd_p4ssk3y_woo_idp_provider']) ? sanitize_text_field(wp_unslash($_POST['asd_p4ssk3y_woo_idp_provider'])) : '';
             if ($fedcmactivated !== "disabled" && $fedcmidp === "google" && $fedcmclientid === "") {
                 wp_send_json_error(['message' => 'Saved failed, please insert your google client id or disabled fedcm login.']);
                 exit;
@@ -130,18 +130,18 @@ if (!class_exists(PasskeySettings::class)) {
                 'action' => 'sync-package',
                 'filter' => null,
             ];
-            $response = wp_remote_post(ASD_API_URL . "/clientQuery", [
+            $response = wp_remote_post(ASD_P4SSK3Y_API_URL . "/clientQuery", [
                 'method'    => 'POST',
                 'body'      => json_encode($data),
                 'headers'   => [
                     'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer ' . get_option('asd_key1'),
+                    'Authorization' => 'Bearer ' . get_option('asd_p4ssk3y_key1'),
                 ],
                 'timeout'   => 30,
             ]);
             if (is_wp_error($response)) {
                 $error_message = $response->get_error_message();
-                asdlog("[ASD onActivation] API Error: $error_message");
+                ASD_P4SSK3Y_asdlog("[ASD onActivation] API Error: $error_message");
                 wp_send_json_error(['message' => 'Failed to connect to the API', 'error' => $error_message]);
                 exit;
             }
@@ -155,7 +155,7 @@ if (!class_exists(PasskeySettings::class)) {
             }
 
             if (isset($data['serverStatus']) && $data['serverStatus'] === 'error') {
-                asdlog("Sync Package Error: " . esc_html($data['serverMessage']));
+                ASD_P4SSK3Y_asdlog("Sync Package Error: " . esc_html($data['serverMessage']));
                 wp_send_json_error(['message' => 'API Error', 'details' => esc_html($data['serverMessage'])]);
                 exit;
             }
@@ -163,11 +163,11 @@ if (!class_exists(PasskeySettings::class)) {
                 wp_send_json_error(['message' => 'Invalid SMTP data from API response']);
                 exit;
             }
-            update_option("asd_membership", $result['package']);
-            update_option("asd_smtp_host", $result['smtp']['smtp_host']);
-            update_option("asd_smtp_port", $result['smtp']['smtp_port']);
-            update_option("asd_smtp_user", $result['smtp']['smtp_user']);
-            update_option("asd_smtp_password", $result['smtp']['smtp_password']);
+            update_option("asd_p4ssk3y_membership", $result['package']);
+            update_option("asd_p4ssk3y_smtp_host", $result['smtp']['smtp_host']);
+            update_option("asd_p4ssk3y_smtp_port", $result['smtp']['smtp_port']);
+            update_option("asd_p4ssk3y_smtp_user", $result['smtp']['smtp_user']);
+            update_option("asd_p4ssk3y_smtp_password", $result['smtp']['smtp_password']);
 
             $jQuery = get_option("asd_js_file");
             if ($jQuery) {
@@ -186,14 +186,14 @@ if (!class_exists(PasskeySettings::class)) {
                         'timeout' => 30
                     ]);
                     if (is_wp_error($response)) {
-                        asdlog('[ASD onActivation] Error fetching the file: ' . $response->get_error_message());
+                        ASD_P4SSK3Y_asdlog('[ASD onActivation] Error fetching the file: ' . $response->get_error_message());
                         wp_send_json_error(['message' => 'Error fetching the file']);
                         exit;
                     }
                     $file_content = wp_remote_retrieve_body($response);
                     $fileresult = file_put_contents($target_dir . $file_name, $file_content);
                     if ($fileresult === false) {
-                        asdlog('[ASD onActivation] Error saving the file to ' . $target_dir . $file_name);
+                        ASD_P4SSK3Y_asdlog('[ASD onActivation] Error saving the file to ' . $target_dir . $file_name);
                         wp_send_json_error(['message' => 'Error saving the file']);
                         exit;
                     }
@@ -246,18 +246,18 @@ if (!class_exists(PasskeySettings::class)) {
                 'filter' => null,
                 'data' => $updated
             ];
-            $response = wp_remote_post(ASD_API_URL . "/clientQuery", [
+            $response = wp_remote_post(ASD_P4SSK3Y_API_URL . "/clientQuery", [
                 'method'    => 'POST',
                 'body'      => json_encode($data),
                 'headers'   => [
                     'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer ' . get_option('asd_key1'),
+                    'Authorization' => 'Bearer ' . get_option('asd_p4ssk3y_key1'),
                 ],
                 'timeout'   => 30,
             ]);
             if (is_wp_error($response)) {
                 $error_message = $response->get_error_message();
-                asdlog("[ASD onActivation] API Error: $error_message");
+                ASD_P4SSK3Y_asdlog("[ASD onActivation] API Error: $error_message");
                 wp_send_json_error(['message' => 'Failed to connect to the API', 'error' => $error_message]);
                 exit;
             }
@@ -270,7 +270,7 @@ if (!class_exists(PasskeySettings::class)) {
             }
 
             if (isset($data['serverStatus']) && $data['serverStatus'] === 'error') {
-                asdlog("Sync Package Error: " . esc_html($data['serverMessage']));
+                ASD_P4SSK3Y_asdlog("Sync Package Error: " . esc_html($data['serverMessage']));
                 wp_send_json_error(['message' => esc_html($data['serverMessage'])]);
                 exit;
             }
@@ -308,18 +308,18 @@ if (!class_exists(PasskeySettings::class)) {
                 'filter' => null,
                 'data' => $updated
             ];
-            $response = wp_remote_post(ASD_API_URL . "/clientQuery", [
+            $response = wp_remote_post(ASD_P4SSK3Y_API_URL . "/clientQuery", [
                 'method'    => 'POST',
                 'body'      => json_encode($data),
                 'headers'   => [
                     'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer ' . get_option('asd_key1'),
+                    'Authorization' => 'Bearer ' . get_option('asd_p4ssk3y_key1'),
                 ],
                 'timeout'   => 30,
             ]);
             if (is_wp_error($response)) {
                 $error_message = $response->get_error_message();
-                asdlog("[Sync Package Error] API Error: $error_message");
+                ASD_P4SSK3Y_asdlog("[Sync Package Error] API Error: $error_message");
                 wp_send_json_error(['message' => 'Failed to connect to the API', 'error' => $error_message]);
                 exit;
             }
@@ -332,7 +332,7 @@ if (!class_exists(PasskeySettings::class)) {
             }
 
             if (isset($data['serverStatus']) && $data['serverStatus'] === 'error') {
-                asdlog("Sync Package Error: " . esc_html($data['serverMessage']));
+                ASD_P4SSK3Y_asdlog("Sync Package Error: " . esc_html($data['serverMessage']));
                 wp_send_json_error(['message' => esc_html($data['serverMessage'])]);
                 exit;
             }
@@ -386,12 +386,12 @@ if (!class_exists(PasskeySettings::class)) {
                 'action' => 'create-publickey',
                 'filter' => null,
             ];
-            $response = wp_remote_post(ASD_WEBPUSH_URL . "/clientQuery", [
+            $response = wp_remote_post(ASD_P4SSK3Y_WEBPUSH_URL . "/clientQuery", [
                 'method'    => 'POST',
                 'body'      => json_encode($data),
                 'headers'   => [
                     'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer ' . get_option('asd_key1'),
+                    'Authorization' => 'Bearer ' . get_option('asd_p4ssk3y_key1'),
                 ],
                 'timeout'   => 30,
             ]);
@@ -410,7 +410,7 @@ if (!class_exists(PasskeySettings::class)) {
             }
 
             if (isset($data['serverStatus']) && $data['serverStatus'] === 'error') {
-                asdlog("Create Public Key Error: " . esc_html($data['serverMessage']));
+                ASD_P4SSK3Y_asdlog("Create Public Key Error: " . esc_html($data['serverMessage']));
                 wp_send_json_error(['message' => 'API Error', 'details' => esc_html($data['serverMessage'])]);
                 exit;
             }
@@ -418,7 +418,7 @@ if (!class_exists(PasskeySettings::class)) {
                 wp_send_json_error(['message' => 'Invalid Public Key data from API response']);
                 exit;
             }
-            update_option("asd_webpush_public_key", $result['public_key']);
+            update_option("asd_p4ssk3y_webpush_public_key", $result['public_key']);
 
             wp_send_json_success(['message' => 'Create Public Key Success.']);
         }
