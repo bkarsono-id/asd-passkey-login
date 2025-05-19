@@ -23,7 +23,7 @@ if (!class_exists(Core::class)) {
             if (class_exists('WooCommerce')) {
                 $classNames = array_merge($classNames, ['LoginWoocommerce', 'CreatePasskeyWoocommerce', 'PushNotification']);
             }
-            $nameSpace = 'bkarsono\\asdpasskeylogni\\controllers\\';
+            $nameSpace = 'bkarsono\\asdpasskeylogin\\controllers\\';
             foreach ($classNames as $className) {
                 $fullClassName = $nameSpace . $className;
                 if (class_exists($fullClassName)) {

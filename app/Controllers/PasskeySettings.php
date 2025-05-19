@@ -15,7 +15,7 @@ if (!class_exists(PasskeySettings::class)) {
             'asd_p4ssk3y_woo_password_confirmation',
             'asd_p4ssk3y_woo_login_fedcm_form',
             'asd_p4ssk3y_woo_idp_provider',
-            'asd_google_client_id'
+            'asd_p4ssk3y_google_client_id'
         ];
         private $smtp_group = 'asd_p4ssk3y_passwordless_smtp_group';
         private $smtp_options = [
@@ -40,8 +40,8 @@ if (!class_exists(PasskeySettings::class)) {
             add_action('wp_ajax_asd_passkey_smtp_settings', [$this, 'handlePasskeySMTPSettings']);
             add_action('wp_ajax_asd_passkey_smtp_test', [$this, 'handlePasskeySMTPTesting']);
 
-            add_action('wp_ajax_asd_p4ssk3y_push_notification_settings', [$this, 'handlePushNotificationSettings']);
-            add_action('wp_ajax_asd_p4ssk3y_push_notification_publickey', [$this, 'handlePushNotificationPublicKey']);
+            add_action('wp_ajax_asd_push_notification_settings', [$this, 'handlePushNotificationSettings']);
+            add_action('wp_ajax_asd_push_notification_publickey', [$this, 'handlePushNotificationPublicKey']);
             clean_notices_admin("asd-passkey-settings");
         }
 
@@ -93,7 +93,7 @@ if (!class_exists(PasskeySettings::class)) {
                 exit;
             }
             $fedcmactivated = isset($_POST['asd_p4ssk3y_woo_login_fedcm_form']) ? sanitize_text_field(wp_unslash($_POST['asd_p4ssk3y_woo_login_fedcm_form'])) : '';
-            $fedcmclientid = isset($_POST['asd_google_client_id']) ? sanitize_text_field(wp_unslash($_POST['asd_google_client_id'])) : '';
+            $fedcmclientid = isset($_POST['asd_p4ssk3y_google_client_id']) ? sanitize_text_field(wp_unslash($_POST['asd_p4ssk3y_google_client_id'])) : '';
             $fedcmidp = isset($_POST['asd_p4ssk3y_woo_idp_provider']) ? sanitize_text_field(wp_unslash($_POST['asd_p4ssk3y_woo_idp_provider'])) : '';
             if ($fedcmactivated !== "disabled" && $fedcmidp === "google" && $fedcmclientid === "") {
                 wp_send_json_error(['message' => 'Saved failed, please insert your google client id or disabled fedcm login.']);

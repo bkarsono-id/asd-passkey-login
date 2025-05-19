@@ -57,9 +57,6 @@ if (!class_exists(Menu::class)) {
                                 <li class="nav-item">
                                     <a class="nav-link" href="' . esc_url($create_passkey_url) . '">Create Passkey</a>
                                 </li>
-                                 <li class="nav-item">
-                                    <a class="nav-link" href="' . esc_url($send_notification_url) . '">Send Notification</a>
-                                </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="' . esc_url($upgrade_url) . '" style="color:blue;">Pricing</a>
                                 </li>
