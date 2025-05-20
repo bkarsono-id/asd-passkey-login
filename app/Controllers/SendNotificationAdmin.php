@@ -2,8 +2,6 @@
 
 namespace bkarsono\asdpasskeylogin\controllers;
 
-use bkarsono\asdpasskeylogin\models\GeneralModel;
-
 if (!defined('ABSPATH')) exit;
 if (!class_exists(SendNotificationAdmin::class)) {
       class SendNotificationAdmin extends BaseController
