@@ -31,19 +31,17 @@ if (!class_exists(LoginAdmin::class)) {
             if ($form_style === "passkey_only" || $form_style === "form_and_passkey") {
                 $rowhide = $form_style === "form_and_passkey" ? "asd-passkey-login-wrapper-hybrid" : "";
                 echo '<div class="asd-passkey-login-wrapper ' . esc_attr($rowhide) . '" id="asd-passkey-login-wrapper" style="display: none;">
-                <div id="infoMessage" class="notice notice-info" style="display: none;"></div>
-                <div id="errorMessage" class="notice notice-error" style="display: none;"></div>
-                <div id="successMessage" class="notice notice-success" style="display: none;"></div>
-                <button id="login-via-passkey" class="button button-large login-via-passkey">
-                    <span id="spinnerText" style="display: none;">' . esc_html__('Login via Passkey...', 'asd-passkey-login') . '</span>
-                    <span id="buttonText">' . esc_html__('Login via Passkey', 'asd-passkey-login') . '</span>
-                </button>
-            </div>
-           
-            ';
+                    <div id="infoMessage" class="notice notice-info" style="display: none;"></div>
+                    <div id="errorMessage" class="notice notice-error" style="display: none;"></div>
+                    <div id="successMessage" class="notice notice-success" style="display: none;"></div>
+                    <button id="login-via-passkey" class="button button-large login-via-passkey">
+                        <span id="spinnerText" style="display: none;">' . esc_html__('Login via Passkey...', 'asd-passkey-login') . '</span>
+                        <span id="buttonText">' . esc_html__('Login via Passkey', 'asd-passkey-login') . '</span>
+                    </button>
+                </div>';
             }
-            // if (is_setting_valid("asd_p4ssk3y_woo_idp_provider", "google")) {
-            //     $clientId = get_option("asd_google_client_id");
+            // if (ASD_P4SSK3Y_is_setting_valid("asd_p4ssk3y_woo_idp_provider", "google")) {
+            //     $clientId = get_option("asd_p4ssk3y_google_client_id");
             //     echo '<div id="g_id_onload"
             //             data-client_id="' . $clientId . '"
             //             data-auto_prompt="true">

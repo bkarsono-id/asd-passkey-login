@@ -34,7 +34,7 @@ if (!class_exists(CreatePasskeyWoocommerce::class)) {
                 wp_send_json_error(['message' => 'Nonce verification failed']);
                 exit;
             }
-            $setting_using_password = is_setting_valid("asd_p4ssk3y_admin_password_confirmation", "Y");
+            $setting_using_password = ASD_P4SSK3Y_is_setting_valid("asd_p4ssk3y_admin_password_confirmation", "Y");
             if ($setting_using_password) {
 
                 if (empty($useremail) || empty($password)) {
@@ -125,7 +125,7 @@ if (!class_exists(CreatePasskeyWoocommerce::class)) {
         function asdRegisterPasskeyContent()
         {
             $data = [
-                "show" => is_setting_valid("asd_p4ssk3y_admin_password_confirmation", "N", "none")
+                "show" => ASD_P4SSK3Y_is_setting_valid("asd_p4ssk3y_admin_password_confirmation", "N", "none")
             ];
             ASD_P4SSK3Y_view("asd-create-passkey-woocommerce", $data);
         }

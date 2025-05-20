@@ -29,7 +29,11 @@ abstract class BaseController
         'asd_p4ssk3y_smtp_password' => 'default',
         /* push notification */
         'asd_p4ssk3y_push_notification' => 'N',
-        'asd_p4ssk3y_webpush_public_key' => ''
+        'asd_p4ssk3y_snv_notification' => 'silent',
+        'asd_p4ssk3y_interaction_notification' => 'N',
+        'asd_p4ssk3y_webpush_public_key' => '',
+        'asd_p4ssk3y_icon_url' => '',
+        'asd_p4ssk3y_badge_url' => ''
     ];
 
     public function __construct()
@@ -50,7 +54,7 @@ abstract class BaseController
     }
     public static function showActivatedMessage()
     {
-        if (get_option('asd_passkey_activation_notice')) {
+        if (get_option('asd_p4ssk3y_activation_notice')) {
             echo '<div class="notice notice-success is-dismissible">';
             printf(
                 '<p>%s <a href="%s">%s</a> %s <a href="%s">%s</a>.</p>',
@@ -62,7 +66,7 @@ abstract class BaseController
                 esc_html__('benefits page', 'asd-passkey-login')
             );
             echo '</div>';
-            delete_option('asd_passkey_activation_notice');
+            delete_option('asd_p4ssk3y_activation_notice');
         }
     }
 }

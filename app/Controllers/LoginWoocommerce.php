@@ -21,7 +21,7 @@ if (!class_exists(LoginWoocommerce::class)) {
         public function addPasskeyLoginLink()
         {
             $form_style = get_option("asd_p4ssk3y_woo_login_form_style");
-            if (!is_user_logged_in() && is_pro_license() && ($form_style === "passkey_only" || $form_style === "form_and_passkey")) {
+            if (!is_user_logged_in() && ASD_P4SSK3Y_is_pro_license() && ($form_style === "passkey_only" || $form_style === "form_and_passkey")) {
                 echo '<div class="asd-passkey-login-wrapper" id="asd-passkey-login-wrapper" style="display: none;">
                 <div id="infoMessage" class="notice notice-info" style="display: none;"></div>
                 <div id="errorMessage" class="notice notice-error" style="display: none;"></div>
@@ -32,7 +32,7 @@ if (!class_exists(LoginWoocommerce::class)) {
                 </button>
             </div>';
             }
-            if (is_setting_valid("asd_p4ssk3y_woo_idp_provider", "google")) {
+            if (ASD_P4SSK3Y_is_setting_valid("asd_p4ssk3y_woo_idp_provider", "google")) {
                 $clientId = get_option("asd_google_client_id");
                 echo '<div id="g_id_onload"
                         data-client_id="' . esc_attr($clientId) . '"

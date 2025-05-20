@@ -98,7 +98,7 @@
 
                         <?php if ($wooaccount): ?>
                             <h2 class="settings-heading pro">Pro Settings</h2>
-                            <?php if (is_pro_license() === false) { ?>
+                            <?php if (ASD_P4SSK3Y_is_pro_license() === false) { ?>
                                 <div class="alert alert-info p-2" role="alert">
                                     <?php printf(
                                         'Upgrade your plan <a href="%s">Learn more</a>.',
@@ -115,7 +115,7 @@
                                 </div>
                                 <div class="form-select-wrapper mt-3">
                                     <select
-                                        <?php echo is_pro_license() === true ? '' : 'disabled' ?>
+                                        <?php echo ASD_P4SSK3Y_is_pro_license() === true ? '' : 'disabled' ?>
                                         class="form-select"
                                         name="asd_p4ssk3y_woo_login_form_style"
                                         id="asd_p4ssk3y_woo_login_form_style">
@@ -133,7 +133,7 @@
                                 <div class="form-check-wrapper mt-3">
                                     <div class="form-check  form-check-inline">
                                         <input
-                                            <?php echo is_pro_license() === true ? '' : 'disabled' ?>
+                                            <?php echo ASD_P4SSK3Y_is_pro_license() === true ? '' : 'disabled' ?>
                                             class="form-check-input"
                                             type="radio"
                                             name="asd_p4ssk3y_woo_password_confirmation"
@@ -146,7 +146,7 @@
                                     </div>
                                     <div class="form-check form-check-inline">
                                         <input
-                                            <?php echo is_pro_license() === true ? '' : 'disabled' ?>
+                                            <?php echo ASD_P4SSK3Y_is_pro_license() === true ? '' : 'disabled' ?>
                                             class="form-check-input"
                                             type="radio"
                                             name="asd_p4ssk3y_woo_password_confirmation"
@@ -166,7 +166,7 @@
                                 </div>
                                 <div class="form-select-wrapper mt-3">
                                     <select
-                                        <?php echo is_pro_license() === true ? '' : 'disabled' ?>
+                                        <?php echo ASD_P4SSK3Y_is_pro_license() === true ? '' : 'disabled' ?>
                                         class="form-select"
                                         name="asd_p4ssk3y_woo_login_fedcm_form"
                                         id="asd_p4ssk3y_woo_login_fedcm_form">
@@ -184,7 +184,7 @@
                                 </div>
                                 <div class="form-select-wrapper mt-3">
                                     <select
-                                        <?php echo is_pro_license() === true ? '' : 'disabled' ?>
+                                        <?php echo ASD_P4SSK3Y_is_pro_license() === true ? '' : 'disabled' ?>
                                         class="form-select"
                                         name="asd_p4ssk3y_woo_idp_provider"
                                         id="asd_p4ssk3y_woo_idp_provider">
@@ -199,13 +199,13 @@
                                 </div>
                                 <div class="form-check-wrapper mt-3">
                                     <input
-                                        <?php echo is_pro_license() === true ? '' : 'disabled' ?>
+                                        <?php echo ASD_P4SSK3Y_is_pro_license() === true ? '' : 'disabled' ?>
                                         style="width: 100%; min-width: 600px;"
                                         type="text"
                                         class="form-control"
-                                        id="asd_google_client_id"
-                                        name="asd_google_client_id"
-                                        value="<?php echo esc_attr(get_option('asd_google_client_id')); ?>"
+                                        id="asd_p4ssk3y_google_client_id"
+                                        name="asd_p4ssk3y_google_client_id"
+                                        value="<?php echo esc_attr(get_option('asd_p4ssk3y_google_client_id')); ?>"
                                         placeholder="YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com">
                                 </div>
                             </div>
@@ -296,6 +296,32 @@
                                 </div>
                             </div>
                         <?php endif; ?>
+                        <?php
+                        if (ASD_P4SSK3Y_is_setting_valid("asd_p4ssk3y_webpush_public_key", '')):
+                        ?>
+                            <div class="mb-3 small-option-text">
+                                <label class="form-label fw-bold">Public Key</label>
+                                <div class="form-text text-muted mt-0 pt-0 mb-3">
+                                    <i>
+                                        Public key required for secure communication in Web Push Notifications. This key is an essential component of the encryption process, ensuring that notifications sent from your server are both authentic and protected.
+                                    </i>
+                                </div>
+                                <div id="usernameTextbox" class="mb-3 d-flex align-items-center justify-content-between">
+                                    <div class="d-flex align-items-center" style="flex-grow: 1;">
+                                        <input
+                                            readonly
+                                            type="text"
+                                            class="form-control"
+                                            id="asd_p4ssk3y_webpush_public_key"
+                                            name="asd_p4ssk3y_webpush_public_key"
+                                            value="<?php echo esc_attr(get_option('asd_p4ssk3y_webpush_public_key', '')); ?>">
+                                    </div>
+                                    <button type="button" id="btnCreatePublicKey" class="button button-secondary ms-1" <?php echo ASD_P4SSK3Y_is_scale_license() === true ? '' : 'disabled' ?>>Create Public Key</button>
+                                </div>
+                            </div>
+                        <?php
+                        endif;
+                        ?>
                         <div class="mb-3 small-option-text mt-4">
                             <label class="form-label fw-bold">Enable Web Push Notification?</label>
                             <div class="form-text text-muted mt-0 pt-0">
@@ -304,55 +330,166 @@
                             <div class="form-check-wrapper mt-3">
                                 <div class="form-check  form-check-inline">
                                     <input
-                                        <?php echo is_scale_license() === true ? '' : 'disabled' ?>
+                                        <?php echo ASD_P4SSK3Y_is_scale_license() === true ? '' : 'disabled' ?>
                                         class="form-check-input"
                                         type="radio"
-                                        name="asd_push_notification"
-                                        id="asd_push_notification-n"
+                                        name="asd_p4ssk3y_push_notification"
+                                        id="asd_p4ssk3y_push_notification-n"
                                         value="N"
-                                        <?php checked(get_option('asd_push_notification'), 'N'); ?>>
-                                    <label class="form-check-label" for="asd_push_notification-n">
+                                        <?php checked(get_option('asd_p4ssk3y_push_notification'), 'N'); ?>>
+                                    <label class="form-check-label" for="asd_p4ssk3y_push_notification-n">
                                         No
                                     </label>
                                 </div>
                                 <div class="form-check form-check-inline">
                                     <input
-                                        <?php echo is_scale_license() === true ? '' : 'disabled' ?>
+                                        <?php echo ASD_P4SSK3Y_is_scale_license() === true ? '' : 'disabled' ?>
                                         class="form-check-input"
                                         type="radio"
-                                        name="asd_push_notification"
-                                        id="asd_push_notification-y"
+                                        name="asd_p4ssk3y_push_notification"
+                                        id="asd_p4ssk3y_push_notification-y"
                                         value="Y"
-                                        <?php checked(get_option('asd_push_notification'), 'Y'); ?>>
-                                    <label class="form-check-label" for="asd_push_notification-y">
+                                        <?php checked(get_option('asd_p4ssk3y_push_notification'), 'Y'); ?>>
+                                    <label class="form-check-label" for="asd_p4ssk3y_push_notification-y">
                                         Yes
                                     </label>
                                 </div>
                             </div>
                         </div>
-                        <?php
-                        if (is_setting_valid("asd_webpush_public_key", '')):
-                        ?>
-                            <div class="mb-3 small-option-text">
-                                <label class="form-label fw-bold">Public Key</label>
-                                <div id="usernameTextbox" class="mb-3 d-flex align-items-center justify-content-between">
-                                    <div class="d-flex align-items-center" style="flex-grow: 1;">
-                                        <input
-                                            readonly
-                                            type="text"
-                                            class="form-control"
-                                            id="asd_webpush_public_key"
-                                            name="asd_webpush_public_key"
-                                            value="<?php echo esc_attr(get_option('asd_webpush_public_key', '')); ?>">
-                                    </div>
-                                    <button type="button" id="btnCreatePublicKey" class="button button-secondary ms-1" <?php echo is_scale_license() === true ? '' : 'disabled' ?>>Create Public Key</button>
+
+                        <div class="mb-3 small-option-text mt-4">
+                            <label class="form-label fw-bold">Notification sound and vibrate?</label>
+                            <div class="form-text text-muted mt-0 pt-0">
+                                <i>Whether the notification is silent (no sounds or vibrations issued), regardless of the device settings</i>
+                            </div>
+                            <div class="form-check-wrapper mt-3">
+                                <div class="form-check  form-check-inline">
+                                    <input
+                                        <?php echo ASD_P4SSK3Y_is_scale_license() === true ? '' : 'disabled' ?>
+                                        class="form-check-input"
+                                        type="radio"
+                                        name="asd_p4ssk3y_snv_notification"
+                                        id="asd_p4ssk3y_snv_notification-silent"
+                                        value="silent"
+                                        <?php checked(get_option('asd_p4ssk3y_snv_notification'), 'silent'); ?>>
+                                    <label class="form-check-label" for="asd_p4ssk3y_snv_notification-silent">
+                                        Silent
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input
+                                        <?php echo ASD_P4SSK3Y_is_scale_license() === true ? '' : 'disabled' ?>
+                                        class="form-check-input"
+                                        type="radio"
+                                        name="asd_p4ssk3y_snv_notification"
+                                        id="asd_p4ssk3y_snv_notification-vibrate"
+                                        value="vibrate"
+                                        <?php checked(get_option('asd_p4ssk3y_snv_notification'), 'vibrate'); ?>>
+                                    <label class="form-check-label" for="asd_p4ssk3y_snv_notification-vibrate">
+                                        Vibarate Only
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input
+                                        <?php echo ASD_P4SSK3Y_is_scale_license() === true ? '' : 'disabled' ?>
+                                        class="form-check-input"
+                                        type="radio"
+                                        name="asd_p4ssk3y_snv_notification"
+                                        id="asd_p4ssk3y_snv_notification-sound"
+                                        value="sound"
+                                        <?php checked(get_option('asd_p4ssk3y_snv_notification'), 'sound'); ?>>
+                                    <label class="form-check-label" for="asd_p4ssk3y_snv_notification-sound">
+                                        Sound Only
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input
+                                        <?php echo ASD_P4SSK3Y_is_scale_license() === true ? '' : 'disabled' ?>
+                                        class="form-check-input"
+                                        type="radio"
+                                        name="asd_p4ssk3y_snv_notification"
+                                        id="asd_p4ssk3y_snv_notification-snv"
+                                        value="sound_and_vibrate"
+                                        <?php checked(get_option('asd_p4ssk3y_snv_notification'), 'sound_and_vibrate'); ?>>
+                                    <label class="form-check-label" for="asd_p4ssk3y_snv_notification-snv">
+                                        Sound & Vibrate
+                                    </label>
                                 </div>
                             </div>
-                        <?php
-                        endif;
-                        ?>
+                        </div>
+                        <div class="mb-3 small-option-text mt-4">
+                            <label class="form-label fw-bold">Enable Interaction?</label>
+                            <div class="form-text text-muted mt-0 pt-0">
+                                <i>Indicates that a notification should remain active until the user clicks or dismisses it, rather than closing automatically</i>
+                            </div>
+                            <div class="form-check-wrapper mt-3">
+                                <div class="form-check  form-check-inline">
+                                    <input
+                                        <?php echo ASD_P4SSK3Y_is_scale_license() === true ? '' : 'disabled' ?>
+                                        class="form-check-input"
+                                        type="radio"
+                                        name="asd_p4ssk3y_interaction_notification"
+                                        id="asd_p4ssk3y_interaction_notification-n"
+                                        value="N"
+                                        <?php checked(get_option('asd_p4ssk3y_interaction_notification'), 'N'); ?>>
+                                    <label class="form-check-label" for="asd_p4ssk3y_interaction_notification-n">
+                                        No
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input
+                                        <?php echo ASD_P4SSK3Y_is_scale_license() === true ? '' : 'disabled' ?>
+                                        class="form-check-input"
+                                        type="radio"
+                                        name="asd_p4ssk3y_interaction_notification"
+                                        id="asd_p4ssk3y_interaction_notification-y"
+                                        value="Y"
+                                        <?php checked(get_option('asd_p4ssk3y_interaction_notification'), 'Y'); ?>>
+                                    <label class="form-check-label" for="asd_p4ssk3y_interaction_notification-y">
+                                        Yes
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3 small-option-text mt-4">
+                            <label class="form-label fw-bold">Icon URL</label>
+                            <div class="form-text text-muted mt-0 pt-0 mb-3">
+                                <i>A string containing the URL of an icon to be displayed in the notification.</i>
+                            </div>
+                            <div id="usernameTextbox" class="mb-3 d-flex align-items-center justify-content-between">
+                                <div class="d-flex align-items-center" style="flex-grow: 1;">
+                                    <input
+                                        readonly
+                                        type="text"
+                                        class="form-control"
+                                        id="asd_p4ssk3y_icon_url"
+                                        name="asd_p4ssk3y_icon_url"
+                                        value="<?php echo esc_attr(get_option('asd_p4ssk3y_icon_url', '')); ?>">
+                                </div>
+                                <button type="button" class="button" id="asd_p4ssk3y_button_icon_url">Upload Icon</button>
+                            </div>
+                        </div>
+                        <div class="mb-3 small-option-text mt-4">
+                            <label class="form-label fw-bold">Bagde URL</label>
+                            <div class="form-text text-muted mt-0 pt-0 mb-3">
+                                <i>A string containing the URL of the image used to represent the notification when there isn't enough space to display the notification itself; for example, the Android Notification Bar. On Android devices, the badge should accommodate devices up to 4x resolution, about 96x96px, and the image will be automatically masked.</i>
+                            </div>
+                            <div id="usernameTextbox" class="mb-3 d-flex align-items-center justify-content-between">
+                                <div class="d-flex align-items-center" style="flex-grow: 1;">
+                                    <input
+                                        readonly
+                                        type="text"
+                                        class="form-control"
+                                        id="asd_p4ssk3y_badge_url"
+                                        name="asd_p4ssk3y_badge_url"
+                                        value="<?php echo esc_attr(get_option('asd_p4ssk3y_badge_url', '')); ?>">
+                                </div>
+                                <button type="button" class="button" id="asd_p4ssk3y_button_badge_url">Upload Badge</button>
+                            </div>
+                        </div>
+
                         <div class="text-end">
-                            <button type="submit" id="save-web-push" class="button button-primary" <?php echo is_scale_license() === true ? '' : 'disabled' ?>>Save Settings</button>
+                            <button type="submit" id="save-web-push" class="button button-primary" <?php echo ASD_P4SSK3Y_is_scale_license() === true ? '' : 'disabled' ?>>Save Settings</button>
                         </div>
                     </form>
                 </div>

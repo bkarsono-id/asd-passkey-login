@@ -5,7 +5,7 @@ Donate link: https://paypal.me/bobbykarsono
 Requires at least: 6.7
 Tested up to: 6.8
 Requires PHP: 8.2
-Stable tag: 1.0.0
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Advanced passkey and passwordless platform with anti-phishing features, offering secure authentication for WordPress and WooCommerce.
@@ -21,11 +21,12 @@ Key Benefits:
 * Builds trust through advanced encryption and anti-phishing technology.
 
 Major features in ASD Passkey Login for Wordpress:
-* Seamless integration (no need API settings)
-* Using standard passkey and asimetric encryption
-* Can using corporate SMTP
-* Can edit template email
-* Support login using FedCM 
+* Seamless Integration: No need for additional API settings; works out of the box.
+* Standards-Based Security: Utilizes standard passkeys and asymmetric encryption for enhanced security.
+* Corporate SMTP Support: Allows the use of your organization’s SMTP for email delivery.
+* Customizable Email Templates: Provides the flexibility to edit email templates to match your branding.
+* FedCM Login Support: Enables secure login using Federated Credential Management (FedCM).
+* Web Push Notifications: Supports real-time web push notifications for user updates and alerts.
 
 == Installation ==
 1. Upload "asd-passwordless" folder to the "/wp-content/plugins/" directory.
@@ -95,7 +96,14 @@ An internet connection is required for registration or logging into cloud-based 
 For local services that support WebAuthn, Passkeys can work without an internet connection.
 
 == Changelog ==
+
+= 1.1.0 =
+* Relase date : 1 June 2025*
+* New feature web push notification.
+* Fix an issue jaobject not found, check object first (in javascript file)
+
 = 1.0.0 =
 * Relase date : 3 May 2025*
 
 * Initial release.
+

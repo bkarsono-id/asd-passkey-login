@@ -28,7 +28,11 @@ if (!class_exists(PasskeySettings::class)) {
         private $webpush_group = 'asd_p4ssk3y_push_notification_group';
         private $webpush_options = [
             'asd_p4ssk3y_push_notification',
+            'asd_p4ssk3y_snv_notification',
+            'asd_p4ssk3y_interaction_notification',
             'asd_p4ssk3y_webpush_public_key',
+            'asd_p4ssk3y_icon_url',
+            'asd_p4ssk3y_badge_url'
         ];
 
         public function __construct()
@@ -42,13 +46,13 @@ if (!class_exists(PasskeySettings::class)) {
 
             add_action('wp_ajax_asd_push_notification_settings', [$this, 'handlePushNotificationSettings']);
             add_action('wp_ajax_asd_push_notification_publickey', [$this, 'handlePushNotificationPublicKey']);
-            clean_notices_admin("asd-passkey-settings");
+            ASD_P4SSK3Y_clean_notices_admin("asd-passkey-settings");
         }
 
         public function index()
         {
             $this->initDefaultOptions();
-            $license = !is_pro_license() ? "readonly" : "";
+            $license = !ASD_P4SSK3Y_is_pro_license() ? "readonly" : "";
             $data = [
                 "smtpread" => $license,
                 "wooaccount" => class_exists('WooCommerce')
@@ -363,6 +367,43 @@ if (!class_exists(PasskeySettings::class)) {
                     $updated[$option] = $sanitized_value;
                 }
             }
+
+            $data = [
+                'domain' => get_bloginfo('url'),
+                'platform' => "wordpress",
+                'action' => 'save-push-notification',
+                'filter' => null,
+                'data' => $updated
+            ];
+            $response = wp_remote_post(ASD_P4SSK3Y_WEBPUSH_URL . "/clientQuery", [
+                'method'    => 'POST',
+                'body'      => json_encode($data),
+                'headers'   => [
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . get_option('asd_p4ssk3y_key1'),
+                ],
+                'timeout'   => 30,
+            ]);
+            if (is_wp_error($response)) {
+                $error_message = $response->get_error_message();
+                ASD_P4SSK3Y_asdlog("[Sync Package Error] API Error: $error_message");
+                wp_send_json_error(['message' => 'Failed to connect to the API', 'error' => $error_message]);
+                exit;
+            }
+
+            $body = wp_remote_retrieve_body($response);
+            $data = json_decode($body, true);
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                wp_send_json_error(['message' => 'Failed to decode API response']);
+                exit;
+            }
+
+            if (isset($data['serverStatus']) && $data['serverStatus'] === 'error') {
+                ASD_P4SSK3Y_asdlog("Sync Package Error: " . esc_html($data['serverMessage']));
+                wp_send_json_error(['message' => esc_html($data['serverMessage'])]);
+                exit;
+            }
+
 
             wp_send_json_success(['message' => 'Settings saved successfully.']);
         }

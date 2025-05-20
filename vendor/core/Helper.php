@@ -11,10 +11,10 @@ if (! function_exists('ASD_P4SSK3Y_webid')) {
        */
       function ASD_P4SSK3Y_webid(): string
       {
-            $ASD_P4SSK3Y_webid =  get_option('asd_web_id');
+            $ASD_P4SSK3Y_webid =  get_option('asd_p4ssk3y_web_id');
             if (!$ASD_P4SSK3Y_webid) {
                   $ASD_P4SSK3Y_webid = bin2hex(random_bytes(32));
-                  add_option("asd_web_id", $ASD_P4SSK3Y_webid);
+                  add_option("asd_p4ssk3y_web_id", $ASD_P4SSK3Y_webid);
             }
             return $ASD_P4SSK3Y_webid;
       }

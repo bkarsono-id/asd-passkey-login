@@ -107,7 +107,7 @@ if (! function_exists('ASD_P4SSK3Y_webid')) {
     }
 }
 
-if (! function_exists('is_pro_license')) {
+if (! function_exists('ASD_P4SSK3Y_is_pro_license')) {
     /**
      * Returns the base URL as defined by the App config.
      * Base URLs are trimmed site URLs without the index page.
@@ -117,7 +117,7 @@ if (! function_exists('is_pro_license')) {
      *                                   string '' is set, a protocol-relative
      *                                   link is returned.
      */
-    function is_pro_license(): bool
+    function ASD_P4SSK3Y_is_pro_license(): bool
     {
         $license =  get_option('asd_p4ssk3y_membership');
         if ($license === "freemium" || $license === "starter") {
@@ -126,7 +126,7 @@ if (! function_exists('is_pro_license')) {
         return true;
     }
 }
-if (! function_exists('is_scale_license')) {
+if (! function_exists('ASD_P4SSK3Y_is_scale_license')) {
     /**
      * Returns the base URL as defined by the App config.
      * Base URLs are trimmed site URLs without the index page.
@@ -136,7 +136,7 @@ if (! function_exists('is_scale_license')) {
      *                                   string '' is set, a protocol-relative
      *                                   link is returned.
      */
-    function is_scale_license(): bool
+    function ASD_P4SSK3Y_is_scale_license(): bool
     {
         $license =  get_option('asd_p4ssk3y_membership');
         if ($license === "scale") {
@@ -145,7 +145,7 @@ if (! function_exists('is_scale_license')) {
         return false;
     }
 }
-if (! function_exists('is_setting_valid')) {
+if (! function_exists('ASD_P4SSK3Y_is_setting_valid')) {
     /**
      * Returns the base URL as defined by the App config.
      * Base URLs are trimmed site URLs without the index page.
@@ -155,7 +155,7 @@ if (! function_exists('is_setting_valid')) {
      *                                   string '' is set, a protocol-relative
      *                                   link is returned.
      */
-    function is_setting_valid($option = '', $value = '',  $callbackvalue = null)
+    function ASD_P4SSK3Y_is_setting_valid($option = '', $value = '',  $callbackvalue = null)
     {
         $settings =  get_option($option);
         if ($settings !== $value) {
@@ -166,7 +166,7 @@ if (! function_exists('is_setting_valid')) {
     }
 }
 
-if (! function_exists('clean_notices_admin')) {
+if (! function_exists('ASD_P4SSK3Y_clean_notices_admin')) {
     /**
      * Returns the base URL as defined by the App config.
      * Base URLs are trimmed site URLs without the index page.
@@ -176,7 +176,7 @@ if (! function_exists('clean_notices_admin')) {
      *                                   string '' is set, a protocol-relative
      *                                   link is returned.
      */
-    function clean_notices_admin($slug)
+    function ASD_P4SSK3Y_clean_notices_admin($slug)
     {
         add_action('admin_notices', function () use ($slug) {
             $current_screen = get_current_screen();
