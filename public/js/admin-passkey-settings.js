@@ -167,8 +167,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const idp = event.target.value;
       controlBox(fedcmSelect.value, idp);
     });
-  } else {
-    console.error("Dropdown element not found!");
   }
 
   const controlBox = (selectedValue, idp) => {
@@ -254,6 +252,60 @@ document.addEventListener("DOMContentLoaded", () => {
         errorModal("AJAX request failed. Please try again.");
         console.error("Error:", error);
       }
+    });
+  }
+
+  /* icon media uploader */
+  let mediaUploader;
+  const asd_p4ssk3y_button_icon_url = document.getElementById("asd_p4ssk3y_button_icon_url");
+  if (asd_p4ssk3y_button_icon_url) {
+    asd_p4ssk3y_button_icon_url.addEventListener("click", async function (e) {
+      e.preventDefault();
+      if (mediaUploader) {
+        mediaUploader.open();
+        return;
+      }
+
+      mediaUploader = wp.media({
+        title: "Choose Icon",
+        button: {
+          text: "Use this icon",
+        },
+        multiple: false,
+      });
+
+      mediaUploader.on("select", function () {
+        const attachment = mediaUploader.state().get("selection").first().toJSON();
+        document.getElementById("asd_p4ssk3y_icon_url").value = attachment.url;
+      });
+
+      mediaUploader.open();
+    });
+  }
+  let mediaUploader2;
+  const asd_p4ssk3y_button_badge_url = document.getElementById("asd_p4ssk3y_button_badge_url");
+  if (asd_p4ssk3y_button_badge_url) {
+    asd_p4ssk3y_button_badge_url.addEventListener("click", async function (e) {
+      e.preventDefault();
+
+      if (mediaUploader2) {
+        mediaUploader2.open();
+        return;
+      }
+
+      mediaUploader2 = wp.media({
+        title: "Choose Icon",
+        button: {
+          text: "Use this icon",
+        },
+        multiple: false,
+      });
+
+      mediaUploader2.on("select", function () {
+        const attachment = mediaUploader2.state().get("selection").first().toJSON();
+        document.getElementById("asd_p4ssk3y_badge_url").value = attachment.url;
+      });
+      mediaUploader2.open();
     });
   }
 });

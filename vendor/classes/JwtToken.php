@@ -54,7 +54,7 @@ class JwtToken
         }
 
         // Verifikasi klaim penting
-        $clientId = '398460535296-i921bef9eq8eljn7ok11kkhbt8r1qvu2.apps.googleusercontent.com';
+        $clientId = get_option('asd_p4ssk3y_google_client_id');
         if ($data['aud'] !== $clientId) {
             wp_send_json_error("Audience tidak cocok.");
             exit;

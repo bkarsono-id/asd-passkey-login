@@ -29,7 +29,7 @@ if (!class_exists(Events::class)) {
                 'wpinfo' => get_bloginfo('name'),
                 'admin_email' => get_bloginfo('admin_email'),
                 'plugin_name' => 'ASD Passkey for Wordpress',
-                'version' => '1.0.0',
+                'version' => '1.1.0',
             ];
 
             $response = wp_remote_post(ASD_P4SSK3Y_API_URL . "/wpregister", [
