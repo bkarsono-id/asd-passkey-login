@@ -6,6 +6,13 @@ if (!defined('ABSPATH')) exit;
 if (!class_exists(SendNotificationAdmin::class)) {
       class SendNotificationAdmin extends BaseController
       {
+            /**
+             * SendNotificationAdmin constructor.
+             * Registers AJAX actions for sending notifications and fetching WooCommerce products,
+             * and cleans admin notices for the notification page.
+             *
+             * @return void
+             */
             public function __construct()
             {
                   add_action('wp_ajax_asd_send_notification', [$this, 'handleSendNotification']);
@@ -13,6 +20,12 @@ if (!class_exists(SendNotificationAdmin::class)) {
                   add_action('wp_ajax_asd_woocommerce_products', [$this, 'handleProductList']);
                   add_action('wp_ajax_nopriv_asd_woocommerce_products', [$this, 'handleProductList']);
             }
+
+            /**
+             * Render the admin page for sending notifications.
+             *
+             * @return void
+             */
             public function index()
             {
                   $data = [
@@ -22,6 +35,13 @@ if (!class_exists(SendNotificationAdmin::class)) {
                   ];
                   ASD_P4SSK3Y_view("asd-send-notification", $data);
             }
+
+            /**
+             * Handles the AJAX request to fetch WooCommerce products.
+             * Validates the request, verifies the nonce, retrieves products, and returns them as a JSON response.
+             *
+             * @return void
+             */
             public function handleProductList()
             {
                   if (!isset($_SERVER['REQUEST_METHOD']) || $_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -65,6 +85,12 @@ if (!class_exists(SendNotificationAdmin::class)) {
             }
 
 
+            /**
+             * Handles the AJAX request to send a notification.
+             * Validates the request, verifies the nonce, sends notification data to the API, and returns a JSON response.
+             *
+             * @return void
+             */
             public function handleSendNotification()
             {
                   if (!isset($_SERVER['REQUEST_METHOD']) || $_SERVER['REQUEST_METHOD'] !== 'POST') {

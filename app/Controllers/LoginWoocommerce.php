@@ -9,6 +9,13 @@ if (!defined('ABSPATH')) exit;
 if (!class_exists(LoginWoocommerce::class)) {
     class LoginWoocommerce extends BaseController
     {
+        /**
+         * LoginWoocommerce constructor.
+         * Registers AJAX actions for passkey and Google login, and adds the passkey login link to WooCommerce forms.
+         *
+         * @return void
+         */
+
         public function __construct()
         {
             add_action('wp_ajax_asd_woo_passkey_login', [$this, 'handleLogin']);
@@ -17,7 +24,11 @@ if (!class_exists(LoginWoocommerce::class)) {
             add_action('woocommerce_after_account_navigation', [$this, 'addPasskeyLoginLink']);
         }
 
-
+        /**
+         * Adds the passkey login button and related UI elements to the WooCommerce login and account pages.
+         *
+         * @return void
+         */
         public function addPasskeyLoginLink()
         {
             $form_style = get_option("asd_p4ssk3y_woo_login_form_style");
@@ -41,9 +52,11 @@ if (!class_exists(LoginWoocommerce::class)) {
             }
         }
 
-
         /**
-         * data handling using AJAX
+         * Handles the AJAX request for WooCommerce login using passkey authentication.
+         * Verifies the token, checks user credentials, and logs in the user if valid.
+         *
+         * @return void
          */
         public function handleLogin()
         {
@@ -89,6 +102,12 @@ if (!class_exists(LoginWoocommerce::class)) {
             }
         }
 
+        /**
+         * Handles the AJAX request for WooCommerce login using Google OAuth.
+         * Verifies the Google token, checks user credentials, and logs in the user if valid.
+         *
+         * @return void
+         */
         public function handleGoogleLogin()
         {
             if (!isset($_SERVER['REQUEST_METHOD']) || $_SERVER['REQUEST_METHOD'] !== 'POST') {

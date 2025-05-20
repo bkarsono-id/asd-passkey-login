@@ -9,6 +9,12 @@ if (!defined('ABSPATH')) exit;
 if (!class_exists(LoginAdmin::class)) {
     class LoginAdmin extends BaseController
     {
+        /**
+         * LoginAdmin constructor.
+         * Registers AJAX actions for passkey and Google login, and adds the passkey login link to the login form.
+         *
+         * @return void
+         */
         public function __construct()
         {
             add_action('wp_ajax_asd_passkey_login', [$this, 'handleLogin']);
@@ -17,6 +23,12 @@ if (!class_exists(LoginAdmin::class)) {
             add_action('wp_ajax_nopriv_asd_google_check_token', [$this, 'handleGoogleLogin']);
             add_action('login_form', [$this, 'addPasskeyLoginLink']);
         }
+
+        /**
+         * Adds the passkey login button and related UI elements to the WordPress admin login form.
+         *
+         * @return void
+         */
         public function addPasskeyLoginLink()
         {
             $form_style = get_option("asd_p4ssk3y_admin_login_form_style");
@@ -54,8 +66,12 @@ if (!class_exists(LoginAdmin::class)) {
             //     </iframe>';
         }
 
+
         /**
-         * data handling using AJAX
+         * Handles the AJAX request for admin login using passkey authentication.
+         * Verifies the token, checks user credentials, and logs in the user if valid.
+         *
+         * @return void
          */
         public function handleLogin()
         {
@@ -101,6 +117,12 @@ if (!class_exists(LoginAdmin::class)) {
             }
         }
 
+        /**
+         * Handles the AJAX request for admin login using Google OAuth.
+         * Verifies the Google token, checks user credentials, and logs in the user if valid.
+         *
+         * @return void
+         */
         public function handleGoogleLogin()
         {
             if (!isset($_SERVER['REQUEST_METHOD']) || $_SERVER['REQUEST_METHOD'] !== 'POST') {

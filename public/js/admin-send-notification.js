@@ -1,3 +1,10 @@
+/**
+ * Handles the submission of the send notification form.
+ * Sends an AJAX request to trigger notification sending and displays feedback modals.
+ *
+ * @param {Event} event The form submit event.
+ * @returns {Promise<void>}
+ */
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("sendNotificationForm");
   form.addEventListener("submit", async function (event) {
@@ -25,6 +32,12 @@ document.addEventListener("DOMContentLoaded", function () {
   });
   getProducts();
 });
+/**
+ * Fetches WooCommerce products via AJAX, renders them in a paginated table,
+ * and handles product selection for notification URLs.
+ *
+ * @returns {Promise<void>}
+ */
 const getProducts = async () => {
   const productList = document.getElementById("productList");
   const notificationUrlInput = document.getElementById("notificationUrl");

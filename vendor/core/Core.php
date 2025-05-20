@@ -7,6 +7,11 @@ if (!defined('ABSPATH')) exit;
 if (!class_exists(Core::class)) {
     class Core
     {
+        /**
+         * Initialize the plugin by registering WordPress filters and hooks.
+         *
+         * @return void
+         */
         public  function run()
         {
 
@@ -16,6 +21,12 @@ if (!class_exists(Core::class)) {
             add_filter('plugins_loaded', [self::class, 'onPluginReady']);
         }
 
+        /**
+         * Callback executed when all plugins are loaded.
+         * Instantiates controller classes required for the plugin.
+         *
+         * @return void
+         */
         public static function onPluginReady()
         {
             $classNames = ['LoginAdmin', 'PasskeySettings', 'CreatePasskeyAdmin', 'SendNotificationAdmin'];
@@ -32,12 +43,25 @@ if (!class_exists(Core::class)) {
                 }
             }
         }
+
+        /**
+         * Add a "Settings" link to the plugin action links on the plugins page.
+         *
+         * @param array $links Existing plugin action links.
+         * @return array Modified plugin action links with the settings link.
+         */
         public static function settingLink($links)
         {
             $settingLink = '<a href="admin.php?page=asd-passkey-settings">Settings </a>';
             array_push($links, $settingLink);
             return $links;
         }
+
+        /**
+         * Remove the default admin footer message.
+         *
+         * @return string Empty string to clear the footer.
+         */
         public static function remove_admin_footer_message()
         {
             return '';

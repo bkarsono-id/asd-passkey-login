@@ -7,11 +7,23 @@ if (!defined('ABSPATH')) exit;
 if (!class_exists(UpgradePackage::class)) {
     class UpgradePackage extends BaseController
     {
+        /**
+         * UpgradePackage constructor.
+         * Registers the admin notice for showing the activation message.
+         *
+         * @return void
+         */
         public function __construct()
         {
             add_action('admin_notices', [self::class, 'showActivatedMessage']);
         }
-
+        /**
+         * Render the upgrade package admin page.
+         * Determines the current and next available package based on the membership option,
+         * and loads the upgrade view with the relevant data.
+         *
+         * @return void
+         */
         public function index()
         {
             $paket = get_option('asd_p4ssk3y_membership') ?? '';

@@ -1,9 +1,31 @@
+/**
+ * Handles the 'install' event for the service worker.
+ * Forces the waiting service worker to become the active service worker.
+ *
+ * @param {ExtendableEvent} event
+ */
+
 self.addEventListener("install", (event) => {
   self.skipWaiting();
 });
+
+/**
+ * Handles the 'activate' event for the service worker.
+ * Claims control of all clients as soon as the service worker becomes active.
+ *
+ * @param {ExtendableEvent} event
+ */
+
 self.addEventListener("activate", (event) => {
   event.waitUntil(self.clients.claim());
 });
+
+/**
+ * Handles notification click events.
+ * Opens the target URL specified in the notification data or a default URL.
+ *
+ * @param {NotificationEvent} event
+ */
 self.addEventListener("notificationclick", function (event) {
   let url = new URL(self.location.origin);
   const targetUrl = event.notification.data?.url || "https://passwordless.alciasolusidigital.com";
@@ -12,6 +34,12 @@ self.addEventListener("notificationclick", function (event) {
   event.waitUntil(clients.openWindow(targetUrl));
 });
 
+/**
+ * Handles push events.
+ * Displays a notification using the data received from the push event.
+ *
+ * @param {PushEvent} event
+ */
 self.addEventListener("push", (event) => {
   let data = {};
   try {

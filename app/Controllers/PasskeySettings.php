@@ -34,6 +34,12 @@ if (!class_exists(PasskeySettings::class)) {
             'asd_p4ssk3y_icon_url',
             'asd_p4ssk3y_badge_url'
         ];
+        /**
+         * PasskeySettings constructor.
+         * Registers all admin actions and AJAX handlers for passkey, SMTP, and web push notification settings.
+         *
+         * @return void
+         */
 
         public function __construct()
         {
@@ -49,6 +55,11 @@ if (!class_exists(PasskeySettings::class)) {
             ASD_P4SSK3Y_clean_notices_admin("asd-passkey-settings");
         }
 
+        /**
+         * Render the Passkey Settings admin page.
+         *
+         * @return void
+         */
         public function index()
         {
             $this->initDefaultOptions();
@@ -59,6 +70,14 @@ if (!class_exists(PasskeySettings::class)) {
             ];
             ASD_P4SSK3Y_view("asd-passkey-settings", $data);
         }
+
+        /**
+         * Register plugin settings for passkey, SMTP, and web push notification groups.
+         *
+         * @param string $hook The current admin page hook.
+         * @return void
+         */
+
         public function registerSettings($hook)
         {
             // phpcs:disable WordPress.Security.NonceVerification.Recommended -- No nonce verification needed.
@@ -84,6 +103,12 @@ if (!class_exists(PasskeySettings::class)) {
             // phpcs:enable
         }
 
+        /**
+         * Handle AJAX request to save passkey settings.
+         * Validates nonce, sanitizes input, updates options, and returns JSON response.
+         *
+         * @return void
+         */
         public function handlePasskeySettings()
         {
             if (!isset($_SERVER['REQUEST_METHOD']) || $_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -115,6 +140,12 @@ if (!class_exists(PasskeySettings::class)) {
             wp_send_json_success(['message' => 'Settings saved successfully.']);
         }
 
+        /**
+         * Handle AJAX request to sync package data with the API server.
+         * Validates nonce, sends request to API, updates options, and returns JSON response.
+         *
+         * @return void
+         */
         public function handleSyncPackage()
         {
             if (!isset($_SERVER['REQUEST_METHOD']) || $_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -208,9 +239,12 @@ if (!class_exists(PasskeySettings::class)) {
             wp_send_json_success(['message' => 'Sync success', 'package' => $result["package"], 'smtp' => $result["smtp"]]);
         }
 
-
-        /* SMTP Setting */
-
+        /**
+         * Sanitize input fields for settings.
+         *
+         * @param mixed $value The value to sanitize.
+         * @return mixed
+         */
         public function sanitize_fields($value)
         {
             if (is_string($value)) {
@@ -223,6 +257,13 @@ if (!class_exists(PasskeySettings::class)) {
 
             return $value;
         }
+
+        /**
+         * Handle AJAX request to save SMTP settings.
+         * Validates nonce, sanitizes input, updates options, sends data to API, and returns JSON response.
+         *
+         * @return void
+         */
         public function handlePasskeySMTPSettings()
         {
 
@@ -286,6 +327,13 @@ if (!class_exists(PasskeySettings::class)) {
             }
             wp_send_json_success(['message' => 'SMTP saved successfully.']);
         }
+
+        /**
+         * Handle AJAX request to test SMTP settings.
+         * Validates nonce, sends test data to API, and returns JSON response.
+         *
+         * @return void
+         */
         public function handlePasskeySMTPTesting()
         {
             if (!isset($_SERVER['REQUEST_METHOD']) || $_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -345,7 +393,13 @@ if (!class_exists(PasskeySettings::class)) {
         }
 
 
-        /* web push notification */
+        /**
+         * Handle AJAX request to save web push notification settings.
+         * Validates nonce, sanitizes input, updates options, sends data to API, and returns JSON response.
+         *
+         * @return void
+         */
+
         public function handlePushNotificationSettings()
         {
             if (!isset($_SERVER['REQUEST_METHOD']) || $_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -408,6 +462,12 @@ if (!class_exists(PasskeySettings::class)) {
             wp_send_json_success(['message' => 'Settings saved successfully.']);
         }
 
+        /**
+         * Handle AJAX request to create and save a new web push public key.
+         * Validates nonce, requests new key from API, updates option, and returns JSON response.
+         *
+         * @return void
+         */
         public function handlePushNotificationPublicKey()
         {
             if (!isset($_SERVER['REQUEST_METHOD']) || $_SERVER['REQUEST_METHOD'] !== 'POST') {
