@@ -1,19 +1,19 @@
 <?php return array(
     'root' => array(
-        'name' => 'asd/passwordless',
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
-        'reference' => null,
+        'name' => 'bkarsono/asdpasskeylogin',
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => 'c967d7b7255f2f716b5cdc0bff2b5bd052424aaf',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
         'dev' => true,
     ),
     'versions' => array(
-        'asd/passwordless' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
-            'reference' => null,
+        'bkarsono/asdpasskeylogin' => array(
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => 'c967d7b7255f2f716b5cdc0bff2b5bd052424aaf',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

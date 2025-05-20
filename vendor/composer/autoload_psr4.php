@@ -6,10 +6,10 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'bkarsono\\asdpasskeylogin\\models\\' => array($baseDir . '/app/Models'),
+    'bkarsono\\asdpasskeylogin\\core\\' => array($vendorDir . '/core'),
+    'bkarsono\\asdpasskeylogin\\controllers\\' => array($baseDir . '/app/Controllers'),
+    'bkarsono\\asdpasskeylogin\\config\\' => array($baseDir . '/app/Config'),
+    'bkarsono\\asdpasskeylogin\\classes\\' => array($vendorDir . '/classes'),
     'Firebase\\JWT\\' => array($vendorDir . '/firebase/php-jwt/src'),
-    'Asd\\Models\\' => array($baseDir . '/app/Models'),
-    'Asd\\Core\\' => array($vendorDir . '/core'),
-    'Asd\\Controllers\\' => array($baseDir . '/app/Controllers'),
-    'Asd\\Config\\' => array($baseDir . '/app/Config'),
-    'Asd\\Classes\\' => array($vendorDir . '/classes'),
 );

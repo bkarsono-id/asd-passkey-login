@@ -1,6 +1,6 @@
 <?php
 
-namespace Asd\Core;
+namespace bkarsono\asdpasskeylogin\core;
 
 if (!defined('ABSPATH')) exit;
 
@@ -10,12 +10,11 @@ if (!class_exists(Core::class)) {
         public  function run()
         {
 
-            add_filter("plugin_action_links_" . ASD_PLUGIN_NAME, [self::class, 'settingLink']);
+            add_filter("plugin_action_links_" . ASD_P4SSK3Y_PLUGIN_NAME, [self::class, 'settingLink']);
             add_filter('admin_footer_text', [self::class, 'remove_admin_footer_message']);
             add_filter('update_footer', [self::class, 'remove_admin_footer_message'], 9999);
             add_filter('plugins_loaded', [self::class, 'onPluginReady']);
         }
-
 
         public static function onPluginReady()
         {
@@ -23,13 +22,13 @@ if (!class_exists(Core::class)) {
             if (class_exists('WooCommerce')) {
                 $classNames = array_merge($classNames, ['LoginWoocommerce', 'CreatePasskeyWoocommerce', 'PushNotification']);
             }
-            $nameSpace = 'Asd\\Controllers\\';
+            $nameSpace = 'bkarsono\\asdpasskeylogin\\controllers\\';
             foreach ($classNames as $className) {
                 $fullClassName = $nameSpace . $className;
                 if (class_exists($fullClassName)) {
                     new $fullClassName();
                 } else {
-                    asdlog("[ASD Boot Plugin] $fullClassName class not found. Please check autoload configuration.");
+                    ASD_P4SSK3Y_asdlog("[ASD Boot Plugin] $fullClassName class not found. Please check autoload configuration.");
                 }
             }
         }

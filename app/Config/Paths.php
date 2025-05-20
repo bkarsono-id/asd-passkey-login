@@ -1,6 +1,6 @@
 <?php
 
-namespace Asd\Config;
+namespace bkarsono\asdpasskeylogin\config;
 
 /**
  * Paths

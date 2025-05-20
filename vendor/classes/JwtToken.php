@@ -1,6 +1,6 @@
 <?php
 
-namespace Asd\Classes;
+namespace bkarsono\asdpasskeylogin\classes;
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
@@ -16,7 +16,7 @@ class JwtToken
 {
     public function checkToken($token)
     {
-        $secretKey = get_option('asd_key2');
+        $secretKey = get_option('asd_p4ssk3y_key2');
         try {
             $decoded = JWT::decode($token, new Key($secretKey, 'HS256'));
             return $decoded;

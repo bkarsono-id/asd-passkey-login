@@ -1,20 +1,21 @@
 <?php
-if (!function_exists('view')) {
+if (!defined('ABSPATH')) exit;
+if (!function_exists('ASD_P4SSK3Y_view')) {
     /**
-     * Load a view file with the given data.
+     * Load a ASD_P4SSK3Y_view file with the given data.
      *
-     * @param string $name Name of the view file (without `.php` extension).
-     * @param array $data Data to be passed to the view.
+     * @param string $name Name of the ASD_P4SSK3Y_view file (without `.php` extension).
+     * @param array $data Data to be passed to the ASD_P4SSK3Y_view.
      * @param array $options Additional options (e.g., 'return' => true).
      * @return string|void
      */
-    function view(string $name, array $data = [], array $options = [])
+    function ASD_P4SSK3Y_view(string $name, array $data = [], array $options = [])
     {
-        $viewPath = defined('ASD_VIEWSPATH') ? ASD_VIEWSPATH : __DIR__ . '/views/';
+        $viewPath = defined('ASD_P4SSK3Y_VIEWSPATH') ? ASD_P4SSK3Y_VIEWSPATH : __DIR__ . '/views/';
         $templatePath = rtrim($viewPath, '/') . '/' . str_replace('.', '/', $name) . '.php';
 
         if (!file_exists($templatePath)) {
-            asdlog("View file not found: $templatePath");
+            ASD_P4SSK3Y_asdlog("ASD_P4SSK3Y_view file not found: $templatePath");
             return isset($options['return']) && $options['return'] ? '' : null;
         }
 
@@ -41,7 +42,7 @@ if (!function_exists('view')) {
 }
 
 
-if (! function_exists('base_url')) {
+if (! function_exists('ASD_P4SSK3Y_base_url')) {
     /**
      * Returns the base URL as defined by the App config.
      * Base URLs are trimmed site URLs without the index page.
@@ -51,7 +52,7 @@ if (! function_exists('base_url')) {
      *                                   string '' is set, a protocol-relative
      *                                   link is returned.
      */
-    function base_url($relativePath = '', ?string $scheme = null): string
+    function ASD_P4SSK3Y_base_url($relativePath = '', ?string $scheme = null): string
     {
         $baseURL = site_url();
 
@@ -66,14 +67,14 @@ if (! function_exists('base_url')) {
     }
 }
 
-if (! function_exists('asdlog')) {
+if (! function_exists('ASD_P4SSK3Y_asdlog')) {
     /**
      * Logging only DEBUG is on.
      *
      * @param string|null  $logMessage   Log message. If empty string '' is set
      *                                   
      */
-    function asdlog($logMessage = '')
+    function ASD_P4SSK3Y_asdlog($logMessage = '')
     {
         if (defined('WP_DEBUG') && WP_DEBUG) {
             if (is_array($logMessage) || is_object($logMessage)) {
@@ -85,7 +86,7 @@ if (! function_exists('asdlog')) {
     }
 }
 
-if (! function_exists('webid')) {
+if (! function_exists('ASD_P4SSK3Y_webid')) {
     /**
      * Returns the base URL as defined by the App config.
      * Base URLs are trimmed site URLs without the index page.
@@ -95,14 +96,14 @@ if (! function_exists('webid')) {
      *                                   string '' is set, a protocol-relative
      *                                   link is returned.
      */
-    function webid(): string
+    function ASD_P4SSK3Y_webid(): string
     {
-        $webid =  get_option('asd_web_id');
-        if (!$webid) {
-            $webid = bin2hex(random_bytes(32));
-            add_option("asd_web_id", $webid);
+        $ASD_P4SSK3Y_webid =  get_option('asd_p4ssk3y_web_id');
+        if (!$ASD_P4SSK3Y_webid) {
+            $ASD_P4SSK3Y_webid = bin2hex(random_bytes(32));
+            add_option("asd_p4ssk3y_web_id", $ASD_P4SSK3Y_webid);
         }
-        return $webid;
+        return $ASD_P4SSK3Y_webid;
     }
 }
 
@@ -118,7 +119,7 @@ if (! function_exists('is_pro_license')) {
      */
     function is_pro_license(): bool
     {
-        $license =  get_option('asd_membership');
+        $license =  get_option('asd_p4ssk3y_membership');
         if ($license === "freemium" || $license === "starter") {
             return false;
         }
@@ -137,7 +138,7 @@ if (! function_exists('is_scale_license')) {
      */
     function is_scale_license(): bool
     {
-        $license =  get_option('asd_membership');
+        $license =  get_option('asd_p4ssk3y_membership');
         if ($license === "scale") {
             return true;
         }

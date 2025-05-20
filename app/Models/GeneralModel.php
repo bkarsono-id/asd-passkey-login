@@ -1,6 +1,6 @@
 <?php
 
-namespace Asd\Models;
+namespace bkarsono\asdpasskeylogin\models;
 
 if (!defined('ABSPATH')) exit;
 
@@ -52,7 +52,7 @@ class GeneralModel
 
         if ($wpdb->last_error) {
             // phpcs:disable WordPress.PHP.DevelopmentFunctions
-            asdlog('Database Error: ' . $wpdb->last_error);
+            ASD_P4SSK3Y_asdlog('Database Error: ' . $wpdb->last_error);
             return false;
         }
 
@@ -71,7 +71,7 @@ class GeneralModel
         // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
         $wpdb->insert($this->table_name, $data, $format);
         if ($wpdb->last_error) {
-            asdlog('Database Insert Error: ' . $wpdb->last_error);
+            ASD_P4SSK3Y_asdlog('Database Insert Error: ' . $wpdb->last_error);
             return false;
         }
 
@@ -100,7 +100,7 @@ class GeneralModel
             }
         }
         if ($wpdb->last_error) {
-            asdlog('Database Select Error: ' . $wpdb->last_error);
+            ASD_P4SSK3Y_asdlog('Database Select Error: ' . $wpdb->last_error);
             return false;
         }
 
@@ -125,7 +125,7 @@ class GeneralModel
         $result = $wpdb->update($this->table_name, $data, $where, $format, $where_format);
 
         if ($wpdb->last_error) {
-            asdlog('Database Update Error: ' . $wpdb->last_error);
+            ASD_P4SSK3Y_asdlog('Database Update Error: ' . $wpdb->last_error);
             return false;
         }
 
@@ -151,7 +151,7 @@ class GeneralModel
         $result = $wpdb->delete($this->table_name, ['id' => $id], ['%d']);
 
         if ($wpdb->last_error) {
-            asdlog('Database Delete Error: ' . $wpdb->last_error);
+            ASD_P4SSK3Y_asdlog('Database Delete Error: ' . $wpdb->last_error);
             return false;
         }
         // Cache Invalidation
@@ -195,7 +195,7 @@ class GeneralModel
         );
 
         if ($wpdb->last_error) {
-            asdlog('Database Select Error: ' . $wpdb->last_error);
+            ASD_P4SSK3Y_asdlog('Database Select Error: ' . $wpdb->last_error);
             return false;
         }
         wp_cache_set($cache_key, $results, $cache_group, HOUR_IN_SECONDS);
@@ -231,7 +231,7 @@ class GeneralModel
         $result = $wpdb->get_row($wpdb->prepare("SELECT * FROM %i WHERE user_handle = %s", [$this->table_name, $user_handle]), ARRAY_A);
 
         if ($wpdb->last_error) {
-            asdlog('Database Error: ' . $wpdb->last_error);
+            ASD_P4SSK3Y_asdlog('Database Error: ' . $wpdb->last_error);
             return false;
         }
         // Cache the result for future use

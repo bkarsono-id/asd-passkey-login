@@ -1,171 +1,163 @@
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("passkeySettingsForm");
-  form.addEventListener("submit", async function (event) {
-    event.preventDefault();
-    const formData = new FormData(form);
-    formData.append("action", "asd_passkey_settings");
-    formData.append("_wpnonce", asd_ajax.ajax_nonce);
-    try {
-      SwalHoldModal("Save settings.");
-      const response = await fetch(asd_ajax.ajax_url, {
-        method: "POST",
-        body: formData,
-      });
-      const result = await response.json();
-      if (result.success) {
-        setTimeout(() => {
-          Swal.update({
-            icon: "success",
-            title: "Success",
-            html: result.data.message,
-            showConfirmButton: false,
-          });
-        }, 1000);
-        setTimeout(() => {
-          Swal.close();
-          window.location.reload(true);
-        }, 2000);
-      } else {
-        errorModal(
-          "Error: " + (result.data.message || "Failed to save settings.")
-        );
+  if (form) {
+    form.addEventListener("submit", async function (event) {
+      event.preventDefault();
+      const formData = new FormData(form);
+      formData.append("action", "asd_passkey_settings");
+      formData.append("_wpnonce", asd_ajax.ajax_nonce);
+      try {
+        SwalHoldModal("Save settings.");
+        const response = await fetch(asd_ajax.ajax_url, {
+          method: "POST",
+          body: formData,
+        });
+        const result = await response.json();
+        if (result.success) {
+          setTimeout(() => {
+            Swal.update({
+              icon: "success",
+              title: "Success",
+              html: result.data.message,
+              showConfirmButton: false,
+            });
+          }, 1000);
+          setTimeout(() => {
+            Swal.close();
+            window.location.reload(true);
+          }, 2000);
+        } else {
+          errorModal("Error: " + (result.data.message || "Failed to save settings."));
+        }
+      } catch (error) {
+        errorModal("AJAX request failed. Please try again.");
+        console.error("Error:", error);
       }
-    } catch (error) {
-      errorModal("AJAX request failed. Please try again.");
-      console.error("Error:", error);
-    }
-  });
-
+    });
+  }
   /* smtp */
   const formSMTP = document.getElementById("passkeySMTPForm");
-  formSMTP.addEventListener("submit", async function (event) {
-    event.preventDefault();
-    const formData = new FormData(formSMTP);
-    formData.append("action", "asd_passkey_smtp_settings");
-    formData.append("_wpnonce", asd_ajax.ajax_smtp_nonce);
-    try {
-      SwalHoldModal("Save SMTP settings.");
-      const response = await fetch(asd_ajax.ajax_url, {
-        method: "POST",
-        body: formData,
-      });
-      const result = await response.json();
-      if (result.success) {
-        setTimeout(() => {
-          Swal.update({
-            icon: "success",
-            title: "Success",
-            html: result.data.message,
-            showConfirmButton: false,
-          });
-        }, 1000);
-        setTimeout(() => {
-          Swal.close();
-        }, 2000);
-      } else {
-        errorModal(
-          "Error: " + (result.data.message || "Failed to save settings.")
-        );
+  if (formSMTP) {
+    formSMTP.addEventListener("submit", async function (event) {
+      event.preventDefault();
+      const formData = new FormData(formSMTP);
+      formData.append("action", "asd_passkey_smtp_settings");
+      formData.append("_wpnonce", asd_ajax.ajax_smtp_nonce);
+      try {
+        SwalHoldModal("Save SMTP settings.");
+        const response = await fetch(asd_ajax.ajax_url, {
+          method: "POST",
+          body: formData,
+        });
+        const result = await response.json();
+        if (result.success) {
+          setTimeout(() => {
+            Swal.update({
+              icon: "success",
+              title: "Success",
+              html: result.data.message,
+              showConfirmButton: false,
+            });
+          }, 1000);
+          setTimeout(() => {
+            Swal.close();
+          }, 2000);
+        } else {
+          errorModal("Error: " + (result.data.message || "Failed to save settings."));
+        }
+      } catch (error) {
+        errorModal("AJAX request failed. Please try again.");
+        console.error("Error:", error);
       }
-    } catch (error) {
-      errorModal("AJAX request failed. Please try again.");
-      console.error("Error:", error);
-    }
-  });
-
+    });
+  }
   /* smtp test */
   const btnSMTPTest = document.getElementById("test-smtp");
   const formSMTPTest = document.getElementById("passkeySMTPForm");
-  btnSMTPTest.addEventListener("click", async function (event) {
-    event.preventDefault();
-    const formData = new FormData(formSMTPTest);
-    formData.append("action", "asd_passkey_smtp_test");
-    formData.append("_wpnonce", asd_ajax.ajax_smtp_test_nonce);
-    try {
-      SwalHoldModal("Test SMTP settings.");
-      const response = await fetch(asd_ajax.ajax_url, {
-        method: "POST",
-        body: formData,
-      });
-      const result = await response.json();
-      if (result.success) {
-        setTimeout(() => {
-          Swal.update({
-            icon: "success",
-            title: "Success",
-            html: result.data.message,
-            showConfirmButton: false,
-          });
-        }, 1000);
-        setTimeout(() => {
-          Swal.close();
-        }, 2000);
-      } else {
-        errorModal(
-          "Error: " + (result.data.message || "Failed to save settings.")
-        );
+  if (btnSMTPTest && formSMTPTest) {
+    btnSMTPTest.addEventListener("click", async function (event) {
+      event.preventDefault();
+      const formData = new FormData(formSMTPTest);
+      formData.append("action", "asd_passkey_smtp_test");
+      formData.append("_wpnonce", asd_ajax.ajax_smtp_test_nonce);
+      try {
+        SwalHoldModal("Test SMTP settings.");
+        const response = await fetch(asd_ajax.ajax_url, {
+          method: "POST",
+          body: formData,
+        });
+        const result = await response.json();
+        if (result.success) {
+          setTimeout(() => {
+            Swal.update({
+              icon: "success",
+              title: "Success",
+              html: result.data.message,
+              showConfirmButton: false,
+            });
+          }, 1000);
+          setTimeout(() => {
+            Swal.close();
+          }, 2000);
+        } else {
+          errorModal("Error: " + (result.data.message || "Failed to save settings."));
+        }
+      } catch (error) {
+        errorModal("AJAX request failed. Please try again.");
+        console.error("Error:", error);
       }
-    } catch (error) {
-      errorModal("AJAX request failed. Please try again.");
-      console.error("Error:", error);
-    }
-  });
-
+    });
+  }
   /* sync package */
 
   const btnSyncPackage = document.getElementById("btnSyncPackage");
-  btnSyncPackage.addEventListener("click", async function (event) {
-    try {
-      SwalHoldModal("Please wait a moment while sync package.");
-      const response = await fetch(asd_ajax.ajax_url, {
-        method: "POST",
-        body: new URLSearchParams({
-          action: "asd_sync_package",
-          _wpnonce: asd_ajax.ajax_sync_nonce,
-        }),
-      });
+  if (btnSyncPackage) {
+    btnSyncPackage.addEventListener("click", async function (event) {
+      try {
+        SwalHoldModal("Please wait a moment while sync package.");
+        const response = await fetch(asd_ajax.ajax_url, {
+          method: "POST",
+          body: new URLSearchParams({
+            action: "asd_sync_package",
+            _wpnonce: asd_ajax.ajax_sync_nonce,
+          }),
+        });
 
-      const result = await response.json();
-      if (result.success) {
-        document.getElementById("asd_package_name").value = result.data.package;
-        /* smtp */
-        document.getElementById("asd_smtp_host").value =
-          result.data.smtp.smtp_host;
-        document.getElementById("asd_smtp_port").value =
-          result.data.smtp.smtp_port;
-        document.getElementById("asd_smtp_user").value =
-          result.data.smtp.smtp_user;
-        document.getElementById("asd_smtp_password").value =
-          result.data.smtp.smtp_password;
+        const result = await response.json();
+        if (result.success) {
+          document.getElementById("asd_package_name").value = result.data.package;
+          /* smtp */
+          document.getElementById("asd_p4ssk3y_smtp_host").value = result.data.smtp.smtp_host;
+          document.getElementById("asd_p4ssk3y_smtp_port").value = result.data.smtp.smtp_port;
+          document.getElementById("asd_p4ssk3y_smtp_user").value = result.data.smtp.smtp_user;
+          document.getElementById("asd_p4ssk3y_smtp_password").value = result.data.smtp.smtp_password;
 
-        setTimeout(() => {
-          Swal.update({
-            icon: "success",
-            title: "Success",
-            html: "Sync package succesfull.",
-            showConfirmButton: false,
-          });
-        }, 1000);
-        setTimeout(() => {
-          Swal.close();
-        }, 2000);
-      } else {
-        errorModal(
-          "Error: " + (result.data.message || "Failed to save settings.")
-        );
+          setTimeout(() => {
+            Swal.update({
+              icon: "success",
+              title: "Success",
+              html: "Sync package succesfull.",
+              showConfirmButton: false,
+            });
+          }, 1000);
+          setTimeout(() => {
+            Swal.close();
+          }, 2000);
+        } else {
+          errorModal("Error: " + (result.data.message || "Failed to save settings."));
+        }
+      } catch (error) {
+        console.log(error);
+        errorModal("AJAX request failed. Please try again.");
+        console.error("Error:", error);
       }
-    } catch (error) {
-      console.log(error);
-      errorModal("AJAX request failed. Please try again.");
-      console.error("Error:", error);
-    }
-  });
-
+    });
+  }
   /** client id */
 
-  const fedcmSelect = document.getElementById("asd_woo_login_fedcm_form");
+  const fedcmSelect = document.getElementById("asd_p4ssk3y_woo_login_fedcm_form");
   const clientId = document.getElementById("asd_google_client_id");
-  const idp = document.getElementById("asd_woo_idp_provider");
+  const idp = document.getElementById("asd_p4ssk3y_woo_idp_provider");
   if (fedcmSelect && clientId) {
     fedcmSelect.addEventListener("change", function (event) {
       const selectedValue = event.target.value;
@@ -191,41 +183,41 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* web push */
   const formWebPush = document.getElementById("passkeyWebPushForm");
-  formWebPush.addEventListener("submit", async function (event) {
-    event.preventDefault();
-    const formData = new FormData(formWebPush);
-    formData.append("action", "asd_push_notification_settings");
-    formData.append("_wpnonce", asd_ajax.ajax_webpush_nonce);
-    try {
-      SwalHoldModal("Push Notification Settings.");
-      const response = await fetch(asd_ajax.ajax_url, {
-        method: "POST",
-        body: formData,
-      });
-      const result = await response.json();
-      if (result.success) {
-        setTimeout(() => {
-          Swal.update({
-            icon: "success",
-            title: "Success",
-            html: result.data.message,
-            showConfirmButton: false,
-          });
-        }, 1000);
-        setTimeout(() => {
-          Swal.close();
-          window.location.reload(true);
-        }, 2000);
-      } else {
-        errorModal(
-          "Error: " + (result.data.message || "Failed to save settings.")
-        );
+  if (formWebPush) {
+    formWebPush.addEventListener("submit", async function (event) {
+      event.preventDefault();
+      const formData = new FormData(formWebPush);
+      formData.append("action", "asd_push_notification_settings");
+      formData.append("_wpnonce", asd_ajax.ajax_webpush_nonce);
+      try {
+        SwalHoldModal("Push Notification Settings.");
+        const response = await fetch(asd_ajax.ajax_url, {
+          method: "POST",
+          body: formData,
+        });
+        const result = await response.json();
+        if (result.success) {
+          setTimeout(() => {
+            Swal.update({
+              icon: "success",
+              title: "Success",
+              html: result.data.message,
+              showConfirmButton: false,
+            });
+          }, 1000);
+          setTimeout(() => {
+            Swal.close();
+            window.location.reload(true);
+          }, 2000);
+        } else {
+          errorModal("Error: " + (result.data.message || "Failed to save settings."));
+        }
+      } catch (error) {
+        errorModal("AJAX request failed. Please try again.");
+        console.error("Error:", error);
       }
-    } catch (error) {
-      errorModal("AJAX request failed. Please try again.");
-      console.error("Error:", error);
-    }
-  });
+    });
+  }
 
   const btnCreatePublicKey = document.getElementById("btnCreatePublicKey");
   if (btnCreatePublicKey) {
@@ -255,9 +247,7 @@ document.addEventListener("DOMContentLoaded", () => {
             Swal.close();
           }, 2000);
         } else {
-          errorModal(
-            "Error: " + (result.data.details || "Failed to save settings.")
-          );
+          errorModal("Error: " + (result.data.details || "Failed to save settings."));
         }
       } catch (error) {
         console.log(error);

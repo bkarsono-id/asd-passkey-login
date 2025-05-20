@@ -1,9 +1,9 @@
 <?php
 
-namespace Asd\Controllers;
+namespace bkarsono\asdpasskeylogin\controllers;
 
-use Asd\Models\GeneralModel;
-use Asd\Classes\JwtToken;
+use bkarsono\asdpasskeylogin\models\GeneralModel;
+use bkarsono\asdpasskeylogin\classes\JwtToken;
 
 if (!defined('ABSPATH')) exit;
 if (!class_exists(CreatePasskeyAdmin::class)) {
@@ -18,10 +18,10 @@ if (!class_exists(CreatePasskeyAdmin::class)) {
         public function index()
         {
             $data = [
-                "logo" => ASD_PUBLICURL . 'img/logo-medium.webp',
-                "show" => is_setting_valid("asd_admin_password_confirmation", "N", "none")
+                "logo" => ASD_P4SSK3Y_PUBLICURL . 'img/logo-medium.webp',
+                "show" => is_setting_valid("asd_p4ssk3y_admin_password_confirmation", "N", "none")
             ];
-            view("asd-create-passkey-admin", $data);
+            ASD_P4SSK3Y_view("asd-create-passkey-admin", $data);
         }
         public function handleRegister()
         {
@@ -41,7 +41,7 @@ if (!class_exists(CreatePasskeyAdmin::class)) {
                 exit;
             }
 
-            $setting_using_password = is_setting_valid("asd_admin_password_confirmation", "Y");
+            $setting_using_password = is_setting_valid("asd_p4ssk3y_admin_password_confirmation", "Y");
             if ($setting_using_password) {
                 if (empty($useremail) || empty($password)) {
                     wp_send_json_error(['message' => 'useremail and password are required']);

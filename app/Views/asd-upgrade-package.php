@@ -24,7 +24,7 @@
                                 <li><i class="dashicons dashicons-no text-danger"></i> Custom Email Notification</li>
                                 <li><i class="dashicons dashicons-no text-danger"></i> Web Push Notification</li>
                             </ul>
-                            <?php echo get_option('asd_membership') === "freemium" ? '<a href="#"  class="btn btn-sm btn-light  mt-3 w-100">Current Package</a>
+                            <?php echo get_option('asd_p4ssk3y_membership') === "freemium" ? '<a href="#"  class="btn btn-sm btn-light  mt-3 w-100">Current Package</a>
                        ' : ""; ?>
                         </div>
                     </div>
@@ -50,7 +50,7 @@
                             </ul>
                             <?php
                             if ($existing <= 2) {
-                                echo (get_option('asd_membership') === "starter") ? '<a href="#"  class="btn btn-sm btn-light  mt-3 w-100">Current Package</a>
+                                echo (get_option('asd_p4ssk3y_membership') === "starter") ? '<a href="#"  class="btn btn-sm btn-light  mt-3 w-100">Current Package</a>
                        ' : '<a href="https://passwordless.alciasolusidigital.com/upgrade/wp?package=starter" target="_blank" class="btn btn-primary mt-3 w-100">Get Starter</a>';
                             }
                             ?>
@@ -80,7 +80,7 @@
                             </ul>
                             <?php
                             if ($existing <= 3) {
-                                echo get_option('asd_membership') === "growth" ? '<a href="#"  class="btn btn-sm btn-light  mt-3 w-100">Current Package</a>
+                                echo get_option('asd_p4ssk3y_membership') === "growth" ? '<a href="#"  class="btn btn-sm btn-light  mt-3 w-100">Current Package</a>
                                 ' : '<a href="https://passwordless.alciasolusidigital.com/upgrade/wp?package=growth" target="_blank" class="btn btn-primary mt-3 w-100">Get  Growth</a>';
                             } ?>
                         </div>
@@ -106,7 +106,7 @@
                                 <li><i class="dashicons dashicons-yes text-success"></i> Custom Email Notification</li>
                                 <li><i class="dashicons dashicons-yes text-success"></i> Web Push Notification</li>
                             </ul>
-                            <?php echo get_option('asd_membership') === "scale" ? '<a href="#"  class="btn btn-sm btn-light  mt-3 w-100">Current Package</a>
+                            <?php echo get_option('asd_p4ssk3y_membership') === "scale" ? '<a href="#"  class="btn btn-sm btn-light  mt-3 w-100">Current Package</a>
                        ' : '<a href="https://passwordless.alciasolusidigital.com/upgrade/wp?package=scale" target="_blank" class="btn btn-primary mt-3 w-100">Get Scale</a>'; ?>
                         </div>
                     </div>

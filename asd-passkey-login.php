@@ -1,14 +1,14 @@
 <?php
 
-use Asd\Config\Paths;
+use bkarsono\asdpasskeylogin\config\Paths;
 
 /**
  * ASD Passkey Login
  *
- * @package           ASD-PasswordLess
+ * @package           ASD-Passkey-Login
  * @author            Bobby Karsono
  * @copyright         2025 ALCIA SOLUSI DIGITAL
- * @license           GPL2+ or later
+ * @license           GPLv2 or later
  *
  * @wordpress-plugin
  * Plugin Name:       ASD Passkey Login
@@ -20,7 +20,7 @@ use Asd\Config\Paths;
  * Author:            Alciasolusidigital
  * Author URI:        https://linkedin.com/bobbykarsono
  * Text Domain:       asd-passkey-login
- * License:           GPL2+ or later
+ * License:           GPLv2 or later
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Requires Plugins:  
  * 
@@ -42,23 +42,23 @@ use Asd\Config\Paths;
 
 
 if (!defined('ABSPATH')) exit;
-defined('ASD_PUBLICURL') || define('ASD_PUBLICURL', plugin_dir_url(__FILE__) . 'public/');
-define('ASD_FCPATH', __DIR__ . DIRECTORY_SEPARATOR);
-if (getcwd() . DIRECTORY_SEPARATOR !== ASD_FCPATH) {
-    chdir(ASD_FCPATH);
+defined('ASD_P4SSK3Y_PUBLICURL') || define('ASD_P4SSK3Y_PUBLICURL', plugin_dir_url(__FILE__) . 'public/');
+define('ASD_P4SSK3Y_FCPATH', __DIR__ . DIRECTORY_SEPARATOR);
+if (getcwd() . DIRECTORY_SEPARATOR !== ASD_P4SSK3Y_FCPATH) {
+    chdir(ASD_P4SSK3Y_FCPATH);
 }
-require ASD_FCPATH . 'app/Config/Paths.php';
+require ASD_P4SSK3Y_FCPATH . 'app/Config/Paths.php';
 if (!class_exists(Paths::class)) {
     if (defined('WP_DEBUG') && WP_DEBUG) {
         wp_die('Class Paths not found. Please check your autoload setup.');
     }
     exit;
 }
-$paths = new Asd\Config\Paths();
+$paths = new bkarsono\asdpasskeylogin\config\Paths();
 
 // LOAD THE FRAMEWORK BOOTSTRAP FILE
 require $paths->systemDirectory . '/BootPlugin.php';
 
-Asd\Core\BootPlugin::start($paths);
-register_activation_hook(__FILE__, [Asd\Core\Events::class, 'onActivation']);
-register_deactivation_hook(__FILE__, [Asd\Core\Events::class, 'onDeactivation']);
+bkarsono\asdpasskeylogin\core\BootPlugin::start($paths);
+register_activation_hook(__FILE__, [bkarsono\asdpasskeylogin\core\Events::class, 'onActivation']);
+register_deactivation_hook(__FILE__, [bkarsono\asdpasskeylogin\core\Events::class, 'onDeactivation']);

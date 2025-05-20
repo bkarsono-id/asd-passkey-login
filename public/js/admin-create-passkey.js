@@ -63,7 +63,6 @@ document.addEventListener("DOMContentLoaded", function () {
             title: "Success",
             html: dataResponse.data.message,
             showConfirmButton: false,
-            timer: 3500,
           });
         }, 1000);
         setTimeout(() => {

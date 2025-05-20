@@ -7,44 +7,44 @@ namespace Composer\Autoload;
 class ComposerStaticInita51ab32263104c7445fed9a60f01ad7a
 {
     public static $prefixLengthsPsr4 = array (
+        'b' => 
+        array (
+            'bkarsono\\asdpasskeylogin\\models\\' => 32,
+            'bkarsono\\asdpasskeylogin\\core\\' => 30,
+            'bkarsono\\asdpasskeylogin\\controllers\\' => 37,
+            'bkarsono\\asdpasskeylogin\\config\\' => 32,
+            'bkarsono\\asdpasskeylogin\\classes\\' => 33,
+        ),
         'F' => 
         array (
             'Firebase\\JWT\\' => 13,
         ),
-        'A' => 
-        array (
-            'Asd\\Models\\' => 11,
-            'Asd\\Core\\' => 9,
-            'Asd\\Controllers\\' => 16,
-            'Asd\\Config\\' => 11,
-            'Asd\\Classes\\' => 12,
-        ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'Firebase\\JWT\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
-        ),
-        'Asd\\Models\\' => 
+        'bkarsono\\asdpasskeylogin\\models\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app/Models',
         ),
-        'Asd\\Core\\' => 
+        'bkarsono\\asdpasskeylogin\\core\\' => 
         array (
             0 => __DIR__ . '/..' . '/core',
         ),
-        'Asd\\Controllers\\' => 
+        'bkarsono\\asdpasskeylogin\\controllers\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app/Controllers',
         ),
-        'Asd\\Config\\' => 
+        'bkarsono\\asdpasskeylogin\\config\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app/Config',
         ),
-        'Asd\\Classes\\' => 
+        'bkarsono\\asdpasskeylogin\\classes\\' => 
         array (
             0 => __DIR__ . '/..' . '/classes',
+        ),
+        'Firebase\\JWT\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
         ),
     );
 
