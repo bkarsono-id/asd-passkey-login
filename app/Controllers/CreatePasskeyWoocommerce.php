@@ -9,6 +9,12 @@ if (!defined('ABSPATH')) exit;
 if (!class_exists(CreatePasskeyWoocommerce::class)) {
     class CreatePasskeyWoocommerce extends BaseController
     {
+        /**
+         * CreatePasskeyWoocommerce constructor.
+         * Registers AJAX actions, WooCommerce menu/filter hooks, and endpoint for passkey registration.
+         *
+         * @return void
+         */
         public function __construct()
         {
             add_action('wp_ajax_asd_woo_passkey_register', [$this, 'handleRegister']);
@@ -18,6 +24,12 @@ if (!class_exists(CreatePasskeyWoocommerce::class)) {
             add_action('woocommerce_account_register-passkey_endpoint', [$this, 'asdRegisterPasskeyContent']);
         }
 
+        /**
+         * Handle the AJAX request for registering a new WooCommerce passkey.
+         * Validates input, checks for existing passkey, verifies user credentials, and returns JSON response.
+         *
+         * @return void
+         */
         public function handleRegister()
         {
             if (!isset($_SERVER['REQUEST_METHOD']) || $_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -67,6 +79,12 @@ if (!class_exists(CreatePasskeyWoocommerce::class)) {
             return;
         }
 
+        /**
+         * Handle the AJAX request for flagging a WooCommerce passkey.
+         * Validates the token, saves passkey data, and returns JSON response.
+         *
+         * @return void
+         */
         public function handleFlagging()
         {
             if (!isset($_SERVER['REQUEST_METHOD']) || $_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -110,6 +128,13 @@ if (!class_exists(CreatePasskeyWoocommerce::class)) {
                 wp_send_json_error(['message' => "Something wrong with token."]);
             }
         }
+
+        /**
+         * Add the "Register Passkey" menu item to the WooCommerce account menu.
+         *
+         * @param array $items Existing WooCommerce account menu items.
+         * @return array Modified menu items with the register passkey link.
+         */
         public function asdAddRegisterPasskeyMenu($items)
         {
             $new_items = [];
@@ -122,6 +147,12 @@ if (!class_exists(CreatePasskeyWoocommerce::class)) {
             return $new_items;
         }
 
+        /**
+         * Render the content for the "Register Passkey" WooCommerce endpoint.
+         *
+         * @return void
+         */
+
         function asdRegisterPasskeyContent()
         {
             $data = [
@@ -129,6 +160,12 @@ if (!class_exists(CreatePasskeyWoocommerce::class)) {
             ];
             ASD_P4SSK3Y_view("asd-create-passkey-woocommerce", $data);
         }
+
+        /**
+         * Register the "register-passkey" endpoint for WooCommerce account pages.
+         *
+         * @return void
+         */
         public function asdRegisterPasskeyEndpoint()
         {
             add_rewrite_endpoint('register-passkey', EP_PAGES);

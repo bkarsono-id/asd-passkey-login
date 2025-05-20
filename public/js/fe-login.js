@@ -1,3 +1,9 @@
+/**
+ * Handles the login process using passkey (biometric authentication).
+ * Sends AJAX requests, processes responses, and manages UI feedback.
+ *
+ * @returns {Promise<void>}
+ */
 const loginViaPasskey = async () => {
   try {
     spinnerOn();
@@ -48,6 +54,14 @@ const loginViaPasskey = async () => {
     console.error("Error during passkey login:", error);
   }
 };
+
+/**
+ * Handles the Google OAuth login callback.
+ * Sends the credential to the server for verification and processes the response.
+ *
+ * @param {Object} callback The Google OAuth callback object containing the credential.
+ * @returns {Promise<void>}
+ */
 const oAuthGoogleHandle = async (callback) => {
   infoMessageBox("Checking token...");
   const response = await fetch(asd_ajax.ajax_url, {
@@ -73,6 +87,11 @@ const oAuthGoogleHandle = async (callback) => {
   }
 };
 
+/**
+ * Initializes the login UI, event listeners, and Google OAuth prompt on DOMContentLoaded.
+ *
+ * @returns {void}
+ */
 document.addEventListener("DOMContentLoaded", async function () {
   const box = document.getElementById("asd-passkey-login-wrapper");
   const submit = document.querySelector(".submit");

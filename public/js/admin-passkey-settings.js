@@ -1,3 +1,9 @@
+/**
+ * Handles all event listeners and AJAX requests for the Passkey Settings admin page.
+ * Includes form submissions, SMTP test, package sync, web push, and media uploader logic.
+ *
+ * @returns {void}
+ */
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("passkeySettingsForm");
   if (form) {

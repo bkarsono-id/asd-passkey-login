@@ -1,3 +1,9 @@
+/**
+ * Handles the WooCommerce login process using passkey (biometric authentication).
+ * Sends AJAX requests, processes responses, and manages UI feedback and redirects.
+ *
+ * @returns {Promise<void>}
+ */
 const loginViaPasskey = async () => {
   try {
     spinnerOn();
@@ -28,16 +34,12 @@ const loginViaPasskey = async () => {
 
         const bcresult = await response.json();
         if (bcresult.success) {
-          infoMessageBox(
-            "Biometric is valid, wait a moment while redirecting..."
-          );
+          infoMessageBox("Biometric is valid, wait a moment while redirecting...");
           setTimeout(() => {
             window.location.href = bcresult.data.redirect;
           }, 2000);
         } else {
-          errorMessageBox(
-            bcresult.data.message || "Login failed. Please try again."
-          );
+          errorMessageBox(bcresult.data.message || "Login failed. Please try again.");
           spinnerOff();
         }
       } catch (error) {
@@ -52,6 +54,14 @@ const loginViaPasskey = async () => {
     console.error("Error during passkey login:", error);
   }
 };
+
+/**
+ * Handles the Google OAuth login callback for WooCommerce login.
+ * Sends the credential to the server for verification and processes the response.
+ *
+ * @param {Object} callback The Google OAuth callback object containing the credential.
+ * @returns {Promise<void>}
+ */
 const oAuthGoogleHandle = async (callback) => {
   infoMessageBox("Checking token...");
   const response = await fetch(asd_ajax.ajax_url, {
@@ -76,6 +86,12 @@ const oAuthGoogleHandle = async (callback) => {
     spinnerOff();
   }
 };
+
+/**
+ * Initializes the WooCommerce login UI, event listeners, and Google OAuth prompt on DOMContentLoaded.
+ *
+ * @returns {void}
+ */
 document.addEventListener("DOMContentLoaded", function () {
   const box = document.getElementById("asd-passkey-login-wrapper");
   const submit = document.querySelector(".submit");

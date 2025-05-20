@@ -2,13 +2,14 @@
 if (!defined('ABSPATH')) exit;
 if (!function_exists('ASD_P4SSK3Y_view')) {
     /**
-     * Load a ASD_P4SSK3Y_view file with the given data.
+     * Load an ASD_P4SSK3Y_view file with the given data.
      *
      * @param string $name Name of the ASD_P4SSK3Y_view file (without `.php` extension).
      * @param array $data Data to be passed to the ASD_P4SSK3Y_view.
      * @param array $options Additional options (e.g., 'return' => true).
      * @return string|void
      */
+
     function ASD_P4SSK3Y_view(string $name, array $data = [], array $options = [])
     {
         $viewPath = defined('ASD_P4SSK3Y_VIEWSPATH') ? ASD_P4SSK3Y_VIEWSPATH : __DIR__ . '/views/';
@@ -44,14 +45,13 @@ if (!function_exists('ASD_P4SSK3Y_view')) {
 
 if (! function_exists('ASD_P4SSK3Y_base_url')) {
     /**
-     * Returns the base URL as defined by the App config.
-     * Base URLs are trimmed site URLs without the index page.
+     * Get the base URL as defined by the App config.
      *
      * @param array|string $relativePath URI string or array of URI segments.
-     * @param string|null  $scheme       URI scheme. E.g., http, ftp. If empty
-     *                                   string '' is set, a protocol-relative
-     *                                   link is returned.
+     * @param string|null $scheme URI scheme. E.g., http, ftp. If empty string '' is set, a protocol-relative link is returned.
+     * @return string
      */
+
     function ASD_P4SSK3Y_base_url($relativePath = '', ?string $scheme = null): string
     {
         $baseURL = site_url();
@@ -69,10 +69,10 @@ if (! function_exists('ASD_P4SSK3Y_base_url')) {
 
 if (! function_exists('ASD_P4SSK3Y_asdlog')) {
     /**
-     * Logging only DEBUG is on.
+     * Log a message only if DEBUG is enabled.
      *
-     * @param string|null  $logMessage   Log message. If empty string '' is set
-     *                                   
+     * @param string|array|object|null $logMessage Log message. If empty string '' is set, nothing will be logged.
+     * @return void
      */
     function ASD_P4SSK3Y_asdlog($logMessage = '')
     {
@@ -87,14 +87,11 @@ if (! function_exists('ASD_P4SSK3Y_asdlog')) {
 }
 
 if (! function_exists('ASD_P4SSK3Y_webid')) {
+
     /**
-     * Returns the base URL as defined by the App config.
-     * Base URLs are trimmed site URLs without the index page.
+     * Get or generate a unique Web ID for the site.
      *
-     * @param array|string $relativePath URI string or array of URI segments.
-     * @param string|null  $scheme       URI scheme. E.g., http, ftp. If empty
-     *                                   string '' is set, a protocol-relative
-     *                                   link is returned.
+     * @return string
      */
     function ASD_P4SSK3Y_webid(): string
     {
@@ -109,13 +106,9 @@ if (! function_exists('ASD_P4SSK3Y_webid')) {
 
 if (! function_exists('ASD_P4SSK3Y_is_pro_license')) {
     /**
-     * Returns the base URL as defined by the App config.
-     * Base URLs are trimmed site URLs without the index page.
+     * Check if the current license is a pro license.
      *
-     * @param array|string $relativePath URI string or array of URI segments.
-     * @param string|null  $scheme       URI scheme. E.g., http, ftp. If empty
-     *                                   string '' is set, a protocol-relative
-     *                                   link is returned.
+     * @return bool
      */
     function ASD_P4SSK3Y_is_pro_license(): bool
     {
@@ -128,13 +121,9 @@ if (! function_exists('ASD_P4SSK3Y_is_pro_license')) {
 }
 if (! function_exists('ASD_P4SSK3Y_is_scale_license')) {
     /**
-     * Returns the base URL as defined by the App config.
-     * Base URLs are trimmed site URLs without the index page.
+     * Check if the current license is a scale license.
      *
-     * @param array|string $relativePath URI string or array of URI segments.
-     * @param string|null  $scheme       URI scheme. E.g., http, ftp. If empty
-     *                                   string '' is set, a protocol-relative
-     *                                   link is returned.
+     * @return bool
      */
     function ASD_P4SSK3Y_is_scale_license(): bool
     {
@@ -147,14 +136,14 @@ if (! function_exists('ASD_P4SSK3Y_is_scale_license')) {
 }
 if (! function_exists('ASD_P4SSK3Y_is_setting_valid')) {
     /**
-     * Returns the base URL as defined by the App config.
-     * Base URLs are trimmed site URLs without the index page.
+     * Validate a setting value.
      *
-     * @param array|string $relativePath URI string or array of URI segments.
-     * @param string|null  $scheme       URI scheme. E.g., http, ftp. If empty
-     *                                   string '' is set, a protocol-relative
-     *                                   link is returned.
+     * @param string $option Option name to check.
+     * @param string $value Value to compare.
+     * @param mixed $callbackvalue Optional callback value to return if valid.
+     * @return bool|mixed
      */
+
     function ASD_P4SSK3Y_is_setting_valid($option = '', $value = '',  $callbackvalue = null)
     {
         $settings =  get_option($option);
@@ -167,14 +156,12 @@ if (! function_exists('ASD_P4SSK3Y_is_setting_valid')) {
 }
 
 if (! function_exists('ASD_P4SSK3Y_clean_notices_admin')) {
+
     /**
-     * Returns the base URL as defined by the App config.
-     * Base URLs are trimmed site URLs without the index page.
+     * Show a custom admin notice on a specific admin page and clean notices on others.
      *
-     * @param array|string $relativePath URI string or array of URI segments.
-     * @param string|null  $scheme       URI scheme. E.g., http, ftp. If empty
-     *                                   string '' is set, a protocol-relative
-     *                                   link is returned.
+     * @param string $slug The screen ID where the notice should appear.
+     * @return void
      */
     function ASD_P4SSK3Y_clean_notices_admin($slug)
     {

@@ -1,6 +1,13 @@
 const publicKey = webpush.public_key;
 let swObject = null;
 
+/**
+ * Converts a base64 string to a Uint8Array, used for push notification keys.
+ *
+ * @param {string} base64String The base64 encoded string.
+ * @returns {Uint8Array}
+ */
+
 const urlBase64ToUint8Array = (base64String) => {
   const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
   const base64 = (base64String + padding).replace(/\-/g, "+").replace(/_/g, "/");
@@ -14,6 +21,11 @@ const urlBase64ToUint8Array = (base64String) => {
   return outputArray;
 };
 
+/**
+ * Registers the service worker and initializes the push notification UI.
+ *
+ * @returns {void}
+ */
 if ("serviceWorker" in navigator && "PushManager" in window) {
   window.addEventListener("load", () => {
     navigator.serviceWorker
@@ -29,6 +41,12 @@ if ("serviceWorker" in navigator && "PushManager" in window) {
       });
   });
 }
+
+/**
+ * Shows the appropriate UI dialog based on the user's subscription status.
+ *
+ * @returns {Promise<void>}
+ */
 const showUI = async () => {
   swObject.pushManager.getSubscription().then((subscription) => {
     isSubscribed = !(subscription === null);
@@ -41,6 +59,12 @@ const showUI = async () => {
     }
   });
 };
+
+/**
+ * Handles the subscribe dialog and user subscription process.
+ *
+ * @returns {void}
+ */
 const subcribeDialog = () => {
   showModalSubscribe();
   const btnSubcribe = document.getElementById("asd-subscribe-button");
@@ -90,6 +114,11 @@ const subcribeDialog = () => {
   }
 };
 
+/**
+ * Handles the unsubscribe dialog and user unsubscription process.
+ *
+ * @returns {void}
+ */
 const unSubcribeDialog = () => {
   showModalUnSubscribe();
   const btnUnSubcribe = document.getElementById("asd-unsubscribe-button");
@@ -124,6 +153,12 @@ const unSubcribeDialog = () => {
   return;
 };
 
+/**
+ * Sends the subscription object to the server to save the subscriber.
+ *
+ * @param {PushSubscription} subscription The push subscription object.
+ * @returns {Promise<Object>}
+ */
 const updateUnSubcriberOnServer = async (subscription) => {
   try {
     const response = await fetch(webpush.ajax_url, {
@@ -142,6 +177,13 @@ const updateUnSubcriberOnServer = async (subscription) => {
     console.error("Error saving subscriber:", error);
   }
 };
+
+/**
+ * Sends the subscription object to the server to remove the subscriber.
+ *
+ * @param {PushSubscription} subscription The push subscription object.
+ * @returns {Promise<Object>}
+ */
 const updateSubcriberOnServer = async (subscription) => {
   try {
     const response = await fetch(webpush.ajax_url, {
@@ -162,6 +204,11 @@ const updateSubcriberOnServer = async (subscription) => {
   }
 };
 
+/**
+ * Shows the modal dialog for subscribing to notifications.
+ *
+ * @returns {void}
+ */
 const showModalSubscribe = () => {
   Swal.fire({
     width: 500,
@@ -201,6 +248,12 @@ const showModalSubscribe = () => {
     }
   });
 };
+
+/**
+ * Shows the modal dialog for unsubscribing from notifications.
+ *
+ * @returns {void}
+ */
 const showModalUnSubscribe = () => {
   Swal.fire({
     width: 500,

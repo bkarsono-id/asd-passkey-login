@@ -17,12 +17,24 @@ if (!class_exists(Menu::class)) {
             'asd-upgrade-package',
             'asd-send-notification-admin'
         ];
+        /**
+         * Constructor for the Menu class.
+         * Defines the plugin name constant if not already defined.
+         *
+         * @return void
+         */
         public function __construct()
         {
             if (!defined('ASD_P4SSK3Y_PLUGIN_NAME') || !ASD_P4SSK3Y_PLUGIN_NAME) {
                 defined('ASD_P4SSK3Y_PLUGIN_NAME') || define('ASD_P4SSK3Y_PLUGIN_NAME', 'asd-passkey-login');
             }
         }
+
+        /**
+         * Register all menu, admin bar, and script enqueue hooks for the plugin.
+         *
+         * @return void
+         */
         public  function generateMenu()
         {
             add_action('admin_menu', [$this, 'addAdminMenu']);
@@ -34,6 +46,11 @@ if (!class_exists(Menu::class)) {
             add_action('wp_enqueue_scripts', [$this, 'asdEnqueueWooRegisterScript']);
             add_action('wp_enqueue_scripts', [$this, 'asdWebPushRegistration']);
         }
+        /**
+         * Render the custom admin navigation bar on allowed pages.
+         *
+         * @return void
+         */
         public function asdNavbarShortcode()
         {
             if (isset($_GET['page']) && in_array($_GET['page'], $this->allowed_hooks, true) && current_user_can('administrator')) {
@@ -74,7 +91,14 @@ if (!class_exists(Menu::class)) {
                 echo $navbarHtml;
             }
         }
-        function asdAddCreatePasskeyButton($wp_admin_bar)
+
+        /**
+         * Add a "Create Passkey" button to the WordPress admin bar.
+         *
+         * @param WP_Admin_Bar $wp_admin_bar The WordPress admin bar object.
+         * @return void
+         */
+        public function asdAddCreatePasskeyButton($wp_admin_bar)
         {
             if (is_user_logged_in()) {
                 $wp_admin_bar->add_node([
@@ -88,6 +112,12 @@ if (!class_exists(Menu::class)) {
                 ]);
             }
         }
+
+        /**
+         * Register the main menu and submenu pages for the plugin in the WordPress admin.
+         *
+         * @return void
+         */
         public function addAdminMenu()
         {
             add_menu_page(
@@ -141,6 +171,12 @@ if (!class_exists(Menu::class)) {
                 [new \bkarsono\asdpasskeylogin\controllers\UpgradePackage(), 'index']
             );
         }
+
+        /**
+         * Enqueue styles and scripts for the plugin's admin pages.
+         *
+         * @return void
+         */
         public function asdEnqueueAdminScript()
         {
             $page = $_GET['page'] ?? '';
@@ -234,6 +270,12 @@ if (!class_exists(Menu::class)) {
                 }
             }
         }
+
+        /**
+         * Enqueue scripts and localize data for the WooCommerce passkey registration page.
+         *
+         * @return void
+         */
         public function asdEnqueueWooRegisterScript()
         {
 
@@ -271,6 +313,11 @@ if (!class_exists(Menu::class)) {
             }
         }
 
+        /**
+         * Enqueue styles and scripts for the login and WooCommerce account pages.
+         *
+         * @return void
+         */
         public function asdEnqueueLoginScript()
         {
 
@@ -366,6 +413,11 @@ if (!class_exists(Menu::class)) {
             }
         }
 
+        /**
+         * Enqueue styles and scripts for web push notification registration.
+         *
+         * @return void
+         */
         public function asdWebPushRegistration()
         {
             // if (is_woocommerce()) {
@@ -398,6 +450,12 @@ if (!class_exists(Menu::class)) {
             }
             // }
         }
+
+        /**
+         * Check if the current page is the login page or WooCommerce account page (when not logged in).
+         *
+         * @return bool
+         */
         public function is_login_page()
         {
             return basename($_SERVER['PHP_SELF']) === 'wp-login.php' ||  (function_exists('is_account_page') && is_account_page() && !is_user_logged_in());

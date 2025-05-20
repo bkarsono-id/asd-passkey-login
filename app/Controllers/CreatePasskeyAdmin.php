@@ -6,15 +6,33 @@ use bkarsono\asdpasskeylogin\models\GeneralModel;
 use bkarsono\asdpasskeylogin\classes\JwtToken;
 
 if (!defined('ABSPATH')) exit;
+
 if (!class_exists(CreatePasskeyAdmin::class)) {
+    /**
+     * Class CreatePasskeyAdmin
+     * Handles the creation of passkeys for administrators.
+     */
+
     class CreatePasskeyAdmin extends BaseController
     {
+        /**
+         * CreatePasskeyAdmin constructor.
+         * Registers AJAX actions for passkey registration and flagging, and cleans admin notices.
+         *
+         * @return void
+         */
         public function __construct()
         {
             add_action('wp_ajax_asd_passkey_register', [$this, 'handleRegister']);
             add_action('wp_ajax_asd_passkey_flagging', [$this, 'handleFlagging']);
             ASD_P4SSK3Y_clean_notices_admin("asd-create-passkey-admin");
         }
+
+        /**
+         * Render the admin page for creating a passkey.
+         *
+         * @return void
+         */
         public function index()
         {
             $data = [
@@ -23,6 +41,13 @@ if (!class_exists(CreatePasskeyAdmin::class)) {
             ];
             ASD_P4SSK3Y_view("asd-create-passkey-admin", $data);
         }
+
+        /**
+         * Handle the AJAX request for registering a new passkey.
+         * Validates input, checks for existing passkey, verifies user credentials, and returns JSON response.
+         *
+         * @return void
+         */
         public function handleRegister()
         {
             if (!isset($_SERVER['REQUEST_METHOD']) || $_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -73,6 +98,12 @@ if (!class_exists(CreatePasskeyAdmin::class)) {
             return;
         }
 
+        /**
+         * Handle the AJAX request for flagging a passkey.
+         * Validates the token, saves passkey data, and returns JSON response.
+         *
+         * @return void
+         */
         public function handleFlagging()
         {
             if (!isset($_SERVER['REQUEST_METHOD']) || $_SERVER['REQUEST_METHOD'] !== 'POST') {

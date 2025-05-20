@@ -1,6 +1,9 @@
 <?php
 if (!defined('ABSPATH')) exit;
-
+/**
+ * Defines core plugin constants for versioning, database version, plugin name, API URLs, and Web ID.
+ * These constants are used throughout the plugin for configuration and integration.
+ */
 defined('ASD_P4SSK3Y_VERSION') || define('ASD_P4SSK3Y_VERSION', '1.0.0');
 defined('ASD_P4SSK3Y_DB_VERSION') || define('ASD_P4SSK3Y_DB_VERSION', '1.0.0');
 defined('ASD_P4SSK3Y_PLUGIN_NAME') || define('ASD_P4SSK3Y_PLUGIN_NAME', 'asd-passkey-login');

@@ -6,6 +6,12 @@ if (!defined('ABSPATH')) exit;
 if (!class_exists(PushNotification::class)) {
     class PushNotification extends BaseController
     {
+        /**
+         * PushNotification constructor.
+         * Registers AJAX actions for saving and removing push notification subscribers.
+         *
+         * @return void
+         */
         public function __construct()
         {
             add_action('wp_ajax_asd_save_subscriber', [$this, 'handleSubcriber']);
@@ -15,7 +21,10 @@ if (!class_exists(PushNotification::class)) {
         }
 
         /**
-         * subcriber handling using AJAX
+         * Handles the AJAX request to save a push notification subscriber.
+         * Validates the request, verifies the nonce, sends subscription data to the API, and returns a JSON response.
+         *
+         * @return void
          */
         public function handleSubcriber()
         {
@@ -71,6 +80,13 @@ if (!class_exists(PushNotification::class)) {
             }
             wp_send_json_success(['message' => 'Subcription Success.']);
         }
+
+        /**
+         * Handles the AJAX request to remove a push notification subscriber.
+         * Validates the request, verifies the nonce, sends unsubscription data to the API, and returns a JSON response.
+         *
+         * @return void
+         */
         public function handleUnSubcriber()
         {
             if (!isset($_SERVER['REQUEST_METHOD']) || $_SERVER['REQUEST_METHOD'] !== 'POST') {

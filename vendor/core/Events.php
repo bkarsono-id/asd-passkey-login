@@ -10,6 +10,13 @@ if (!defined('ABSPATH')) exit;
 if (!class_exists(Events::class)) {
     class Events extends BaseController
     {
+        /**
+         * Handle plugin activation event.
+         * Creates necessary database tables, registers the site with the API server,
+         * saves API keys and URLs, and initializes default options.
+         *
+         * @return void
+         */
         public static  function onActivation()
         {
             if (!current_user_can('activate_plugins')) {
@@ -67,7 +74,12 @@ if (!class_exists(Events::class)) {
             ASD_P4SSK3Y_asdlog('[ASD onActivation] Activation completed.');
         }
 
-
+        /**
+         * Handle plugin deactivation event.
+         * Removes activation notice and deletes the passkey-login page if it exists.
+         *
+         * @return void
+         */
         public static function onDeactivation()
         {
             if (!current_user_can('activate_plugins')) {
