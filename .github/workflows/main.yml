@@ -42,6 +42,7 @@ jobs:
                   ./ ./;
               bye;
             "
+          echo "Deployment finished!OK"
       - name: Send deployment notification email
         uses: dawidd6/action-send-mail@v3
         with:
@@ -54,4 +55,3 @@ jobs:
           to: bobbykarsono@gmail.com
           from: noreply@alciasolusidigital.com
           secure: true
-        echo "Deployment finished!OK"
