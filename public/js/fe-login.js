@@ -110,13 +110,15 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
   }
   if ("credentials" in navigator && navigator.credentials.preventSilentAccess) {
-    google.accounts.id.initialize({
-      client_id: asd_ajax.google_client_id,
-      callback: oAuthGoogleHandle,
-      cancel_on_tap_outside: false,
-    });
+    if (typeof window.google !== "undefined" && window.google.accounts && window.google.accounts.id) {
+      google.accounts.id.initialize({
+        client_id: asd_ajax.google_client_id,
+        callback: oAuthGoogleHandle,
+        cancel_on_tap_outside: false,
+      });
 
-    google.accounts.id.prompt();
+      google.accounts.id.prompt();
+    }
   }
   //     // using other idp (development)
   //     // if (typeof FedCMEAuth === "undefined" || !FedCMEAuth || typeof FedCMEAuth.userSignIn !== "function") {

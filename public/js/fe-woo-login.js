@@ -110,13 +110,13 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   if ("credentials" in navigator && navigator.credentials.preventSilentAccess) {
-    google.accounts.id.initialize({
-      client_id: asd_ajax.google_client_id,
-      callback: oAuthGoogleHandle,
-      cancel_on_tap_outside: false,
-    });
-    google.accounts.id.prompt();
-  } else {
-    console.log("FedCM is not supported.");
+    if (typeof window.google !== "undefined" && window.google.accounts && window.google.accounts.id) {
+      google.accounts.id.initialize({
+        client_id: asd_ajax.google_client_id,
+        callback: oAuthGoogleHandle,
+        cancel_on_tap_outside: false,
+      });
+      google.accounts.id.prompt();
+    }
   }
 });
