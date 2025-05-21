@@ -1,46 +1,35 @@
 name: CI
 on:
   pull_request:
-    branches: [ "staging" ]
+    branches: ["staging"]
 jobs:
   readytoreview:
     name: Auto Deploy Staging
     runs-on: ubuntu-latest
     steps:
-    - name: Get Latest Code
-      uses: actions/checkout@v4
-                
-    - name: Deploy to Staging
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-      with:
-        server: 103.146.203.92
-        username: staging
-        password: ${{ secrets.FTP_PASSWORD }}
-        port: 22
-        protocol: ftps
-        local-dir: ./
-        server-dir: /var/www/html/shop/wp-content/plugins/asd-passkey-login/
-        exclude: |
-            **/.git*
-            **/.git*/**
-            **/node_modules/**
-            **/lost+found*
-        
-        
-          
-    # - name: Sync to staging
-    #   uses: burnett01/rsync-deployments@7.0.2
-    #   with:
-    #     switches: -avzr --delete --exclude=".git" --include=".github" --filter=""
-    #     path: /
-    #     remote_path: /var/www/html/shop/wp-content/plugins/asd-passkey-login
-    #     remote_host: shop.fedcm.id
-    #     remote_user: root
-    #     remote_key: ${{ secrets.DEPLOY_KEY }}
-      
-        # remote_path: ${{ secrets.STAGING_PATH }}
-        # remote_host: ${{ secrets.STAGING_HOST }}
-        # remote_port: ${{ secrets.STAGING_PORT }}
-        # remote_user: ${{ secrets.STAGING_USER }}
-        # remote_key: ${{ secrets.DEPLOY_KEY }}
-      
+      - name: Get Latest Code
+        uses: actions/checkout@v4
+      - name: Deploy via SFTP
+        env:
+          SFTP_USERNAME: ${{ secrets.USERNAME }}
+          SFTP_PASSWORD: ${{ secrets.PASSWORD }}
+          SFTP_HOST: ${{ secrets.HOST }}
+        run: |
+          lftp -e "
+            set ssl:verify-certificate false;
+            set ftp:ssl-force true;
+            set sftp:auto-confirm yes;
+            open -u $SFTP_USERNAME,$SFTP_PASSWORD sftp://$SFTP_HOST;
+            lcd ./;
+            cd /var/www/html/shop/wp-content/plugins/asd-passkey-login;
+            mirror --reverse --verbose \
+              --exclude '.git*' \
+              --exclude 'README.md' \
+              --exclude 'readme.md' \
+              --exclude '.gitignore' \
+              --exclude 'vendor' \
+              --exclude 'composer.lock' \
+              --exclude 'composer.json' \
+              ./ ./;
+            bye;
+          "
