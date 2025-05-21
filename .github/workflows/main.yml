@@ -14,7 +14,7 @@ jobs:
       uses: SamKirkland/web-deploy@v1
       with:
         target-server: 202.10.44.62
-        remote-user: staging
+        remote-user: root
         private-ssh-key: ${{ secrets.SECRET_KEY }}
         source-path: ./
         destination-path: /var/www/html/shop/wp-content/plugins/asd-passkey-login/
