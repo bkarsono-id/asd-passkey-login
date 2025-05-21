@@ -41,4 +41,4 @@ jobs:
                 ./ ./;
               bye;
             "
-          echo "Deployment finished!"
+          echo "Deployment finished!OK"
