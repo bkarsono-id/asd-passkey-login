@@ -1,6 +1,8 @@
 name: CI
 on:
   pull_request:
+    types:
+      - closed
     branches: ["staging"]
 jobs:
   readytoreview:
@@ -31,9 +33,6 @@ jobs:
               --exclude 'README.md' \
               --exclude 'readme.md' \
               --exclude '.gitignore' \
-              --exclude 'vendor' \
-              --exclude 'composer.lock' \
-              --exclude 'composer.json' \
               ./ ./;
             bye;
           "
