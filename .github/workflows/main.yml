@@ -20,6 +20,9 @@ jobs:
       - name: Verify lftp installation
         run: |
           command -v lftp || (echo "lftp not found! Aborting..." && exit 1)
+      - name: Check Repository Files
+        run: |
+          ls -lah $(pwd)
       - name: Deploy via SFTP
         env:
           SFTP_USERNAME: ${{ secrets.USERNAME }}
