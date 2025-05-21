@@ -1,7 +1,7 @@
 name: CI
 on:
-  push:
-    branches: [ "test" ]
+  pull_request:
+    branches: [ "staging" ]
 jobs:
   readytoreview:
     name: Auto Deploy Staging
@@ -9,17 +9,45 @@ jobs:
     steps:
     - name: Get Latest Code
       uses: actions/checkout@v4
-    
-    - name: web deploy anything
-      uses: SamKirkland/web-deploy@v1
-      with:
-        target-server: 202.10.44.62
-        remote-user: staging
-        private-ssh-key: ${{ secrets.SECRET_KEY }}
-        source-path: ./
-        destination-path: /var/www/html/shop/wp-content/plugins/asd-passkey-login/
-        ssh-port: 22
-        rsync-options: --dry-run --archive --verbose --compress --human-readable --progress --delete-after --exclude=.git* --exclude=.git/ --exclude=README.md --exclude=readme.md --exclude=.gitignore
+    - name: Install lftp
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y lftp
+    - name: Deploy via SFTP
+      env:
+        SFTP_USERNAME: ${{ secrets.USERNAME }}
+        SFTP_PASSWORD: ${{ secrets.PASSWORD }}
+        SFTP_HOST: ${{ secrets.HOST }}
+      run: |
+        lftp -e "
+          set ssl:verify-certificate false;
+          set ftp:ssl-force true;
+          set sftp:auto-confirm yes;
+          open -u $SFTP_USERNAME,$SFTP_PASSWORD sftp://$SFTP_HOST;
+          lcd ./;
+          cd /var/www/html/shop/wp-content/plugins/asd-passkey-login;
+          mirror --reverse --verbose \
+            --exclude '.git*' \
+            --exclude 'README.md' \
+            --exclude 'readme.md' \
+            --exclude '.gitignore' \
+            --exclude 'vendor' \
+            --exclude 'composer.lock' \
+            --exclude 'composer.json' \
+            ./ ./;
+          bye;
+        "
+
+    # - name: web deploy anything
+    #   uses: SamKirkland/web-deploy@v1
+    #   with:
+    #     target-server: 202.10.44.62
+    #     remote-user: root
+    #     private-ssh-key: ${{ secrets.SECRET_KEY }}
+    #     source-path: ./
+    #     destination-path: /var/www/html/shop/wp-content/plugins/asd-passkey-login/
+    #     ssh-port: 22
+    #     rsync-options: --dry-run --archive --verbose --compress --human-readable --progress --delete-after --exclude=.git* --exclude=.git/ --exclude=README.md --exclude=readme.md --exclude=.gitignore
           
              
     # - name: Deploy to Staging
