@@ -1,32 +1,26 @@
 name: CI
-
 on:
   pull_request:
     types:
       - closed
     branches: ["staging"]
-
 jobs:
   readytoreview:
     name: Auto Deploy Staging
     runs-on: ubuntu-latest
     if: github.event.pull_request.merged == true
-
     steps:
       - name: Get Latest Code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
       - name: Install lftp
         run: |
           sudo apt-get update
           sudo apt-get install -y lftp
-
       - name: Verify lftp installation
         run: |
           command -v lftp || (echo "lftp not found! Aborting..." && exit 1)
-
       - name: Deploy via SFTP
         env:
           SFTP_USERNAME: ${{ secrets.USERNAME }}
@@ -38,13 +32,11 @@ jobs:
               set ssl:verify-certificate false;
               set ftp:ssl-force true;
               set sftp:auto-confirm yes;
-              open -u $SFTP_USERNAME,$SFTP_PASSWORD sftp://$SFTP_HOST || { echo 'SFTP connection failed'; exit 1; };
+              open -u $SFTP_USERNAME,$SFTP_PASSWORD sftp://$SFTP_HOST;
               lcd ./;
               cd /var/www/html/shop/wp-content/plugins/asd-passkey-login || { echo 'Failed to enter target directory'; exit 1; };
               mirror --reverse --verbose --overwrite \
                 --exclude '.git*' \
-                --exclude 'README.md' \
-                --exclude 'readme.md' \
                 --exclude '.gitignore' \
                 ./ ./;
               bye;
