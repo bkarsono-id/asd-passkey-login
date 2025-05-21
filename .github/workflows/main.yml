@@ -1,15 +1,12 @@
 name: CI
 on:
-  pull_request:
-    types:
-      - closed
+  staging:
     branches:
       - staging
 jobs:
   readytoreview:
     name: Auto Deploy Staging
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true
     steps:
       - name: Get Latest Code
         uses: actions/checkout@v4
