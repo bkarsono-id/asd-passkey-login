@@ -66,7 +66,12 @@ const showUI = async () => {
  * @returns {void}
  */
 const subcribeDialog = () => {
-  showModalSubscribe();
+  const isModalShown = localStorage.getItem("modalSubscribeShown");
+  if (!isModalShown) {
+    showModalSubscribe();
+    localStorage.setItem("modalSubscribeShown", "true");
+  }
+
   const btnSubcribe = document.getElementById("asd-subscribe-button");
   if (btnSubcribe) {
     const txtSubcribe = document.getElementById("asd-subscribe-text");
@@ -120,7 +125,12 @@ const subcribeDialog = () => {
  * @returns {void}
  */
 const unSubcribeDialog = () => {
-  showModalUnSubscribe();
+  const isModalShown = localStorage.getItem("modalUnSubscribeShown");
+  if (!isModalShown) {
+    showModalUnSubscribe();
+    localStorage.setItem("modalUnSubscribeShown", "true");
+  }
+
   const btnUnSubcribe = document.getElementById("asd-unsubscribe-button");
   if (btnUnSubcribe) {
     const txtUnSubcribe = document.getElementById("asd-unsubscribe-text");
