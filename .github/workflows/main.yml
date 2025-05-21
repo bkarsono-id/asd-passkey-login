@@ -48,7 +48,7 @@ jobs:
         with:
           server_address: smtp.zoho.com
           server_port: 465
-          username: ${{ secrets.SMTP_USERN }}
+          username: ${{ secrets.SMTP_USER }}
           password: ${{ secrets.SMTP_PASSWORD }}
           subject: Deployment to staging Successful!
           body: Deployment to staging branch was successful, ready to review.
