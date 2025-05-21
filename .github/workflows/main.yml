@@ -9,6 +9,10 @@ jobs:
     steps:
       - name: Get Latest Code
         uses: actions/checkout@v4
+      - name: Install lftp
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y lftp
       - name: Deploy via SFTP
         env:
           SFTP_USERNAME: ${{ secrets.USERNAME }}
