@@ -38,8 +38,6 @@ jobs:
               lcd $(pwd);
               cd /var/www/html/shop/wp-content/plugins/asd-passkey-login/;
               mirror --reverse --verbose --overwrite \
-                --exclude '.git*' \
-                --exclude '.gitignore' \
                 ./ ./;
               bye;
             "
