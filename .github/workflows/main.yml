@@ -13,6 +13,7 @@ jobs:
       - name: Get Latest Code
         uses: actions/checkout@v4
         with:
+          ref: staging
           fetch-depth: 0
       - name: Install lftp
         run: |
