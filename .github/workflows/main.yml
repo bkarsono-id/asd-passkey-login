@@ -34,7 +34,7 @@ jobs:
               set sftp:auto-confirm yes;
               open -u $SFTP_USERNAME,$SFTP_PASSWORD sftp://$SFTP_HOST;
               lcd ./;
-              cd /var/www/html/shop/wp-content/plugins/asd-passkey-login/ || { echo 'Failed to enter target directory'; exit 1; };
+              cd /var/www/html/shop/wp-content/plugins/asd-passkey-login/;
               mirror --reverse --verbose --overwrite \
                 --exclude '.git*' \
                 --exclude '.gitignore' \
