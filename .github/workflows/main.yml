@@ -34,8 +34,7 @@ jobs:
               set sftp:auto-confirm yes;
               open -u $SFTP_USERNAME,$SFTP_PASSWORD sftp://$SFTP_HOST;
               lcd ./;
-              lpwd;
-              ls -lah ./asd-passkey-login.php || echo "File not found!"
+              ls -l;
               cd /var/www/html/shop/wp-content/plugins/asd-passkey-login/;
               mirror --reverse --verbose --overwrite \
                 --exclude '.git*' \
