@@ -21,7 +21,7 @@ jobs:
           SFTP_PASSWORD: ${{ secrets.PASSWORD }}
           SFTP_HOST: ${{ secrets.HOST }}
         run: |
-          sudo -u www-data lftp -e "
+          lftp -e "
               set ssl:verify-certificate false;
               set ftp:ssl-force true;
               set sftp:auto-confirm yes;
