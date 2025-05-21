@@ -1,6 +1,6 @@
 name: CI
 on:
-  staging:
+  push:
     branches:
       - staging
 jobs:
