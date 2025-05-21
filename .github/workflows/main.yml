@@ -3,7 +3,8 @@ on:
   pull_request:
     types:
       - closed
-    branches: ["staging"]
+    branches:
+      - staging
 jobs:
   readytoreview:
     name: Auto Deploy Staging
