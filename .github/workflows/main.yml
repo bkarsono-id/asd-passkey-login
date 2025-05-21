@@ -54,4 +54,4 @@ jobs:
           to: bobbykarsono@gmail.com
           from: noreply@alciasolusidigital.com
           secure: true
-          echo "Deployment finished!OK"
+        echo "Deployment finished!OK"
