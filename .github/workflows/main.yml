@@ -51,7 +51,7 @@ jobs:
           username: ${{ secrets.SMTP_USER }}
           password: ${{ secrets.SMTP_PASSWORD }}
           subject: Deployment to staging Successful!
-          body: Deployment to staging branch was successful, ready to review.
+          body: Deployment to staging server was successful, ready to review.
           to: bobbykarsono@gmail.com
           from: noreply@alciasolusidigital.com
           secure: true
