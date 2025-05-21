@@ -42,4 +42,16 @@ jobs:
                   ./ ./;
               bye;
             "
+      - name: Send deployment notification email
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.zoho.com
+          server_port: 465
+          username: ${{ secrets.SMTP_USERN }}
+          password: ${{ secrets.SMTP_PASSWORD }}
+          subject: Deployment to staging Successful!
+          body: Deployment to staging branch was successful, ready to review.
+          to: bobbykarsono@gmail.com
+          from: noreply@alciasolusidigital.com
+          secure: true
           echo "Deployment finished!OK"
