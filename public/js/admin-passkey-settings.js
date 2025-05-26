@@ -245,7 +245,7 @@ document.addEventListener("DOMContentLoaded", () => {
               html: "Public Key Created Successfull. Page Reloading..",
               showConfirmButton: false,
             });
-            window.location.reload(true);
+            // window.location.reload(true);
           }, 1000);
           setTimeout(() => {
             Swal.close();

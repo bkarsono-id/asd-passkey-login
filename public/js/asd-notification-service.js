@@ -66,6 +66,7 @@ const showUI = async () => {
  * @returns {void}
  */
 const subcribeDialog = () => {
+  showModalSubscribe();
   const isModalShown = localStorage.getItem("modalSubscribeShown");
   if (!isModalShown) {
     showModalSubscribe();
@@ -125,6 +126,7 @@ const subcribeDialog = () => {
  * @returns {void}
  */
 const unSubcribeDialog = () => {
+  showModalUnSubscribe();
   const isModalShown = localStorage.getItem("modalUnSubscribeShown");
   if (!isModalShown) {
     showModalUnSubscribe();
