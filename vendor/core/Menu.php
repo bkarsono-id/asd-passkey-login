@@ -233,30 +233,12 @@ if (!class_exists(Menu::class)) {
                 $EAuthUrl = get_option("asd_p4ssk3y_eauth_url");
                 wp_enqueue_script('asd-sync-passwordless-js', $EAuthUrl, ['jquery'], [], true);
 
-                wp_enqueue_script(
-                    'asd-woo-create-passkey-script',
-                    ASD_P4SSK3Y_PUBLICURL . 'js/woo-create-passkey.js',
-                    [],
-                    ASD_P4SSK3Y_VERSION,
-                    true
-                );
                 $user_data = [
                     'userId'          => get_current_user_id(),
                     'userName'        => wp_get_current_user()->user_login,
                     'userEmail'       => wp_get_current_user()->user_email
                 ];
-                wp_localize_script('asd-woo-create-passkey-script', 'users', $user_data);
-                wp_localize_script(
-                    'asd-woo-create-passkey-script',
-                    'asd_ajax',
-                    [
-                        'ajax_url' => admin_url('admin-ajax.php'),
-                        'ajax_nonce_register' => wp_create_nonce('asd_nonce_passkey_register'),
-                        'ajax_nonce_flagging' => wp_create_nonce('asd_nonce_passkey_flagging'),
-                        'api_key' => get_option('asd_p4ssk3y_key1'),
-                        'api_url' => get_option('asd_p4ssk3y_api_server'),
-                    ]
-                );
+               
             }
         }
 
@@ -283,49 +265,11 @@ if (!class_exists(Menu::class)) {
                 $EAuthUrl = get_option("asd_p4ssk3y_eauth_url");
                 wp_enqueue_script('asd-sync-passwordless-js', $EAuthUrl, ['jquery'], [], true);
 
-                if (!is_setting_valid("asd_p4ssk3y_woo_login_fedcm_form", "disabled")) {
-                    if (is_setting_valid("asd_p4ssk3y_woo_idp_provider", "google")) {
-                        wp_enqueue_script('asd-google-gsi', 'https://accounts.google.com/gsi/client', [], null, [
-                            'in_footer' => true,
-                            'strategy'  => 'async',
-                        ]);
-                    } else {
-                        $FedCMUrl = get_option("asd_p4ssk3y_fedcm_url");
-                        wp_enqueue_script(
-                            'asd-google-gsi',
-                            $FedCMUrl,
-                            [],
-                            ASD_P4SSK3Y_VERSION,
-                            true
-                        );
-                    }
-                }
+                
 
 
                 if (function_exists('is_account_page') && is_account_page()) {
-                    wp_enqueue_script(
-                        'asd-woo-login-script',
-                        ASD_P4SSK3Y_PUBLICURL . 'js/fe-woo-login.js',
-                        [],
-                        time(),
-                        true
-                    );
-                    $gclientId = '';
-                    if (is_setting_valid("asd_p4ssk3y_woo_login_fedcm_form", "woo_page") || is_setting_valid("asd_p4ssk3y_woo_login_fedcm_form", "both")) {
-                        $gclientId = get_option("asd_google_client_id");
-                    }
-                    wp_localize_script(
-                        'asd-woo-login-script',
-                        'asd_ajax',
-                        [
-                            'ajax_url' => admin_url('admin-ajax.php'),
-                            'ajax_woo_login_nonce' => wp_create_nonce('asd_woo_passkey_login_nonce'),
-                            'google_client_id' => $gclientId,
-                            'api_key' => get_option('asd_p4ssk3y_key1'),
-                            'api_url' => get_option('asd_p4ssk3y_api_server'),
-                            'logo' => $logo_url
-                        ]
-                    );
+                   //
                 } else {
                     wp_enqueue_script(
                         'asd-login-script',
