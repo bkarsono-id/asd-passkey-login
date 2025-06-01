@@ -13,7 +13,6 @@
                             <h4>$0</h4>
                             <p><span>Free</span></p>
                             <ul class="list-unstyled text-start">
-                                <li><i class="dashicons dashicons-yes text-success"></i> Up to 5 Users</li>
                                 <li><i class="dashicons dashicons-yes text-success"></i> Unlimited Login</li>
                                 <li><i class="dashicons dashicons-yes text-success"></i> 1-day Log</li>
                                 <li><i class="dashicons dashicons-yes text-success"></i> Platform & Cross Platform</li>
@@ -37,7 +36,6 @@
                             <h4>$3</h4>
                             <p><span>per month/domain</span></p>
                             <ul class="list-unstyled text-start">
-                                <li><i class="dashicons dashicons-yes text-success"></i> Up to 1,000 Users</li>
                                 <li><i class="dashicons dashicons-yes text-success"></i> Unlimited Login</li>
                                 <li><i class="dashicons dashicons-yes text-success"></i> 14-day Log</li>
                                 <li><i class="dashicons dashicons-yes text-success"></i> Platform & Cross Platform</li>
@@ -67,8 +65,7 @@
                             <h4>$6</h4>
                             <p><span>per month/domain</span></p>
                             <ul class="list-unstyled text-start">
-                                <li><i class="dashicons dashicons-yes text-success"></i> Up to <b>5,000</b> Users</li>
-                                <li><i class="dashicons dashicons-yes text-success"></i> Unlimited Login</li>
+                                 <li><i class="dashicons dashicons-yes text-success"></i> Unlimited Login</li>
                                 <li><i class="dashicons dashicons-yes text-success"></i> 14-days Log</li>
                                 <li><i class="dashicons dashicons-yes text-success"></i> Platform & Cross Platform</li>
                                 <li><i class="dashicons dashicons-yes text-success"></i> Office Hour Support (UTC +7)</li>
@@ -95,8 +92,7 @@
                             <h4>$15</h4>
                             <p><span>per month/domain</span></p>
                             <ul class="list-unstyled text-start">
-                                <li><i class="dashicons dashicons-yes text-success"></i> <b>Unlimited Users</b></li>
-                                <li><i class="dashicons dashicons-yes text-success"></i> Unlimited Login</li>
+                               <li><i class="dashicons dashicons-yes text-success"></i> Unlimited Login</li>
                                 <li><i class="dashicons dashicons-yes text-success"></i> <b>30-days Log</b></li>
                                 <li><i class="dashicons dashicons-yes text-success"></i> Platform & Cross Platform</li>
                                 <li><i class="dashicons dashicons-yes text-success"></i> <b>24x7 Support</b></li>
