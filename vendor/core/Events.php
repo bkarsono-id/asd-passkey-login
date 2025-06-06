@@ -10,6 +10,13 @@ if (!defined('ABSPATH')) exit;
 if (!class_exists(Events::class)) {
     class Events extends BaseController
     {
+        /**
+         * Handle plugin activation event.
+         * Creates necessary database tables, registers the site with the API server,
+         * saves API keys and URLs, and initializes default options.
+         *
+         * @return void
+         */
         public static  function onActivation()
         {
             if (!current_user_can('activate_plugins')) {
@@ -29,7 +36,7 @@ if (!class_exists(Events::class)) {
                 'wpinfo' => get_bloginfo('name'),
                 'admin_email' => get_bloginfo('admin_email'),
                 'plugin_name' => 'ASD Passkey for Wordpress',
-                'version' => '1.0.0',
+                'version' => '1.1.0',
             ];
 
             $response = wp_remote_post(ASD_P4SSK3Y_API_URL . "/wpregister", [
@@ -67,7 +74,12 @@ if (!class_exists(Events::class)) {
             ASD_P4SSK3Y_asdlog('[ASD onActivation] Activation completed.');
         }
 
-
+        /**
+         * Handle plugin deactivation event.
+         * Removes activation notice and deletes the passkey-login page if it exists.
+         *
+         * @return void
+         */
         public static function onDeactivation()
         {
             if (!current_user_can('activate_plugins')) {

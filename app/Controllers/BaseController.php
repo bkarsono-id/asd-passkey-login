@@ -29,9 +29,18 @@ abstract class BaseController
         'asd_p4ssk3y_smtp_password' => 'default',
         /* push notification */
         'asd_p4ssk3y_push_notification' => 'N',
-        'asd_p4ssk3y_webpush_public_key' => ''
+        'asd_p4ssk3y_snv_notification' => 'silent',
+        'asd_p4ssk3y_interaction_notification' => 'N',
+        'asd_p4ssk3y_webpush_public_key' => '',
+        'asd_p4ssk3y_icon_url' => '',
+        'asd_p4ssk3y_badge_url' => ''
     ];
-
+    /**
+     * BaseController constructor.
+     * Sets up the plugin name constant and registers the admin notice action.
+     *
+     * @return void
+     */
     public function __construct()
     {
         if (!defined('ASD_P4SSK3Y_PLUGIN_NAME') || !ASD_P4SSK3Y_PLUGIN_NAME) {
@@ -40,6 +49,11 @@ abstract class BaseController
         add_action('admin_notices', [self::class, 'showActivatedMessage']);
     }
 
+    /**
+     * Initialize all default plugin options if they do not exist.
+     *
+     * @return void
+     */
     public function initDefaultOptions()
     {
         foreach ($this->defaultOptions as $key => $value) {
@@ -48,9 +62,16 @@ abstract class BaseController
             }
         }
     }
+
+    /**
+     * Show the activation success notice in the WordPress admin area after plugin activation.
+     * Displays a message with links to documentation and benefits page, then removes the notice option.
+     *
+     * @return void
+     */
     public static function showActivatedMessage()
     {
-        if (get_option('asd_passkey_activation_notice')) {
+        if (get_option('asd_p4ssk3y_activation_notice')) {
             echo '<div class="notice notice-success is-dismissible">';
             printf(
                 '<p>%s <a href="%s">%s</a> %s <a href="%s">%s</a>.</p>',
@@ -62,7 +83,7 @@ abstract class BaseController
                 esc_html__('benefits page', 'asd-passkey-login')
             );
             echo '</div>';
-            delete_option('asd_passkey_activation_notice');
+            delete_option('asd_p4ssk3y_activation_notice');
         }
     }
 }

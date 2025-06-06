@@ -6,44 +6,26 @@ use bkarsono\asdpasskeylogin\models\GeneralModel;
 use bkarsono\asdpasskeylogin\classes\JwtToken;
 
 if (!defined('ABSPATH')) exit;
-
-if (!class_exists(CreatePasskeyAdmin::class)) {
-    /**
-     * Class CreatePasskeyAdmin
-     * Handles the creation of passkeys for administrators.
-     */
-
-    class CreatePasskeyAdmin extends BaseController
+if (!class_exists(CreatePasskeyWoocommerce::class)) {
+    class CreatePasskeyWoocommerce extends BaseController
     {
         /**
-         * CreatePasskeyAdmin constructor.
-         * Registers AJAX actions for passkey registration and flagging, and cleans admin notices.
+         * CreatePasskeyWoocommerce constructor.
+         * Registers AJAX actions, WooCommerce menu/filter hooks, and endpoint for passkey registration.
          *
          * @return void
          */
         public function __construct()
         {
-            add_action('wp_ajax_asd_passkey_register', [$this, 'handleRegister']);
-            add_action('wp_ajax_asd_passkey_flagging', [$this, 'handleFlagging']);
-            ASD_P4SSK3Y_clean_notices_admin("asd-create-passkey-admin");
+            add_action('wp_ajax_asd_woo_passkey_register', [$this, 'handleRegister']);
+            add_action('wp_ajax_asd_woo_passkey_flagging', [$this, 'handleFlagging']);
+            add_filter('woocommerce_account_menu_items', [$this, 'asdAddRegisterPasskeyMenu']);
+            add_action('init', [$this, 'asdRegisterPasskeyEndpoint']);
+            add_action('woocommerce_account_register-passkey_endpoint', [$this, 'asdRegisterPasskeyContent']);
         }
 
         /**
-         * Render the admin page for creating a passkey.
-         *
-         * @return void
-         */
-        public function index()
-        {
-            $data = [
-                "logo" => ASD_P4SSK3Y_PUBLICURL . 'img/logo-medium.webp',
-                "show" => ASD_P4SSK3Y_is_setting_valid("asd_p4ssk3y_admin_password_confirmation", "N", "none")
-            ];
-            ASD_P4SSK3Y_view("asd-create-passkey-admin", $data);
-        }
-
-        /**
-         * Handle the AJAX request for registering a new passkey.
+         * Handle the AJAX request for registering a new WooCommerce passkey.
          * Validates input, checks for existing passkey, verifies user credentials, and returns JSON response.
          *
          * @return void
@@ -58,16 +40,15 @@ if (!class_exists(CreatePasskeyAdmin::class)) {
             $useremail  = isset($_POST['useremail']) ? sanitize_text_field(wp_unslash($_POST['useremail'])) : '';
             $password  = isset($_POST['password']) ? sanitize_text_field(wp_unslash($_POST['password'])) : '';
             $displayName  = isset($_POST['displayName']) ? sanitize_text_field(wp_unslash($_POST['displayName'])) : '';
-            $authenticator     = isset($_POST['authenticator']) ? sanitize_text_field(wp_unslash($_POST['authenticator'])) : '';
 
             $_wpnonce  = isset($_POST['_wpnonce']) ? sanitize_text_field(wp_unslash($_POST['_wpnonce'])) : '';
             if (!isset($_wpnonce) || !wp_verify_nonce($_wpnonce, 'asd_nonce_passkey_register')) {
                 wp_send_json_error(['message' => 'Nonce verification failed']);
                 exit;
             }
-
             $setting_using_password = ASD_P4SSK3Y_is_setting_valid("asd_p4ssk3y_admin_password_confirmation", "Y");
             if ($setting_using_password) {
+
                 if (empty($useremail) || empty($password)) {
                     wp_send_json_error(['message' => 'useremail and password are required']);
                     exit;
@@ -79,10 +60,10 @@ if (!class_exists(CreatePasskeyAdmin::class)) {
             }
 
             $PasskeyData = new GeneralModel("passkey_data");
-            $PasskeyData->get_all(['email' => $useremail, 'authenticator' => $authenticator], 'user', 'ASC');
+            $PasskeyData->get_all(['email' => $useremail], 'user', 'ASC');
             if ($PasskeyData->num_rows > 0) {
                 wp_send_json_error(['message' => 'You already have a registered passkey. Please use it to log in or contact support for assistance.']);
-                return;
+                exit;
             }
             if ($setting_using_password) {
                 $user = get_user_by('email', $useremail);
@@ -99,7 +80,7 @@ if (!class_exists(CreatePasskeyAdmin::class)) {
         }
 
         /**
-         * Handle the AJAX request for flagging a passkey.
+         * Handle the AJAX request for flagging a WooCommerce passkey.
          * Validates the token, saves passkey data, and returns JSON response.
          *
          * @return void
@@ -110,30 +91,29 @@ if (!class_exists(CreatePasskeyAdmin::class)) {
                 wp_send_json_error(['message' => 'Invalid request method']);
                 exit;
             }
+            // maybe bugs wordpress, always failed when check nonce
             $_wpnonce  = isset($_POST['_wpnonce']) ? sanitize_text_field(wp_unslash($_POST['_wpnonce'])) : '';
             if (!isset($_wpnonce) || !wp_verify_nonce($_wpnonce, 'asd_nonce_passkey_flagging')) {
                 wp_send_json_error(['message' => 'Nonce verification failed']);
-                exit;
+                return;
             }
             $token     = isset($_POST['token']) ? sanitize_text_field(wp_unslash($_POST['token'])) : '';
+            $authenticator     = isset($_POST['authenticator']) ? sanitize_text_field(wp_unslash($_POST['authenticator'])) : '';
+
             if (empty($token)) {
                 wp_send_json_error(['message' => 'Token not found.']);
                 exit;
             }
-            $authenticator     = isset($_POST['authenticator']) ? sanitize_text_field(wp_unslash($_POST['authenticator'])) : '';
 
             $validToken = new JwtToken();
             $checkToken = $validToken->checkToken($token);
             if (isset($checkToken) && isset($checkToken->payload->userHandle)) {
                 $userHandle = $checkToken->payload->userHandle;
-                $current_user = wp_get_current_user();
-                $roles = implode(', ', $current_user->roles);
                 $data = array(
                     'user'   => wp_get_current_user()->user_login,
                     'email' => wp_get_current_user()->user_email,
                     'user_handle' => $userHandle ?? '',
-                    'authenticator' =>  $authenticator,
-                    'roles' => esc_html($roles)
+                    'authenticator' =>  $authenticator
                 );
                 $format = array('%s', '%s');
                 $PasskeyModel = new GeneralModel("passkey_data");
@@ -147,6 +127,48 @@ if (!class_exists(CreatePasskeyAdmin::class)) {
             } else {
                 wp_send_json_error(['message' => "Something wrong with token."]);
             }
+        }
+
+        /**
+         * Add the "Register Passkey" menu item to the WooCommerce account menu.
+         *
+         * @param array $items Existing WooCommerce account menu items.
+         * @return array Modified menu items with the register passkey link.
+         */
+        public function asdAddRegisterPasskeyMenu($items)
+        {
+            $new_items = [];
+            foreach ($items as $key => $value) {
+                $new_items[$key] = $value;
+                if ($key === 'edit-account') {
+                    $new_items['register-passkey'] = __('Register Passkey', 'asd-passkey-login');
+                }
+            }
+            return $new_items;
+        }
+
+        /**
+         * Render the content for the "Register Passkey" WooCommerce endpoint.
+         *
+         * @return void
+         */
+
+        function asdRegisterPasskeyContent()
+        {
+            $data = [
+                "show" => ASD_P4SSK3Y_is_setting_valid("asd_p4ssk3y_admin_password_confirmation", "N", "none")
+            ];
+            ASD_P4SSK3Y_view("asd-create-passkey-woocommerce", $data);
+        }
+
+        /**
+         * Register the "register-passkey" endpoint for WooCommerce account pages.
+         *
+         * @return void
+         */
+        public function asdRegisterPasskeyEndpoint()
+        {
+            add_rewrite_endpoint('register-passkey', EP_PAGES);
         }
     }
 }

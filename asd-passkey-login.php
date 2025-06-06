@@ -14,7 +14,7 @@ use bkarsono\asdpasskeylogin\config\Paths;
  * Plugin Name:       ASD Passkey Login
  * Plugin URI:        https://passwordless.alciasolusidigital.com
  * Description:       ASD Passkey login for WordPress, known as JWT Eauth outside the WordPress ecosystem, is a cutting-edge authentication service designed to enhance online security by replacing traditional passwords with advanced methods like biometrics (fingerprint, facial recognition) or hardware security keys. As cyber threats become increasingly sophisticated, password-based systems are more vulnerable to attacks such as phishing, credential stuffing, and data breaches.       
- * Version:           1.0.0
+ * Version:           1.1.0
  * Requires at least: 6.7
  * Requires PHP:      8.2
  * Author:            Alciasolusidigital
@@ -38,6 +38,8 @@ use bkarsono\asdpasskeylogin\config\Paths;
  *
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * test update via github flow 2 test lagi
+ * rada aneh kok ga bisa di transfer
  */
 
 

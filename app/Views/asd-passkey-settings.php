@@ -13,6 +13,12 @@
                     <a class="nav-link active" id="general-settings-tab" data-bs-toggle="tab" href="#general-settings" role="tab" aria-controls="general-settings" aria-selected="true">General Settings</a>
                 </li>
                 <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="smtp-settings-tab" data-bs-toggle="tab" href="#smtp-settings" role="tab" aria-controls="smtp-settings" aria-selected="false">SMTP</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="push-notification-tab" data-bs-toggle="tab" href="#push-notification" role="tab" aria-controls="push-notification" aria-selected="false">Push Notification</a>
+                </li>
+                <li class="nav-item" role="presentation">
                     <a class="nav-link" id="template-settings-tab" data-bs-toggle="tab" href="#template-settings" role="tab" aria-controls="template-settings" aria-selected="false">Email Template</a>
                 </li>
             </ul>
@@ -23,6 +29,23 @@
                 <div class="tab-pane fade show active" id="general-settings" role="tabpanel" aria-labelledby="general-settings-tab">
                     <form id="passkeySettingsForm">
                         <!-- Textbox Section -->
+                        <div class="form-text text-muted">
+                            <i>After updating the package and completing the payment, click the button to synchronize the API settings automatically.</i>
+                        </div>
+                        <div id="usernameTextbox" class="mb-3 mt-3 d-flex align-items-center justify-content-between">
+                            <div class="d-flex align-items-center" style="flex-grow: 1;">
+                                <input
+                                    readonly
+                                    type="text"
+                                    class="form-control"
+                                    id="asd_package_name"
+                                    name="asd_package_name"
+                                    value="<?php echo esc_attr(get_option('asd_p4ssk3y_membership', '')); ?>">
+                            </div>
+                            <button type="button" id="btnSyncPackage" class="button button-secondary ms-1">Sync Package</button>
+                        </div>
+
+                        <h2 class="settings-heading">Freemium Settings</h2>
                         <div class="mb-3 small-option-text">
                             <label class="form-label fw-bold">Admin Login Method?</label>
                             <div class="form-text text-muted mt-0 pt-0">
@@ -72,22 +95,406 @@
                                 </div>
                             </div>
                         </div>
+
+                        <?php if ($wooaccount): ?>
+                            <h2 class="settings-heading pro">Pro Settings</h2>
+                            <?php if (ASD_P4SSK3Y_is_pro_license() === false) { ?>
+                                <div class="alert alert-info p-2" role="alert">
+                                    <?php printf(
+                                        'Upgrade your plan <a href="%s">Learn more</a>.',
+                                        esc_url(admin_url('admin.php?page=asd-upgrade-package'))
+                                    ); ?>
+                                </div>
+                            <?php
+                            }
+                            ?>
+                            <div class="mb-3 small-option-text">
+                                <label class="form-label fw-bold">WooCommerce Login Method?</label>
+                                <div class="form-text text-muted mt-0 pt-0">
+                                    <i>Choose how WooCommerce Customer log in to the shop page: with the traditional login form, a passkey button, or a combination of both.</i>
+                                </div>
+                                <div class="form-select-wrapper mt-3">
+                                    <select
+                                        <?php echo ASD_P4SSK3Y_is_pro_license() === true ? '' : 'disabled' ?>
+                                        class="form-select"
+                                        name="asd_p4ssk3y_woo_login_form_style"
+                                        id="asd_p4ssk3y_woo_login_form_style">
+                                        <option value="form_only" <?php selected(get_option('asd_p4ssk3y_woo_login_form_style'), 'form_only'); ?>>Classic Login (Username & Password)</option>
+                                        <option value="passkey_only" <?php selected(get_option('asd_p4ssk3y_woo_login_form_style'), 'passkey_only'); ?>>Passkey Only</option>
+                                        <option value="form_and_passkey" <?php selected(get_option('asd_p4ssk3y_woo_login_form_style'), 'form_and_passkey'); ?>>Hybrid Login (Form + Passkey)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3 small-option-text mt-4">
+                                <label class="form-label fw-bold">Enable Password Confirmation During Passkey Registration (WooCommerce)?</label>
+                                <div class="form-text text-muted mt-0 pt-0">
+                                    <i>Require WooCommerce Customer to confirm their password during passkey registration. This adds an extra layer of security by verifying credentials before generating and storing the passkey for authentication purposes.</i>
+                                </div>
+                                <div class="form-check-wrapper mt-3">
+                                    <div class="form-check  form-check-inline">
+                                        <input
+                                            <?php echo ASD_P4SSK3Y_is_pro_license() === true ? '' : 'disabled' ?>
+                                            class="form-check-input"
+                                            type="radio"
+                                            name="asd_p4ssk3y_woo_password_confirmation"
+                                            id="asd_p4ssk3y_woo_password_confirmation-n"
+                                            value="N"
+                                            <?php checked(get_option('asd_p4ssk3y_woo_password_confirmation'), 'N'); ?>>
+                                        <label class="form-check-label" for="asd_p4ssk3y_woo_password_confirmation-n">
+                                            No
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input
+                                            <?php echo ASD_P4SSK3Y_is_pro_license() === true ? '' : 'disabled' ?>
+                                            class="form-check-input"
+                                            type="radio"
+                                            name="asd_p4ssk3y_woo_password_confirmation"
+                                            id="asd_p4ssk3y_woo_password_confirmation-y"
+                                            value="Y"
+                                            <?php checked(get_option('asd_p4ssk3y_woo_password_confirmation'), 'Y'); ?>>
+                                        <label class="form-check-label" for="asd_p4ssk3y_woo_password_confirmation-y">
+                                            Yes
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3 small-option-text mt-4">
+                                <label class="form-label fw-bold">Enable FedCM (Google) Login?</label>
+                                <div class="form-text text-muted mt-0 pt-0">
+                                    <i>Enable login page to use FedCM (Federated Credential Management) for streamlined, secure login without relying on traditional passwords.</i>
+                                </div>
+                                <div class="form-select-wrapper mt-3">
+                                    <select
+                                        <?php echo ASD_P4SSK3Y_is_pro_license() === true ? '' : 'disabled' ?>
+                                        class="form-select"
+                                        name="asd_p4ssk3y_woo_login_fedcm_form"
+                                        id="asd_p4ssk3y_woo_login_fedcm_form">
+                                        <option value="disabled" <?php selected(get_option('asd_p4ssk3y_woo_login_fedcm_form'), 'disabled'); ?>>Disabled</option>
+                                        <option value="admin_page" <?php selected(get_option('asd_p4ssk3y_woo_login_fedcm_form'), 'admin_page'); ?>>Administrator Login Page</option>
+                                        <option value="woo_page" <?php selected(get_option('asd_p4ssk3y_woo_login_fedcm_form'), 'woo_page'); ?>>WooCommerce Login Page</option>
+                                        <option value="both" <?php selected(get_option('asd_p4ssk3y_woo_login_fedcm_form'), 'both'); ?>>Both (Administrator & WooCommerce)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3 small-option-text mt-4">
+                                <label class="form-label fw-bold">IDP FedCM (Identity Provider)</label>
+                                <div class="form-text text-muted mt-0 pt-0">
+                                    <i>An entity that provides credentials or authentication services through the FedCM API.</i>
+                                </div>
+                                <div class="form-select-wrapper mt-3">
+                                    <select
+                                        <?php echo ASD_P4SSK3Y_is_pro_license() === true ? '' : 'disabled' ?>
+                                        class="form-select"
+                                        name="asd_p4ssk3y_woo_idp_provider"
+                                        id="asd_p4ssk3y_woo_idp_provider">
+                                        <option value="google" <?php selected(get_option('asd_p4ssk3y_woo_idp_provider'), 'google'); ?>>Google</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3 small-option-text  mt-4">
+                                <label class="form-label fw-bold">Client ID OAuth 2.0 Google</label>
+                                <div class="form-text text-muted mt-0 pt-0">
+                                    <i>Insert client id if you enable FedCM and use google provider, <b>leave blank if you using JWT EAuth Provider or disable FedCM Login</b>. Learn about <a href="https://developers.google.com/identity/protocols/oauth2" target="_blank"> OAuth 2.0</a> or create a <a href="https://console.cloud.google.com/apis/credentials" target="_blank">google client id</a>.</i>
+                                </div>
+                                <div class="form-check-wrapper mt-3">
+                                    <input
+                                        <?php echo ASD_P4SSK3Y_is_pro_license() === true ? '' : 'disabled' ?>
+                                        style="width: 100%; min-width: 600px;"
+                                        type="text"
+                                        class="form-control"
+                                        id="asd_p4ssk3y_google_client_id"
+                                        name="asd_p4ssk3y_google_client_id"
+                                        value="<?php echo esc_attr(get_option('asd_p4ssk3y_google_client_id')); ?>"
+                                        placeholder="YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com">
+                                </div>
+                            </div>
+                        <?php endif; ?>
+
                         <div class="text-end">
                             <button type="submit" id="save-settings" class="button button-primary">Save Settings</button>
                         </div>
                     </form>
                 </div>
 
-                <!-- Template Settings Tab -->
-                <div class="tab-pane fade" id="template-settings" role="tabpanel" aria-labelledby="template-settings-tab">
-                    <?php if ($smtpread == 'readonly'): ?>
+                <!-- SMTP Settings Tab -->
+                <div class="tab-pane fade" id="smtp-settings" role="tabpanel" aria-labelledby="smtp-settings-tab">
+                    <form id="passkeySMTPForm">
+                        <?php if ($smtpread == 'readonly'): ?>
+                            <div class="mb-3 small-option-text">
+                                <div class="form-text text-muted">
+                                    <i>Upgrade your plan to enable access to and configure your SMTP settings.</i>
+                                    <a href="<?php echo esc_url(admin_url('admin.php?page=asd-upgrade-package')); ?>">Upgrade now</a>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+
                         <div class="mb-3 small-option-text">
-                            <div class="form-text text-muted">
-                                <i>Upgrade your plan to enable access to and configure your email template.</i>
-                                <a href="<?php echo esc_url(admin_url('admin.php?page=asd-upgrade-package')); ?>">Upgrade now</a>
+                            <label class="form-label">SMTP Host</label>
+                            <input
+                                <?php echo esc_attr($smtpread); ?>
+                                type="text"
+                                class="form-control"
+                                id="asd_p4ssk3y_smtp_host"
+                                name="asd_p4ssk3y_smtp_host"
+                                value="<?php echo esc_attr(get_option('asd_p4ssk3y_smtp_host', '')); ?>" />
+                        </div>
+
+                        <div class="mb-3 small-option-text">
+                            <label class="form-label">SMTP Port</label>
+                            <div>
+                                <input
+                                    <?php echo esc_attr($smtpread); ?>
+                                    type="text"
+                                    class="form-control"
+                                    id="asd_p4ssk3y_smtp_port"
+                                    name="asd_p4ssk3y_smtp_port"
+                                    value="<?php echo esc_attr(get_option('asd_p4ssk3y_smtp_port', '')); ?>" />
                             </div>
                         </div>
-                    <?php endif; ?>
+
+                        <div class="mb-3 small-option-text">
+                            <label class="form-label">SMTP User</label>
+                            <div>
+                                <input
+                                    <?php echo esc_attr($smtpread); ?>
+                                    type="text"
+                                    class="form-control"
+                                    id="asd_p4ssk3y_smtp_user"
+                                    name="asd_p4ssk3y_smtp_user"
+                                    value="<?php echo esc_attr(get_option('asd_p4ssk3y_smtp_user', '')); ?>" />
+                            </div>
+                        </div>
+
+                        <div class="mb-3 small-option-text">
+                            <label class="form-label">SMTP Password</label>
+                            <div>
+                                <input
+                                    <?php echo esc_attr($smtpread); ?>
+                                    type="text"
+                                    class="form-control"
+                                    id="asd_p4ssk3y_smtp_password"
+                                    name="asd_p4ssk3y_smtp_password"
+                                    value="<?php echo esc_attr(get_option('asd_p4ssk3y_smtp_password', '')); ?>" />
+                            </div>
+                        </div>
+
+                        <div class="text-end">
+                            <button type="button" id="test-smtp" class="button button-primary" <?php echo ($smtpread == 'readonly') ? 'disabled' : ''; ?>>Test SMTP</button>
+                            <button type="submit" id="save-smtp" class="button button-primary" <?php echo ($smtpread == 'readonly') ? 'disabled' : ''; ?>>Save SMTP</button>
+                        </div>
+                    </form>
+                </div>
+                <!-- Push Notification Tab -->
+                <div class="tab-pane fade" id="push-notification" role="tabpanel" aria-labelledby="push-notification-tab">
+                    <form id="passkeyWebPushForm">
+                        <?php if ($smtpread == 'readonly'): ?>
+                            <div class="mb-3 small-option-text">
+                                <div class="form-text text-muted">
+                                    <i>Upgrade your plan to enable access to and configure your web push notification.</i>
+                                    <a href="<?php echo esc_url(admin_url('admin.php?page=asd-upgrade-package')); ?>">Upgrade now</a>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                        <?php
+                        if (ASD_P4SSK3Y_is_setting_valid("asd_p4ssk3y_webpush_public_key", '')):
+                        ?>
+                            <div class="mb-3 small-option-text">
+                                <label class="form-label fw-bold">Public Key</label>
+                                <div class="form-text text-muted mt-0 pt-0 mb-3">
+                                    <i>
+                                        Public key required for secure communication in Web Push Notifications. This key is an essential component of the encryption process, ensuring that notifications sent from your server are both authentic and protected.
+                                    </i>
+                                </div>
+                                <div id="usernameTextbox" class="mb-3 d-flex align-items-center justify-content-between">
+                                    <div class="d-flex align-items-center" style="flex-grow: 1;">
+                                        <input
+                                            readonly
+                                            type="text"
+                                            class="form-control"
+                                            id="asd_p4ssk3y_webpush_public_key"
+                                            name="asd_p4ssk3y_webpush_public_key"
+                                            value="<?php echo esc_attr(get_option('asd_p4ssk3y_webpush_public_key', '')); ?>">
+                                    </div>
+                                    <button type="button" id="btnCreatePublicKey" class="button button-secondary ms-1" <?php echo ASD_P4SSK3Y_is_scale_license() === true ? '' : 'disabled' ?>>Create Public Key</button>
+                                </div>
+                            </div>
+                        <?php
+                        endif;
+                        ?>
+                        <div class="mb-3 small-option-text mt-4">
+                            <label class="form-label fw-bold">Enable Web Push Notification?</label>
+                            <div class="form-text text-muted mt-0 pt-0">
+                                <i>Allows websites or web applications to send messages directly to a user's device, even when the user is not actively on the website or has closed their browser. These notifications are highly effective for real-time updates, promotions, and engaging users.</i>
+                            </div>
+                            <div class="form-check-wrapper mt-3">
+                                <div class="form-check  form-check-inline">
+                                    <input
+                                        <?php echo ASD_P4SSK3Y_is_scale_license() === true ? '' : 'disabled' ?>
+                                        class="form-check-input"
+                                        type="radio"
+                                        name="asd_p4ssk3y_push_notification"
+                                        id="asd_p4ssk3y_push_notification-n"
+                                        value="N"
+                                        <?php checked(get_option('asd_p4ssk3y_push_notification'), 'N'); ?>>
+                                    <label class="form-check-label" for="asd_p4ssk3y_push_notification-n">
+                                        No
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input
+                                        <?php echo ASD_P4SSK3Y_is_scale_license() === true ? '' : 'disabled' ?>
+                                        class="form-check-input"
+                                        type="radio"
+                                        name="asd_p4ssk3y_push_notification"
+                                        id="asd_p4ssk3y_push_notification-y"
+                                        value="Y"
+                                        <?php checked(get_option('asd_p4ssk3y_push_notification'), 'Y'); ?>>
+                                    <label class="form-check-label" for="asd_p4ssk3y_push_notification-y">
+                                        Yes
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 small-option-text mt-4">
+                            <label class="form-label fw-bold">Notification sound and vibrate?</label>
+                            <div class="form-text text-muted mt-0 pt-0">
+                                <i>Whether the notification is silent (no sounds or vibrations issued), regardless of the device settings</i>
+                            </div>
+                            <div class="form-check-wrapper mt-3">
+                                <div class="form-check  form-check-inline">
+                                    <input
+                                        <?php echo ASD_P4SSK3Y_is_scale_license() === true ? '' : 'disabled' ?>
+                                        class="form-check-input"
+                                        type="radio"
+                                        name="asd_p4ssk3y_snv_notification"
+                                        id="asd_p4ssk3y_snv_notification-silent"
+                                        value="silent"
+                                        <?php checked(get_option('asd_p4ssk3y_snv_notification'), 'silent'); ?>>
+                                    <label class="form-check-label" for="asd_p4ssk3y_snv_notification-silent">
+                                        Silent
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input
+                                        <?php echo ASD_P4SSK3Y_is_scale_license() === true ? '' : 'disabled' ?>
+                                        class="form-check-input"
+                                        type="radio"
+                                        name="asd_p4ssk3y_snv_notification"
+                                        id="asd_p4ssk3y_snv_notification-vibrate"
+                                        value="vibrate"
+                                        <?php checked(get_option('asd_p4ssk3y_snv_notification'), 'vibrate'); ?>>
+                                    <label class="form-check-label" for="asd_p4ssk3y_snv_notification-vibrate">
+                                        Vibarate Only
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input
+                                        <?php echo ASD_P4SSK3Y_is_scale_license() === true ? '' : 'disabled' ?>
+                                        class="form-check-input"
+                                        type="radio"
+                                        name="asd_p4ssk3y_snv_notification"
+                                        id="asd_p4ssk3y_snv_notification-sound"
+                                        value="sound"
+                                        <?php checked(get_option('asd_p4ssk3y_snv_notification'), 'sound'); ?>>
+                                    <label class="form-check-label" for="asd_p4ssk3y_snv_notification-sound">
+                                        Sound Only
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input
+                                        <?php echo ASD_P4SSK3Y_is_scale_license() === true ? '' : 'disabled' ?>
+                                        class="form-check-input"
+                                        type="radio"
+                                        name="asd_p4ssk3y_snv_notification"
+                                        id="asd_p4ssk3y_snv_notification-snv"
+                                        value="sound_and_vibrate"
+                                        <?php checked(get_option('asd_p4ssk3y_snv_notification'), 'sound_and_vibrate'); ?>>
+                                    <label class="form-check-label" for="asd_p4ssk3y_snv_notification-snv">
+                                        Sound & Vibrate
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3 small-option-text mt-4">
+                            <label class="form-label fw-bold">Enable Interaction?</label>
+                            <div class="form-text text-muted mt-0 pt-0">
+                                <i>Indicates that a notification should remain active until the user clicks or dismisses it, rather than closing automatically</i>
+                            </div>
+                            <div class="form-check-wrapper mt-3">
+                                <div class="form-check  form-check-inline">
+                                    <input
+                                        <?php echo ASD_P4SSK3Y_is_scale_license() === true ? '' : 'disabled' ?>
+                                        class="form-check-input"
+                                        type="radio"
+                                        name="asd_p4ssk3y_interaction_notification"
+                                        id="asd_p4ssk3y_interaction_notification-n"
+                                        value="N"
+                                        <?php checked(get_option('asd_p4ssk3y_interaction_notification'), 'N'); ?>>
+                                    <label class="form-check-label" for="asd_p4ssk3y_interaction_notification-n">
+                                        No
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input
+                                        <?php echo ASD_P4SSK3Y_is_scale_license() === true ? '' : 'disabled' ?>
+                                        class="form-check-input"
+                                        type="radio"
+                                        name="asd_p4ssk3y_interaction_notification"
+                                        id="asd_p4ssk3y_interaction_notification-y"
+                                        value="Y"
+                                        <?php checked(get_option('asd_p4ssk3y_interaction_notification'), 'Y'); ?>>
+                                    <label class="form-check-label" for="asd_p4ssk3y_interaction_notification-y">
+                                        Yes
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3 small-option-text mt-4">
+                            <label class="form-label fw-bold">Icon URL</label>
+                            <div class="form-text text-muted mt-0 pt-0 mb-3">
+                                <i>A string containing the URL of an icon to be displayed in the notification.</i>
+                            </div>
+                            <div id="usernameTextbox" class="mb-3 d-flex align-items-center justify-content-between">
+                                <div class="d-flex align-items-center" style="flex-grow: 1;">
+                                    <input
+                                        readonly
+                                        type="text"
+                                        class="form-control"
+                                        id="asd_p4ssk3y_icon_url"
+                                        name="asd_p4ssk3y_icon_url"
+                                        value="<?php echo esc_attr(get_option('asd_p4ssk3y_icon_url', '')); ?>">
+                                </div>
+                                <button type="button" class="button" id="asd_p4ssk3y_button_icon_url">Upload Icon</button>
+                            </div>
+                        </div>
+                        <div class="mb-3 small-option-text mt-4">
+                            <label class="form-label fw-bold">Bagde URL</label>
+                            <div class="form-text text-muted mt-0 pt-0 mb-3">
+                                <i>A string containing the URL of the image used to represent the notification when there isn't enough space to display the notification itself; for example, the Android Notification Bar. On Android devices, the badge should accommodate devices up to 4x resolution, about 96x96px, and the image will be automatically masked.</i>
+                            </div>
+                            <div id="usernameTextbox" class="mb-3 d-flex align-items-center justify-content-between">
+                                <div class="d-flex align-items-center" style="flex-grow: 1;">
+                                    <input
+                                        readonly
+                                        type="text"
+                                        class="form-control"
+                                        id="asd_p4ssk3y_badge_url"
+                                        name="asd_p4ssk3y_badge_url"
+                                        value="<?php echo esc_attr(get_option('asd_p4ssk3y_badge_url', '')); ?>">
+                                </div>
+                                <button type="button" class="button" id="asd_p4ssk3y_button_badge_url">Upload Badge</button>
+                            </div>
+                        </div>
+
+                        <div class="text-end">
+                            <button type="submit" id="save-web-push" class="button button-primary" <?php echo ASD_P4SSK3Y_is_scale_license() === true ? '' : 'disabled' ?>>Save Settings</button>
+                        </div>
+                    </form>
+                </div>
+                <!-- Template Settings Tab -->
+                <div class="tab-pane fade" id="template-settings" role="tabpanel" aria-labelledby="template-settings-tab">
                     <?php  // phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
                     ?>
                     <img src="<?php echo esc_url(ASD_P4SSK3Y_PUBLICURL . 'img/template-setting.webp'); ?>" class="card-img-top" alt="Template Setting">

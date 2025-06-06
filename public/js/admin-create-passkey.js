@@ -1,3 +1,10 @@
+/**
+ * Handles the submission of the create passkey form.
+ * Sends AJAX requests to register a passkey, handles responses, and manages UI feedback.
+ *
+ * @param {Event} event The form submit event.
+ * @returns {Promise<void>}
+ */
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("createPasskeyForm");
   form.addEventListener("submit", async function (event) {

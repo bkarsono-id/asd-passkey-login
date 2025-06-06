@@ -3,72 +3,47 @@
 namespace bkarsono\asdpasskeylogin\config;
 
 /**
- * Paths
- *
- * Holds the paths that are used by the system to
- * locate the main directories, app, system, etc.
- *
- * Modifying these allows you to restructure your application,
- * share a system folder between multiple applications, and more.
- *
- * All paths are relative to the project's root folder.
+ * Defines core plugin constants for versioning, database version, plugin name, API URLs, and Web ID.
+ * These constants are used throughout the plugin for configuration and integration.
  */
 class Paths
 {
     /**
-     * ---------------------------------------------------------------
-     * SYSTEM FOLDER NAME
-     * ---------------------------------------------------------------
+     * Path to the core system directory.
+     * Change this if you move the core folder.
      *
-     * This must contain the name of your "system" folder. Include
-     * the path if the folder is not in the same directory as this file.
+     * @var string
      */
     public string $systemDirectory = __DIR__ . '/../../vendor/core';
 
     /**
-     * ---------------------------------------------------------------
-     * APPLICATION FOLDER NAME
-     * ---------------------------------------------------------------
+     * Path to the application directory.
+     * Change this if you move or rename the app folder.
      *
-     * If you want this front controller to use a different "app"
-     * folder than the default one you can set its name here. The folder
-     * can also be renamed or relocated anywhere on your server. If
-     * you do, use a full server path.
-     *
+     * @var string
      */
     public string $appDirectory = __DIR__ . '/..';
-
     /**
-     * ---------------------------------------------------------------
-     * WRITABLE DIRECTORY NAME
-     * ---------------------------------------------------------------
+     * Path to the writable directory.
+     * This directory should be writable and is used for logs, cache, etc.
      *
-     * This variable must contain the name of your "writable" directory.
-     * The writable directory allows you to group all directories that
-     * need write permission to a single place that can be tucked away
-     * for maximum security, keeping it out of the app and/or
-     * system directories.
+     * @var string
      */
     public string $writableDirectory = __DIR__ . '/../../writable';
 
     /**
-     * ---------------------------------------------------------------
-     * TESTS DIRECTORY NAME
-     * ---------------------------------------------------------------
+     * Path to the tests directory.
+     * Change this if you move or rename the tests folder.
      *
-     * This variable must contain the name of your "tests" directory.
+     * @var string
      */
     public string $testsDirectory = __DIR__ . '/../../tests';
 
     /**
-     * ---------------------------------------------------------------
-     * VIEW DIRECTORY NAME
-     * ---------------------------------------------------------------
+     * Path to the views directory.
+     * Change this if you move or rename the views folder.
      *
-     * This variable must contain the name of the directory that
-     * contains the view files used by your application. By
-     * default this is in `app/Views`. This value
-     * is used when no value is provided to `Services::renderer()`.
+     * @var string
      */
     public string $viewDirectory = __DIR__ . '/../Views';
 }

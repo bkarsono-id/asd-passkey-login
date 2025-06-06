@@ -9,6 +9,12 @@ if (!defined('ABSPATH')) exit;
 if (!class_exists(BootPlugin::class)) {
     class BootPlugin
     {
+        /**
+         * Start the plugin bootstrapping process.
+         *
+         * @param Paths $paths The Paths configuration object.
+         * @return int Returns 1 on successful start.
+         */
         public static function start(Paths $paths): int
         {
             static::loadSystemHelper($paths);
@@ -21,11 +27,14 @@ if (!class_exists(BootPlugin::class)) {
             static::runPlugin();
             return 1;
         }
+
         /**
-         * The path constants provide convenient access to the folders throughout
-         * the application. We have to set them up here, so they are available in
-         * the config files that are loaded.
+         * Define path constants for convenient access throughout the application.
+         *
+         * @param Paths $paths The Paths configuration object.
+         * @return void
          */
+
         protected static function definePathConstants(Paths $paths): void
         {
             // The path to the application directory.
@@ -64,10 +73,21 @@ if (!class_exists(BootPlugin::class)) {
             }
         }
 
+        /**
+         * Load the plugin constants file.
+         *
+         * @return void
+         */
         protected static function loadConstants(): void
         {
             require_once ASD_P4SSK3Y_APPPATH . 'Config/Constants.php';
         }
+
+        /**
+         * Load the Composer autoloader.
+         *
+         * @return void
+         */
         protected static function loadAutoloader(): void
         {
             if (!file_exists(ASD_P4SSK3Y_SYSTEMPATH . '/../autoload.php')) {
@@ -75,16 +95,33 @@ if (!class_exists(BootPlugin::class)) {
             }
             require_once ASD_P4SSK3Y_SYSTEMPATH . '/../autoload.php';
         }
-
+        /**
+         * Load the system helper functions.
+         *
+         * @param Paths $paths The Paths configuration object.
+         * @return void
+         */
         protected static function loadSystemHelper(Paths $paths): void
         {
             $path = realpath(rtrim($paths->systemDirectory, '\\/ ')) . DIRECTORY_SEPARATOR;
             require_once $path . 'Helper.php';
         }
+
+        /**
+         * Load the common utility functions.
+         *
+         * @return void
+         */
         protected static function loadCommonFunctions(): void
         {
             require_once ASD_P4SSK3Y_SYSTEMPATH . 'Common.php';
         }
+
+        /**
+         * Run the main plugin application and generate admin menus.
+         *
+         * @return void
+         */
         protected static function runPlugin(): void
         {
             $app =  new Core();

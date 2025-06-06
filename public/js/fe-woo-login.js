@@ -1,6 +1,6 @@
 /**
- * Handles the login process using passkey (biometric authentication).
- * Sends AJAX requests, processes responses, and manages UI feedback.
+ * Handles the WooCommerce login process using passkey (biometric authentication).
+ * Sends AJAX requests, processes responses, and manages UI feedback and redirects.
  *
  * @returns {Promise<void>}
  */
@@ -14,7 +14,8 @@ const loginViaPasskey = async () => {
       apiKey: asd_ajax.api_key,
       apiUrl: asd_ajax.api_url,
     };
-    const result = await JwtEAuth.config(config).userLoginMediation();
+    JwtEAuth.config(config);
+    const result = await JwtEAuth.userLoginMediation();
     if (result.status === "success") {
       try {
         const jwtToken = result.token;
@@ -25,9 +26,9 @@ const loginViaPasskey = async () => {
             "Content-Type": "application/x-www-form-urlencoded",
           },
           body: new URLSearchParams({
-            action: "asd_passkey_login",
+            action: "asd_woo_passkey_login",
             token: jwtToken,
-            _wpnonce: asd_ajax.ajax_nonce,
+            _wpnonce: asd_ajax.ajax_woo_login_nonce,
           }),
         });
 
@@ -50,13 +51,12 @@ const loginViaPasskey = async () => {
       spinnerOff();
     }
   } catch (error) {
-    errorMessageBox(error);
     console.error("Error during passkey login:", error);
   }
 };
 
 /**
- * Handles the Google OAuth login callback.
+ * Handles the Google OAuth login callback for WooCommerce login.
  * Sends the credential to the server for verification and processes the response.
  *
  * @param {Object} callback The Google OAuth callback object containing the credential.
@@ -88,11 +88,11 @@ const oAuthGoogleHandle = async (callback) => {
 };
 
 /**
- * Initializes the login UI, event listeners, and Google OAuth prompt on DOMContentLoaded.
+ * Initializes the WooCommerce login UI, event listeners, and Google OAuth prompt on DOMContentLoaded.
  *
  * @returns {void}
  */
-document.addEventListener("DOMContentLoaded", async function () {
+document.addEventListener("DOMContentLoaded", function () {
   const box = document.getElementById("asd-passkey-login-wrapper");
   const submit = document.querySelector(".submit");
   if (box && submit) {
@@ -101,7 +101,6 @@ document.addEventListener("DOMContentLoaded", async function () {
   if (box) {
     box.style.display = "block";
   }
-
   const viapasskey = document.getElementById("login-via-passkey");
   if (viapasskey) {
     viapasskey.addEventListener("click", async function (event) {
@@ -109,6 +108,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       await loginViaPasskey();
     });
   }
+
   if ("credentials" in navigator && navigator.credentials.preventSilentAccess) {
     if (typeof window.google !== "undefined" && window.google.accounts && window.google.accounts.id) {
       google.accounts.id.initialize({
@@ -116,28 +116,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         callback: oAuthGoogleHandle,
         cancel_on_tap_outside: false,
       });
-
       google.accounts.id.prompt();
     }
   }
-  //     // using other idp (development)
-  //     // if (typeof FedCMEAuth === "undefined" || !FedCMEAuth || typeof FedCMEAuth.userSignIn !== "function") {
-  //     //     console.log("FedCM API not found");
-  //     // } else {
-  //     //     try {
-  //     //         // const result = await FedCMEAuth.userSignIn();
-  //     //         // if (result.status !== "success") {
-  //     //         //     console.log(result.msg);
-  //     //         // }
-  //     //         // var dataToken = {
-  //     //         //     jwtToken: result.token,
-  //     //         // };
-  //     //         // console.log(dataToken);
-  //     //     } catch (error) {
-  //     //         console.error("Error during FedCM sign-in:", error);
-  //     //     }
-  //     // }
-  // } else {
-  //     console.log("FedCM is not supported.");
-  // }
 });

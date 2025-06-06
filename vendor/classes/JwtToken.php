@@ -14,6 +14,13 @@ if (!defined('ABSPATH')) exit;
 
 class JwtToken
 {
+    /**
+     * Verify and decode a JWT token using the secret key.
+     * Handles expired, invalid signature, early, and general errors.
+     *
+     * @param string $token The JWT token to verify.
+     * @return object|void Returns the decoded token object on success, or sends a JSON error response on failure.
+     */
     public function checkToken($token)
     {
         $secretKey = get_option('asd_p4ssk3y_key2');
@@ -35,6 +42,13 @@ class JwtToken
         }
     }
 
+    /**
+     * Verify a Google ID token by contacting Google's verification endpoint.
+     * Checks for errors, audience, issuer, and expiration.
+     *
+     * @param string $token The Google ID token to verify.
+     * @return array|void Returns the decoded token data as an array on success, or sends a JSON error response on failure.
+     */
     public function checkGoogleToken($token)
     {
         $verificationUrl = 'https://oauth2.googleapis.com/tokeninfo?id_token=' . $token;
@@ -54,7 +68,7 @@ class JwtToken
         }
 
         // Verifikasi klaim penting
-        $clientId = '398460535296-i921bef9eq8eljn7ok11kkhbt8r1qvu2.apps.googleusercontent.com';
+        $clientId = get_option('asd_p4ssk3y_google_client_id');
         if ($data['aud'] !== $clientId) {
             wp_send_json_error("Audience tidak cocok.");
             exit;

@@ -1,9 +1,9 @@
 <?php
-if (!defined('ABSPATH') && !defined('WP_UNINSTALL_PLUGIN')) {
-	wp_die(__('You do not have sufficient permissions to access this page.'));
+if (!defined('ABSPATH') || !defined('WP_UNINSTALL_PLUGIN')) {
+	wp_die('You do not have sufficient permissions to access this page.');
 }
 if (!is_super_admin() || !current_user_can('administrator')) {
-	wp_die(__('You do not have sufficient permissions to access this page.'));
+	wp_die('You do not have sufficient permissions to access this page.');
 }
 $defaultOptions = [
 	'asd_p4ssk3y_web_id',
