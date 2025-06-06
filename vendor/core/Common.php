@@ -107,25 +107,6 @@ if (! function_exists('ASD_P4SSK3Y_webid')) {
     }
 }
 
-if (! function_exists('is_pro_license')) {
-    /**
-     * Returns the base URL as defined by the App config.
-     * Base URLs are trimmed site URLs without the index page.
-     *
-     * @param array|string $relativePath URI string or array of URI segments.
-     * @param string|null  $scheme       URI scheme. E.g., http, ftp. If empty
-     *                                   string '' is set, a protocol-relative
-     *                                   link is returned.
-     */
-    function is_pro_license(): bool
-    {
-        $license =  get_option('asd_p4ssk3y_membership');
-        if ($license === "freemium" || $license === "starter") {
-            return false;
-        }
-        return true;
-    }
-}
 if (! function_exists('is_scale_license')) {
     /**
      * Returns the base URL as defined by the App config.
