@@ -203,24 +203,7 @@ if (!class_exists(Menu::class)) {
                         ]
                     );
                 }
-                // if ($page === 'asd-send-notification-admin') {
-                //     wp_enqueue_script(
-                //         'asd-admin-send-notification-script',
-                //         ASD_P4SSK3Y_PUBLICURL . 'js/admin-send-notification.js',
-                //         [],
-                //         ASD_P4SSK3Y_VERSION,
-                //         true
-                //     );
-                //     wp_localize_script(
-                //         'asd-admin-send-notification-script',
-                //         'asd_ajax',
-                //         [
-                //             'ajax_url' => admin_url('admin-ajax.php'),
-                //             'ajax_nonce' => wp_create_nonce('asd_send_notification'),
-                //             'ajax_nonce_product' => wp_create_nonce('asd_product_nonce'),
-                //         ]
-                //     );
-                // }
+            
             }
         }
         public function asdEnqueueWooRegisterScript()
@@ -301,8 +284,7 @@ if (!class_exists(Menu::class)) {
 
         public function asdWebPushRegistration()
         {
-            // if (is_woocommerce()) {
-            if (is_setting_valid("asd_push_notification", "Y") && is_scale_license() === true) {
+           if (is_setting_valid("asd_push_notification", "Y") && is_scale_license() === true) {
                 wp_enqueue_style(
                     'animate-alert-css',
                     'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css',
@@ -329,8 +311,7 @@ if (!class_exists(Menu::class)) {
                     ]
                 );
             }
-            // }
-        }
+         }
         public function is_login_page()
         {
             return basename($_SERVER['PHP_SELF']) === 'wp-login.php' ||  (function_exists('is_account_page') && is_account_page() && !is_user_logged_in());
