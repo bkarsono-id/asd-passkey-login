@@ -18,7 +18,7 @@ if (!class_exists(Core::class)) {
 
         public static function onPluginReady()
         {
-            $classNames = ['LoginAdmin', 'PasskeySettings', 'CreatePasskeyAdmin', 'SendNotificationAdmin'];
+            $classNames = ['LoginAdmin', 'PasskeySettings', 'CreatePasskeyAdmin'];
             $nameSpace = 'bkarsono\\asdpasskeylogin\\controllers\\';
             foreach ($classNames as $className) {
                 $fullClassName = $nameSpace . $className;
