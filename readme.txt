@@ -34,6 +34,10 @@ With JWT EAuth, businesses can adopt a modern, secure solution that not only pro
 4. Email template customization options 
 5. Login interface wordpress with button Login with passkey.
 6. Windows hello login interface showcasing passkey authentication.
+7. WordPress admin panel for pro settings.
+8. Pro plugin settings page in the WordPress admin panel.
+9. SMTP settings page.
+10. Push Notification settings page.
 
 == Installation ==
 1. Upload "asd-passwordless" folder to the "/wp-content/plugins/" directory.
